@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function createSupabaseProxyClient(
   request: NextRequest,
-  response: NextResponse
+  response: NextResponse,
 ) {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,10 +13,10 @@ export function createSupabaseProxyClient(
         getAll: () => request.cookies.getAll(),
         setAll: (cookies) => {
           cookies.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options)
-          })
+            response.cookies.set(name, value, options);
+          });
         },
       },
-    }
-  )
+    },
+  );
 }

@@ -1,10 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import {
-  AUTH_ROUTES,
-  PROTECTED_ROUTE_PREFIXES,
-} from '@/config/auth/routes';
-import { allRoutes } from '@/config/site';
-import { stripLocale } from '@/lib/utils';
+import { NextRequest, NextResponse } from "next/server";
+
+import { AUTH_ROUTES, PROTECTED_ROUTE_PREFIXES } from "@/config/auth/routes";
+import { allRoutes } from "@/config/site";
+import { stripLocale } from "@/lib/utils";
 
 type GuardParams = {
   request: NextRequest;
@@ -16,7 +14,7 @@ export function authGuard({ request, user }: GuardParams) {
 
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
   const isProtected = PROTECTED_ROUTE_PREFIXES.some((prefix) =>
-    pathname.startsWith(prefix)
+    pathname.startsWith(prefix),
   );
 
   // Unauthenticated redirect to login

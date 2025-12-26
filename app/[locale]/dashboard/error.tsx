@@ -28,7 +28,9 @@ export default function ErrorBoundary({
   return (
     <div className="space-y-4">
       <h2>{error.message}</h2>
-      <Button variant={"outline"} onClick={() => reload()}>Try again</Button>
+      <Button variant={"outline"} onClick={() => reload()}>
+        Try again
+      </Button>
     </div>
   );
 }

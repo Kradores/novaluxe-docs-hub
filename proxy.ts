@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { authGuard } from "@/lib/auth/guard";
+
 import translationProxy from "./config/proxy/translation.proxy";
 import { createSupabaseProxyClient } from "./integrations/supabase/proxy";
-import { authGuard } from "@/lib/auth/guard";
 
 export default async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request });
@@ -11,11 +12,11 @@ export default async function proxy(request: NextRequest) {
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
   const role = user?.app_metadata?.role;
 
-  console.log(role)
+  console.log(role);
 
   const guardResponse = authGuard({ request, user });
   if (guardResponse) return guardResponse;
@@ -34,4 +35,3 @@ export const config = {
     "/((?!api|trpc|_next/static|_next/image|_vercel|favicon.ico|sitemap.xml|robots.txt|.*\\..*).*)",
   ],
 };
-

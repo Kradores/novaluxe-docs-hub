@@ -18,7 +18,7 @@ export default function Layout({ children, params }: Props) {
 
   return (
     <section className="flex flex-col max-w-8xl text-center justify-center px-4 md:px-4.5 lg:px-10 xl:px-20 2xl:px-31">
-        {children}
+      {children}
     </section>
   );
 }

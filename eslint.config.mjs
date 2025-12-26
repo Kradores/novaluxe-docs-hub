@@ -4,18 +4,6 @@ import nextTs from "eslint-config-next/typescript";
 import unusedImports from "eslint-plugin-unused-imports";
 import prettier from "eslint-plugin-prettier";
 import tsParser from "@typescript-eslint/parser";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
 
 export default defineConfig([
   // 1. Next.js Base & TypeScript Configs
@@ -68,13 +56,17 @@ export default defineConfig([
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
       "prettier/prettier": "warn",
+      "@typescript-eslint/no-unused-vars": "off",
       "unused-imports/no-unused-imports": "warn",
-
-      "@typescript-eslint/no-unused-vars": ["warn", {
-        args: "after-used",
-        ignoreRestSiblings: false,
-        argsIgnorePattern: "^_.*?$",
-      }],
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
 
       "import/order": ["warn", {
         groups: ["type", "builtin", "object", "external", "internal", "parent", "sibling", "index"],
