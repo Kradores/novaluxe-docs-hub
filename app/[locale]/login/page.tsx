@@ -1,9 +1,10 @@
 "use client";
+
 import Image from "next/image";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Loader2, LogIn } from "lucide-react";
+import { AlertCircleIcon, Loader2, LogIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +31,7 @@ export default function Page() {
     toggleIsLoading();
     const res = await loginAction(formData);
     toggleIsLoading();
-    if (res.error) {
+    if (res?.error) {
       toast.error(res.error, { position: "top-right" });
       setError(res.error);
     }
@@ -50,6 +51,7 @@ export default function Page() {
           <form action={handleSubmit} className="space-y-4">
             {error && (
               <Alert variant="destructive">
+                <AlertCircleIcon />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -60,6 +62,7 @@ export default function Page() {
                 required
                 autoComplete="email"
                 id="email"
+                name="email"
                 placeholder={t("emailPlaceholder")}
                 type="email"
               />
@@ -71,6 +74,7 @@ export default function Page() {
                 required
                 autoComplete="current-password"
                 id="password"
+                name="password"
                 placeholder={t("passwordPlaceholder")}
                 type="password"
               />

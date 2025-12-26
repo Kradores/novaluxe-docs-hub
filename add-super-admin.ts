@@ -10,6 +10,7 @@ const { data, error } = await supabase.auth.admin.createUser({
   email_confirm: true,
   user_metadata: {},
   app_metadata: { role: "super_admin" },
+  role: "super_admin",
 });
 
 // eslint-disable-next-line no-console
