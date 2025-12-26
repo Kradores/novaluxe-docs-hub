@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Novaluxe Docs Hub",
   description: "Novaluxe documents management system.",
   icons: {
-    icon: "/file.svg"
+    icon: "/favicon.png"
   }
 };
 
