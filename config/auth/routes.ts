@@ -6,4 +6,4 @@ export const PUBLIC_ROUTES = [
 
 export const AUTH_ROUTES = ["/login"];
 
-export const PROTECTED_ROUTE_PREFIXES = ["/dashboard"];
+export const PROTECTED_ROUTE_PREFIXES = [];

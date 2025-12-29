@@ -27,7 +27,7 @@ export function authGuard({ request, user }: GuardParams) {
   // Authenticated redirect to app
   if (user && isAuthRoute) {
     const appUrl = request.nextUrl.clone();
-    appUrl.pathname = allRoutes.dashboard;
+    appUrl.pathname = allRoutes.home;
     return NextResponse.redirect(appUrl);
   }
 

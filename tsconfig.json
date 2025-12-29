@@ -27,6 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
+    "tailwind.config.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],

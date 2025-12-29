@@ -3,80 +3,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@layer base {
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: var(--font-inter), sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-playfair-display), ui-serif;
-  }
-}
-
 @layer components {
   .gradient-gold {
-    background-image: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-dark)) 100%);
+    background-image: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
   }
 
   .gradient-navy {
-    background-image: linear-gradient(180deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 100%);
+    background-image: linear-gradient(180deg, var(--navy) 0%, var(--navy-light) 100%);
   }
 
   .text-gradient-gold {
-    background-image: linear-gradient(135deg, hsl(var(--gold-light)) 0%, hsl(var(--gold)) 50%, hsl(var(--gold-dark)) 100%);
+    background-image: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .glow-gold {
-    box-shadow: 0 0 20px hsl(var(--gold) / 0.3), 0 0 40px hsl(var(--gold) / 0.1);
-  }
-}
-
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out forwards;
-  }
-
-  .animate-scale-in {
-    animation: scaleIn 0.3s ease-out forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
   }
 }
 
@@ -126,55 +66,55 @@
 }
 
 :root {
-    --background: 222 47% 11%;
-    --foreground: 45 100% 96%;
+    --background: hsl(222 47% 11%);
+    --foreground: hsl(45 100% 96%);
 
-    --card: 222 47% 14%;
-    --card-foreground: 45 100% 96%;
+    --card: hsl(222 47% 14%);
+    --card-foreground: hsl(45 100% 96%);
 
-    --popover: 222 47% 14%;
-    --popover-foreground: 45 100% 96%;
+    --popover: hsl(222 47% 14%);
+    --popover-foreground: hsl(45 100% 96%);
 
-    --primary: 45 93% 58%;
-    --primary-foreground: 222 47% 11%;
+    --primary: hsl(45 93% 58%);
+    --primary-foreground: hsl(222 47% 11%);
 
-    --secondary: 222 30% 20%;
-    --secondary-foreground: 45 100% 96%;
+    --secondary: hsl(222 30% 20%);
+    --secondary-foreground: hsl(45 100% 96%);
 
-    --muted: 222 30% 18%;
-    --muted-foreground: 220 15% 55%;
+    --muted: hsl(222 30% 18%);
+    --muted-foreground: hsl(220 15% 55%);
 
-    --accent: 45 80% 45%;
-    --accent-foreground: 222 47% 11%;
+    --accent: hsl(45 80% 45%);
+    --accent-foreground: hsl(222 47% 11%);
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 45 100% 96%;
+    --destructive: hsl(0 72% 51%);
+    --destructive-foreground: hsl(45 100% 96%);
 
-    --border: 222 30% 22%;
-    --input: 222 30% 22%;
-    --ring: 45 93% 58%;
+    --border: hsl(222 30% 22%);
+    --input: hsl(222 30% 22%);
+    --ring: hsl(45 93% 58%);
 
     --radius: 0.75rem;
 
-    --gold: 45 93% 58%;
-    --gold-light: 45 100% 70%;
-    --gold-dark: 45 80% 45%;
-    --navy: 222 47% 11%;
-    --navy-light: 222 47% 18%;
+    --gold: hsl(45 93% 58%);
+    --gold-light: hsl(45 100% 70%);
+    --gold-dark: hsl(45 80% 45%);
+    --navy: hsl(222 47% 11%);
+    --navy-light: hsl(222 47% 18%);
 
-    --success: 142 76% 36%;
-    --success-foreground: 45 100% 96%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --success: hsl(142 76% 36%);
+    --success-foreground: hsl(45 100% 96%);
+    --warning: hsl(38 92% 50%);
+    --warning-foreground: hsl(222 47% 11%);
 
-    --sidebar-background: 222 47% 8%;
-    --sidebar-foreground: 45 100% 96%;
-    --sidebar-primary: 45 93% 58%;
-    --sidebar-primary-foreground: 222 47% 11%;
-    --sidebar-accent: 222 30% 15%;
-    --sidebar-accent-foreground: 45 100% 96%;
-    --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 45 93% 58%;
+    --sidebar-background: hsl(222 47% 8%);
+    --sidebar-foreground: hsl(45 100% 96%);
+    --sidebar-primary: hsl(45 93% 58%);
+    --sidebar-primary-foreground: hsl(222 47% 11%);
+    --sidebar-accent: hsl(222 30% 15%);
+    --sidebar-accent-foreground: hsl(45 100% 96%);
+    --sidebar-border: hsl(222 30% 18%);
+    --sidebar-ring: hsl(45 93% 58%);
   }
 
 .dark {
@@ -184,8 +124,8 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: hsl(45 93% 58%);
+  --primary-foreground: hsl(222 47% 11%);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -215,7 +155,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-inter), sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair-display), ui-serif;
   }
 }
+
+@config "../tailwind.config.ts";

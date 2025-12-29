@@ -39,7 +39,7 @@ export default function RootLayout({ children, params }: LayoutProps) {
   return (
     <html suppressHydrationWarning lang={locale}>
       <body
-        className={`${playfairDisplay.variable} ${inter.variable} antialiased dark`}
+        className={`${playfairDisplay.variable} ${inter.variable} antialiased`}
       >
         <NextIntlClientProvider>
           <SidebarProvider>

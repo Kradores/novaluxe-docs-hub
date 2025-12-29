@@ -96,11 +96,7 @@
   "documentTypes": {
     "title": "Tipos de Documentos",
     "subtitle": "Novaluxe Dynamics",
-    "companyTypes": "Tipos de Documentos de Empresa",
-    "workerTypes": "Tipos de Documentos de Trabajador",
     "workerTypesOutOfScope": "Funcionalidad fuera de alcance",
-    "manageCompany": "Gestionar tipos de documentos de empresa",
-    "manageWorker": "Gestionar tipos de documentos de trabajador",
     "addNew": "Añadir tipo de documento",
     "namePlaceholder": "Nombre del tipo de documento",
     "deleteConfirmTitle": "Eliminar tipo de documento",
@@ -108,7 +104,17 @@
     "createSuccess": "Tipo de documento creado correctamente",
     "deleteSuccess": "Tipo de documento eliminado correctamente",
     "cannotDeleteInUse": "No se puede eliminar este tipo de documento porque tiene un documento asignado",
-    "noTypes": "No hay tipos de documentos creados"
+    "noTypes": "No hay tipos de documentos creados",
+    "company": {
+      "title":"Tipos de Documentos de Empresa",
+      "description": "Gestionar tipos de documentos de empresa",
+      "submit": "Gestionar tipos de documentos de empresa"
+    },
+    "workers": {
+      "title":"Tipos de Documentos de Trabajador",
+      "description": "Gestionar tipos de documentos de trabajador",
+      "submit": "Gestionar tipos de documentos de trabajador"
+    }
   },
   "workerDocumentTypes": {
     "title": "Tipos de Documentos de Trabajador",
