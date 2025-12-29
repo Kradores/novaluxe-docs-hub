@@ -30,10 +30,15 @@
   },
   "nav": {
     "documentTypes": "Tipos de Documentos",
+    "documents": "Documentos",
     "companyDocuments": "Documentos de Empresa",
+    "companyDocumentTypes": "Tipos Doc. Empresa",
+    "workerDocumentTypes": "Tipos Doc. Trabajador",
     "workers": "Trabajadores",
     "constructionSites": "Obras",
-    "users": "Usuarios"
+    "settings": "Configuración",
+    "users": "Usuarios",
+    "home": "Novaluxe Dynamics"
   },
   "auth": {
     "login": "Iniciar Sesión",

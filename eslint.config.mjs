@@ -94,11 +94,6 @@ export default defineConfig([
               "importNames": ["Toaster"]
             },
             {
-              "name": "@/config/i18n/navigation",
-              "message": "Please import from '@/components/link' instead.",
-              "importNames": ["Link"]
-            },
-            {
               "name": "next/link",
               "message": "Please import from '@/components/link' instead.",
               "importNames": ["default"]
