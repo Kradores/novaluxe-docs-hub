@@ -95,6 +95,7 @@
   },
   "documentTypes": {
     "title": "Tipos de Documentos",
+    "subtitle": "Novaluxe Dynamics",
     "companyTypes": "Tipos de Documentos de Empresa",
     "workerTypes": "Tipos de Documentos de Trabajador",
     "workerTypesOutOfScope": "Funcionalidad fuera de alcance",

@@ -95,6 +95,7 @@
   },
   "documentTypes": {
     "title": "Document Types",
+    "subtitle": "Novaluxe Dynamics",
     "companyTypes": "Company Document Types",
     "workerTypes": "Worker Document Types",
     "workerTypesOutOfScope": "Feature out of scope",

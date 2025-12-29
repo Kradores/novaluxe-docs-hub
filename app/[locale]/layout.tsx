@@ -6,7 +6,7 @@ import { ReactNode, use } from "react";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/config/i18n/routing";
-import { geistMono, geistSans } from "@/config/fonts";
+import { inter, playfairDisplay } from "@/config/fonts";
 import { Toaster } from "@/components/ui/sonner";
 import {
   SidebarInset,
@@ -39,7 +39,7 @@ export default function RootLayout({ children, params }: LayoutProps) {
   return (
     <html suppressHydrationWarning lang={locale}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${playfairDisplay.variable} ${inter.variable} antialiased dark`}
       >
         <NextIntlClientProvider>
           <SidebarProvider>
