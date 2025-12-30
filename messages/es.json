@@ -116,6 +116,10 @@
       "submit": "Gestionar tipos de documentos de trabajador"
     }
   },
+  "companyDocumentTypes": {
+    "title":"Tipos de Documentos de Empresa",
+    "back": "Volver"
+  },
   "workerDocumentTypes": {
     "title": "Tipos de Documentos de Trabajador",
     "addNew": "Añadir tipo de documento",

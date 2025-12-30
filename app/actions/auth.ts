@@ -22,5 +22,5 @@ export async function loginAction(formData: FormData) {
     return { error: error.message };
   }
 
-  redirect({ href: allRoutes.dashboard, locale: locale });
+  redirect({ href: allRoutes.home, locale: locale });
 }
