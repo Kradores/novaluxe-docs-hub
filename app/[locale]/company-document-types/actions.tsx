@@ -30,7 +30,7 @@ export const deleteDocumentType = async (id: string) => {
   const { count, error: checkError } = await supabase
     .from("company_documents")
     .select("*", { count: "exact", head: true })
-    .eq("document_type_id", id);
+    .eq("company_document_type_id", id);
 
   if (checkError) {
     throw new Error(checkError.message);
