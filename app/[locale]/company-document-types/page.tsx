@@ -16,9 +16,9 @@ export default async function Page() {
     <div className="min-h-screen bg-gradient-bg">
       <div className="space-y-10">
         <PageHeader
+          action={<CreateTypeDialog />}
           backTo={allRoutes.home}
           translationKey="companyDocumentTypes"
-          action={<CreateTypeDialog />}
         />
         <DocumentTypesTable data={data ?? []} />
       </div>

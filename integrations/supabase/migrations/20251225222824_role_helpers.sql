@@ -2,6 +2,7 @@ create or replace function public.has_role(role_name text)
 returns boolean
 language sql
 stable
+security definer
 as $$
   select exists (
     select 1

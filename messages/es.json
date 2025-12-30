@@ -29,6 +29,7 @@
     "error": "Ha ocurrido un error"
   },
   "nav": {
+    "login": "Iniciar Sesión",
     "documentTypes": "Tipos de Documentos",
     "documents": "Documentos",
     "companyDocuments": "Documentos de Empresa",
@@ -118,7 +119,29 @@
   },
   "companyDocumentTypes": {
     "title":"Tipos de Documentos de Empresa",
-    "back": "Volver"
+    "back": "Volver",
+    "create": {
+      "openDialogLabel": "Añadir",
+      "title": "Añadir tipo de documento",
+      "placeholder": "Nombre del tipo de documento",
+      "cancel": "Cancelar",
+      "submit": "Crear",
+      "success": "Tipo de documento creado",
+      "error": "No se pudo crear el tipo de documento"
+    },
+    "delete": {
+      "success": "Tipo de documento eliminado",
+      "errorInUse": "Este tipo de documento está en uso",
+      "error": "No se pudo eliminar"
+    },
+    "table": {
+      "noResults":"No se encontraron tipos de documentos.",
+      "headers": [
+        "Nombre",
+        "Fecha de creación",
+        "Acciones"
+      ]
+    }
   },
   "workerDocumentTypes": {
     "title": "Tipos de Documentos de Trabajador",

@@ -1,4 +1,3 @@
--- Function to sync role into auth.users.app_metadata
 create or replace function public.sync_user_role()
 returns trigger
 language plpgsql
@@ -13,7 +12,7 @@ begin
   where r.id = new.role_id;
 
   update auth.users
-  set app_metadata = coalesce(app_metadata, '{}'::jsonb)
+  set raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb)
     || jsonb_build_object('role', role_name)
   where id = new.user_id;
 

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,16 +20,17 @@ export default function CreateTypeDialog() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("companyDocumentTypes.create");
 
   const handleCreate = () => {
     startTransition(async () => {
       try {
         await createDocumentType(name);
-        toast.success("Document type created");
+        toast.success(t("success"));
         setName("");
         setOpen(false);
       } catch {
-        toast.error("Failed to create document type");
+        toast.error(t("error"));
       }
     });
   };
@@ -37,17 +39,17 @@ export default function CreateTypeDialog() {
     <>
       <Button className="gap-2" onClick={() => setOpen(true)}>
         <Plus className="h-4 w-4" />
-        Add type
+        {t("openDialogLabel")}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add document type</DialogTitle>
+            <DialogTitle>{t("title")}</DialogTitle>
           </DialogHeader>
 
           <Input
-            placeholder="Type name"
+            placeholder={t("placeholder")}
             value={name}
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleCreate()}
@@ -55,10 +57,10 @@ export default function CreateTypeDialog() {
 
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
-              Cancel
+              {t("cancel")}
             </Button>
             <Button disabled={!name.trim() || isPending} onClick={handleCreate}>
-              Create
+              {t("submit")}
             </Button>
           </DialogFooter>
         </DialogContent>

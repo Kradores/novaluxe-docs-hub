@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { deleteDocumentType } from "@/app/[locale]/company-document-types/actions";
@@ -14,17 +15,18 @@ type Props = {
 
 export default function DeleteTypeButton({ id }: Props) {
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("companyDocumentTypes.delete");
 
   const handleDelete = () => {
     startTransition(async () => {
       try {
         await deleteDocumentType(id);
-        toast.success("Document type deleted");
+        toast.success(t("success"));
       } catch (error: unknown) {
         if (error instanceof Error && error.message === "IN_USE") {
-          toast.error("This document type is in use");
+          toast.error(t("errorInUse"));
         } else {
-          toast.error("Failed to delete");
+          toast.error(t("error"));
         }
       }
     });
@@ -37,12 +39,12 @@ export default function DeleteTypeButton({ id }: Props) {
       onConfirm={handleDelete}
     >
       <Button
-        className="text-destructive hover:bg-destructive/10"
+        className="text-destructive hover:bg-destructive/20"
         disabled={isPending}
         size="sm"
         variant="ghost"
       >
-        <Trash2 className="h-4 w-4" />
+        <Trash2 className="h-4 w-4 text-destructive" />
       </Button>
     </ConfirmDialog>
   );
