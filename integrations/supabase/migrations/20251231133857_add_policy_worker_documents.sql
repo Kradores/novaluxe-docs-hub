@@ -1,5 +1,5 @@
-create policy "company_document_types_select_all_roles"
-on public.company_document_types
+create policy "worker_documents_select_all_roles"
+on public.worker_documents
 for select
 using (
   has_role('super_admin')
@@ -7,16 +7,16 @@ using (
   or has_role('user')
 );
 
-create policy "company_document_types_insert_admins"
-on public.company_document_types
+create policy "worker_documents_insert_admins"
+on public.worker_documents
 for insert
 with check (
   has_role('super_admin')
   or has_role('admin')
 );
 
-create policy "company_document_types_update_admins"
-on public.company_document_types
+create policy "worker_documents_update_admins"
+on public.worker_documents
 for update
 using (
   has_role('super_admin')
@@ -27,8 +27,8 @@ with check (
   or has_role('admin')
 );
 
-create policy "company_document_types_delete_admins"
-on public.company_document_types
+create policy "worker_documents_delete_admins"
+on public.worker_documents
 for delete
 using (
   has_role('super_admin')

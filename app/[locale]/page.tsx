@@ -18,7 +18,7 @@ export default function Home() {
           />
           <DocumentType
             Icon={FileUser}
-            href={allRoutes.companyDocumentTypes}
+            href={allRoutes.workerDocumentTypes}
             translationKey="documentTypes.workers"
           />
         </div>

@@ -2,15 +2,11 @@ import CreateTypeDialog from "@/components/company-document-types/create-type-di
 import DocumentTypesTable from "@/components/company-document-types/document-types-table";
 import PageHeader from "@/components/page-header";
 import { allRoutes } from "@/config/site";
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
+
+import { getDocumentTypes } from "./actions";
 
 export default async function Page() {
-  const supabase = await createSupabaseServerClient();
-
-  const { data } = await supabase
-    .from("company_document_types")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const data = await getDocumentTypes();
 
   return (
     <div className="min-h-screen bg-gradient-bg">

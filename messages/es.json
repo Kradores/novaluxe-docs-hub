@@ -144,15 +144,30 @@
     }
   },
   "workerDocumentTypes": {
-    "title": "Tipos de Documentos de Trabajador",
-    "addNew": "Añadir tipo de documento",
-    "namePlaceholder": "Nombre del tipo de documento",
-    "deleteConfirmTitle": "Eliminar tipo de documento",
-    "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar este tipo de documento? Esta acción no se puede deshacer.",
-    "createSuccess": "Tipo de documento creado correctamente",
-    "deleteSuccess": "Tipo de documento eliminado correctamente",
-    "cannotDeleteInUse": "No se puede eliminar este tipo de documento porque está asignado a un trabajador",
-    "noTypes": "No hay tipos de documentos de trabajador creados"
+    "title":"Tipos de Documentos de Trabajador",
+    "back": "Volver",
+    "create": {
+      "openDialogLabel": "Añadir",
+      "title": "Añadir tipo de documento",
+      "placeholder": "Nombre del tipo de documento",
+      "cancel": "Cancelar",
+      "submit": "Crear",
+      "success": "Tipo de documento creado",
+      "error": "No se pudo crear el tipo de documento"
+    },
+    "delete": {
+      "success": "Tipo de documento eliminado",
+      "errorInUse": "Este tipo de documento está en uso",
+      "error": "No se pudo eliminar"
+    },
+    "table": {
+      "noResults":"No se encontraron tipos de documentos.",
+      "headers": [
+        "Nombre",
+        "Fecha de creación",
+        "Acciones"
+      ]
+    }
   },
   "companyDocuments": {
     "title": "Documentos de Empresa",

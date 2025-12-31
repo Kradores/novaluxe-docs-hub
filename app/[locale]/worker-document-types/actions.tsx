@@ -13,14 +13,14 @@ export const createDocumentType = async (name: string) => {
   const supabase = await createSupabaseServerClient();
 
   const { error } = await supabase
-    .from("company_document_types")
+    .from("worker_document_types")
     .insert({ name: name.trim() });
 
   if (error) {
     throw new Error(error.message);
   }
 
-  revalidatePath(allRoutes.companyDocumentTypes);
+  revalidatePath(allRoutes.workerDocumentTypes);
 };
 
 export const deleteDocumentType = async (id: string) => {
@@ -28,9 +28,9 @@ export const deleteDocumentType = async (id: string) => {
 
   // HARD server-side check
   const { count, error: checkError } = await supabase
-    .from("company_documents")
+    .from("worker_documents")
     .select("*", { count: "exact", head: true })
-    .eq("company_document_type_id", id);
+    .eq("worker_document_type_id", id);
 
   if (checkError) {
     throw new Error(checkError.message);
@@ -41,7 +41,7 @@ export const deleteDocumentType = async (id: string) => {
   }
 
   const { error } = await supabase
-    .from("company_document_types")
+    .from("worker_document_types")
     .delete()
     .eq("id", id);
 
@@ -49,14 +49,14 @@ export const deleteDocumentType = async (id: string) => {
     throw new Error(error.message);
   }
 
-  revalidatePath(allRoutes.companyDocumentTypes);
+  revalidatePath(allRoutes.workerDocumentTypes);
 };
 
 export const getDocumentTypes = async () => {
   const supabase = await createSupabaseServerClient();
 
   const { data } = await supabase
-    .from("company_document_types")
+    .from("worker_document_types")
     .select("*")
     .order("created_at", { ascending: false });
 
