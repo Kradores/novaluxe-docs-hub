@@ -1,43 +1,18 @@
-"use client";
-
-import { Download } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { Button } from "@/components/ui/button";
 import DocumentStatusBadge from "@/components/document-status-badge";
 
 import DeleteConfirmButton from "./delete-confirm-button";
+import DownloadButton, { DocumentProps } from "./download-button";
 
 type CompanyDocumentsTableProps = {
-  documents: DocumentTypeProps[];
-};
-
-type DocumentTypeProps = {
-  id: string;
-  name: string;
-  created_at: string;
-  company_document_types: { id: string; name: string };
-  file_name: string;
-  expiration_date: string;
-  file_type: string;
-  file_path: string;
+  documents: DocumentProps[];
 };
 
 export default function CompanyDocumentsTable({
   documents,
 }: CompanyDocumentsTableProps) {
   const t = useTranslations("companyDocuments.table");
-  const handleDownload = async (doc: DocumentTypeProps) => {
-    const res = await fetch(`/api/documents/download?path=${doc.file_path}`);
-    const blob = await res.blob();
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = doc.file_name;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   if (!documents.length) {
     return <p className="text-sm text-muted-foreground">{t("noResults")}</p>;
@@ -65,22 +40,18 @@ export default function CompanyDocumentsTable({
               </td>
               <td className="px-4 py-2 font-medium">{item.file_name}</td>
               <td className="px-4 py-2 text-muted-foreground">
-                {new Date(item.created_at).toDateString()}
+                {new Date(item.created_at).toLocaleDateString()}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
-                {new Date(item.expiration_date).toDateString()}
+                {item.expiration_date
+                  ? new Date(item.expiration_date).toLocaleDateString()
+                  : "-"}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
                 <DocumentStatusBadge expirationDate={item.expiration_date} />
               </td>
               <td className="px-4 py-2 text-center">
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => handleDownload(item)}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
+                <DownloadButton item={item} />
                 <DeleteConfirmButton filePath={item.file_path} id={item.id} />
               </td>
             </tr>

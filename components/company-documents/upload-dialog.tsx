@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +26,6 @@ import { Label } from "@/components/ui/label";
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { insertCompanyDocument } from "@/app/[locale]/company-documents/actions";
 import { DatePicker } from "@/components/date-picker";
-import { toast } from "sonner";
 
 type Props = {
   documentTypes: { id: string; name: string }[];
