@@ -3,6 +3,26 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-inter), sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-playfair-display), ui-serif;
+  }
+}
+
 @layer components {
   .gradient-gold {
     background-image: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
@@ -43,6 +63,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -51,6 +72,8 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-success-foreground: var(--success-foreground);
+  --color-success: var(--success);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -66,56 +89,56 @@
 }
 
 :root {
-    --background: hsl(222 47% 11%);
-    --foreground: hsl(45 100% 96%);
+  --background: hsl(222 47% 11%);
+  --foreground: hsl(45 100% 96%);
 
-    --card: hsl(222 47% 14%);
-    --card-foreground: hsl(45 100% 96%);
+  --card: hsl(222 47% 14%);
+  --card-foreground: hsl(45 100% 96%);
 
-    --popover: hsl(222 47% 14%);
-    --popover-foreground: hsl(45 100% 96%);
+  --popover: hsl(222 47% 14%);
+  --popover-foreground: hsl(45 100% 96%);
 
-    --primary: hsl(45 93% 58%);
-    --primary-foreground: hsl(222 47% 11%);
+  --primary: hsl(45 93% 58%);
+  --primary-foreground: hsl(222 47% 11%);
 
-    --secondary: hsl(222 30% 20%);
-    --secondary-foreground: hsl(45 100% 96%);
+  --secondary: hsl(222 30% 20%);
+  --secondary-foreground: hsl(45 100% 96%);
 
-    --muted: hsl(222 30% 18%);
-    --muted-foreground: hsl(220 15% 55%);
+  --muted: hsl(222 30% 18%);
+  --muted-foreground: hsl(220 15% 55%);
 
-    --accent: hsl(45 80% 45%);
-    --accent-foreground: hsl(222 47% 11%);
+  --accent: hsl(45 80% 45%);
+  --accent-foreground: hsl(222 47% 11%);
 
-    --destructive: hsl(0 72% 51%);
-    --destructive-foreground: hsl(45 100% 96%);
+  --destructive: hsl(0 72% 51%);
+  --destructive-foreground: hsl(45 100% 96%);
 
-    --border: hsl(222 30% 22%);
-    --input: hsl(222 30% 22%);
-    --ring: hsl(45 93% 58%);
+  --border: hsl(222 30% 22%);
+  --input: hsl(222 30% 22%);
+  --ring: hsl(45 93% 58%);
 
-    --radius: 0.75rem;
+  --radius: 0.75rem;
 
-    --gold: hsl(45 93% 58%);
-    --gold-light: hsl(45 100% 70%);
-    --gold-dark: hsl(45 80% 45%);
-    --navy: hsl(222 47% 11%);
-    --navy-light: hsl(222 47% 18%);
+  --gold: hsl(45 93% 58%);
+  --gold-light: hsl(45 100% 70%);
+  --gold-dark: hsl(45 80% 45%);
+  --navy: hsl(222 47% 11%);
+  --navy-light: hsl(222 47% 18%);
 
-    --success: hsl(142 76% 36%);
-    --success-foreground: hsl(45 100% 96%);
-    --warning: hsl(38 92% 50%);
-    --warning-foreground: hsl(222 47% 11%);
+  --success: hsl(142 76% 36%);
+  --success-foreground: hsl(45 100% 96%);
+  --warning: hsl(38 92% 50%);
+  --warning-foreground: hsl(222 47% 11%);
 
-    --sidebar-background: hsl(222 47% 8%);
-    --sidebar-foreground: hsl(45 100% 96%);
-    --sidebar-primary: hsl(45 93% 58%);
-    --sidebar-primary-foreground: hsl(222 47% 11%);
-    --sidebar-accent: hsl(222 30% 15%);
-    --sidebar-accent-foreground: hsl(45 100% 96%);
-    --sidebar-border: hsl(222 30% 18%);
-    --sidebar-ring: hsl(45 93% 58%);
-  }
+  --sidebar-background: hsl(222 47% 8%);
+  --sidebar-foreground: hsl(45 100% 96%);
+  --sidebar-primary: hsl(45 93% 58%);
+  --sidebar-primary-foreground: hsl(222 47% 11%);
+  --sidebar-accent: hsl(222 30% 15%);
+  --sidebar-accent-foreground: hsl(45 100% 96%);
+  --sidebar-border: hsl(222 30% 18%);
+  --sidebar-ring: hsl(45 93% 58%);
+}
 
 .dark {
   --background: oklch(0.145 0 0);
@@ -149,21 +172,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: var(--font-inter), sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-playfair-display), ui-serif;
-  }
 }
 
 @config "../tailwind.config.ts";

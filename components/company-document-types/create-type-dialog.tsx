@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { createDocumentType } from "@/app/[locale]/company-document-types/actions";
 
@@ -43,10 +44,13 @@ export default function CreateTypeDialog() {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>{t("title")}</DialogTitle>
           </DialogHeader>
+          <DialogDescription className="sr-only">
+            {t("description")}
+          </DialogDescription>
 
           <Input
             placeholder={t("placeholder")}

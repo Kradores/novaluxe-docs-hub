@@ -1,7 +1,6 @@
 create table if not exists public.company_documents (
   id uuid primary key default gen_random_uuid(),
 
-  company_id uuid not null,
   company_document_type_id uuid not null,
 
   file_name text not null,

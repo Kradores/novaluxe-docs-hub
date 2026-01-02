@@ -26,7 +26,10 @@
     "next": "Siguiente",
     "page": "Página",
     "of": "de",
-    "error": "Ha ocurrido un error"
+    "error": "Ha ocurrido un error",
+    "expired": "Vencido",
+    "active": "Activo",
+    "noExpiration":"Sin vencimiento"
   },
   "nav": {
     "login": "Iniciar Sesión",
@@ -127,7 +130,8 @@
       "cancel": "Cancelar",
       "submit": "Crear",
       "success": "Tipo de documento creado",
-      "error": "No se pudo crear el tipo de documento"
+      "error": "No se pudo crear el tipo de documento",
+      "description":"Agregar nuevo tipo de documento"
     },
     "delete": {
       "success": "Tipo de documento eliminado",
@@ -170,6 +174,40 @@
     }
   },
   "companyDocuments": {
+    "title":"Documentos de Empresa",
+    "subtitle":"Novaluxe Dynamics",
+    "back": "Volver",
+    "upload": {
+      "openDialogLabel": "Subir",
+      "title": "Subir documento",
+      "description":"Seleccione el tipo y cargue el documento. Configure la fecha de vencimiento, si la tiene.",
+      "documentType": "Tipo de documento",
+      "expirationDate": "Fecha de vencimiento",
+      "file": "Archivo",
+      "submit": "Subir",
+      "success": "Documento cargado",
+      "error": "No se pudo cargar el documento"
+    },
+    "delete": {
+      "title":"Eliminar documento",
+      "description":"Esta acción no se puede deshacer",
+      "success": "Documento eliminado",
+      "errorInUse": "Este documento está en uso",
+      "error": "No se pudo eliminar"
+    },
+    "table": {
+      "noResults":"No se encontraron documentos.",
+      "headers": [
+        "Tipo de documento",
+        "Archivo",
+        "Fecha de subida",
+        "Fecha de vencimiento",
+        "Estado",
+        "Acciones"
+      ]
+    }
+  },
+  "companyDocuments-remove": {
     "title": "Documentos de Empresa",
     "subtitle": "Novaluxe Dynamics",
     "uploadDocument": "Subir documento",
