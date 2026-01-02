@@ -2,38 +2,22 @@
 
 import { Download } from "lucide-react";
 
+import { getSignedDocumentUrl } from "@/app/[locale]/company-documents/actions";
+
 import { Button } from "../ui/button";
 
-export type DocumentProps = {
-  id: string;
-  name: string;
-  created_at: string;
-  company_document_types: { id: string; name: string };
-  file_name: string;
-  expiration_date: string;
-  file_type: string;
-  file_path: string;
-};
-
 type DownloadButtonProps = {
-  item: DocumentProps;
+  filePath: string;
 };
 
-export default function DownloadButton({ item }: DownloadButtonProps) {
-  const handleDownload = async (doc: DocumentProps) => {
-    const res = await fetch(`/api/documents/download?path=${doc.file_path}`);
-    const blob = await res.blob();
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = doc.file_name;
-    a.click();
-    URL.revokeObjectURL(url);
+export default function DownloadButton({ filePath }: DownloadButtonProps) {
+  const handleOpen = async (filePath: string) => {
+    const url = await getSignedDocumentUrl(filePath);
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <Button size="icon" variant="ghost" onClick={() => handleDownload(item)}>
+    <Button size="icon" variant="ghost" onClick={() => handleOpen(filePath)}>
       <Download className="h-4 w-4" />
     </Button>
   );

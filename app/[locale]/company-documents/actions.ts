@@ -39,3 +39,19 @@ export const insertCompanyDocument = async (data: {
 
   revalidatePath(allRoutes.companyDocuments);
 };
+
+export const getSignedDocumentUrl = async (
+  filePath: string,
+): Promise<string> => {
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase.storage
+    .from("documents")
+    .createSignedUrl(filePath, 60); // 60 seconds
+
+  if (error || !data?.signedUrl) {
+    throw new Error("Failed to generate signed URL");
+  }
+
+  return data.signedUrl;
+};
