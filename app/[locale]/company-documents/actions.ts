@@ -5,6 +5,45 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { allRoutes } from "@/config/site";
 
+export const getCompanyDocuments = async () => {
+  const supabase = await createSupabaseServerClient();
+
+  const [
+    { data: documents, error: docError },
+    { data: types, error: typesError },
+  ] = await Promise.all([
+    supabase
+      .from("company_documents")
+      .select("*, company_document_types(id, name)")
+      .order("created_at", { ascending: false }),
+
+    supabase
+      .from("company_document_types")
+      .select<string, { id: string; name: string }>(
+        `
+        id, 
+        name, 
+        company_documents!left(id)
+      `,
+      )
+      .is("company_documents", null)
+      .order("name"),
+  ]);
+
+  if (docError) {
+    throw new Error(docError.message);
+  }
+
+  if (typesError) {
+    throw new Error(typesError.message);
+  }
+
+  return {
+    documents,
+    types,
+  };
+};
+
 export const deleteCompanyDocument = async (id: string, filePath: string) => {
   const supabase = await createSupabaseServerClient();
 
