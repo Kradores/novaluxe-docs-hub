@@ -7,21 +7,21 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import ConfirmDialog from "@/components/confirm-dialog";
-import { deleteCompanyDocument } from "@/app/[locale]/company-documents/actions";
+import { deleteWorker } from "@/app/[locale]/worker/actions";
 
 type Props = {
   id: string;
-  filePath: string;
+  filePath: string | null;
 };
 
 export default function DeleteConfirmButton({ id, filePath }: Props) {
   const [isPending, startTransition] = useTransition();
-  const t = useTranslations("companyDocuments.delete");
+  const t = useTranslations("workers.delete");
 
   const handleDelete = () => {
     startTransition(async () => {
       try {
-        await deleteCompanyDocument(id, filePath);
+        await deleteWorker(id, filePath);
         toast.success(t("success"));
       } catch {
         toast.error(t("error"));

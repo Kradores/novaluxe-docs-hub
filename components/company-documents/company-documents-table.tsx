@@ -1,23 +1,13 @@
 import { useTranslations } from "next-intl";
 
 import DocumentStatusBadge from "@/components/document-status-badge";
+import { CompanyDocumentModel } from "@/types/company-documents";
 
 import DeleteConfirmButton from "./delete-confirm-button";
 import DownloadButton from "./download-button";
 
-type DocumentProps = {
-  id: string;
-  name: string;
-  created_at: string;
-  company_document_types: { id: string; name: string };
-  file_name: string;
-  expiration_date: string;
-  file_type: string;
-  file_path: string;
-};
-
 type CompanyDocumentsTableProps = {
-  documents: DocumentProps[];
+  documents: CompanyDocumentModel[];
 };
 
 export default function CompanyDocumentsTable({

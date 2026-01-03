@@ -47,7 +47,7 @@ export const getSignedDocumentUrl = async (
 
   const { data, error } = await supabase.storage
     .from("documents")
-    .createSignedUrl(filePath, 60); // 60 seconds
+    .createSignedUrl(filePath, 3600); // 3600 seconds
 
   if (error || !data?.signedUrl) {
     throw new Error("Failed to generate signed URL");

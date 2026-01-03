@@ -29,7 +29,7 @@
     "error": "Ha ocurrido un error",
     "expired": "Vencido",
     "active": "Activo",
-    "noExpiration":"Sin vencimiento"
+    "noExpiration": "Sin vencimiento"
   },
   "nav": {
     "login": "Iniciar Sesión",
@@ -38,8 +38,8 @@
     "companyDocuments": "Documentos de Empresa",
     "companyDocumentTypes": "Tipos Doc. Empresa",
     "workerDocumentTypes": "Tipos Doc. Trabajador",
-    "workers": "Trabajadores",
-    "constructionSites": "Obras",
+    "worker": "Trabajadores",
+    "constructionSite": "Obras",
     "settings": "Configuración",
     "users": "Usuarios",
     "home": "Novaluxe Dynamics"
@@ -110,18 +110,18 @@
     "cannotDeleteInUse": "No se puede eliminar este tipo de documento porque tiene un documento asignado",
     "noTypes": "No hay tipos de documentos creados",
     "company": {
-      "title":"Tipos de Documentos de Empresa",
+      "title": "Tipos de Documentos de Empresa",
       "description": "Gestionar tipos de documentos de empresa",
       "submit": "Gestionar tipos de documentos de empresa"
     },
     "workers": {
-      "title":"Tipos de Documentos de Trabajador",
+      "title": "Tipos de Documentos de Trabajador",
       "description": "Gestionar tipos de documentos de trabajador",
       "submit": "Gestionar tipos de documentos de trabajador"
     }
   },
   "companyDocumentTypes": {
-    "title":"Tipos de Documentos de Empresa",
+    "title": "Tipos de Documentos de Empresa",
     "back": "Volver",
     "create": {
       "openDialogLabel": "Añadir",
@@ -131,7 +131,7 @@
       "submit": "Crear",
       "success": "Tipo de documento creado",
       "error": "No se pudo crear el tipo de documento",
-      "description":"Agregar nuevo tipo de documento"
+      "description": "Agregar nuevo tipo de documento"
     },
     "delete": {
       "success": "Tipo de documento eliminado",
@@ -139,7 +139,7 @@
       "error": "No se pudo eliminar"
     },
     "table": {
-      "noResults":"No se encontraron tipos de documentos.",
+      "noResults": "No se encontraron tipos de documentos.",
       "headers": [
         "Nombre",
         "Fecha de creación",
@@ -148,7 +148,7 @@
     }
   },
   "workerDocumentTypes": {
-    "title":"Tipos de Documentos de Trabajador",
+    "title": "Tipos de Documentos de Trabajador",
     "back": "Volver",
     "create": {
       "openDialogLabel": "Añadir",
@@ -165,7 +165,7 @@
       "error": "No se pudo eliminar"
     },
     "table": {
-      "noResults":"No se encontraron tipos de documentos.",
+      "noResults": "No se encontraron tipos de documentos.",
       "headers": [
         "Nombre",
         "Fecha de creación",
@@ -174,13 +174,13 @@
     }
   },
   "companyDocuments": {
-    "title":"Documentos de Empresa",
-    "subtitle":"Novaluxe Dynamics",
+    "title": "Documentos de Empresa",
+    "subtitle": "Novaluxe Dynamics",
     "back": "Volver",
     "upload": {
       "openDialogLabel": "Subir",
       "title": "Subir documento",
-      "description":"Seleccione el tipo y cargue el documento. Configure la fecha de vencimiento, si la tiene.",
+      "description": "Seleccione el tipo y cargue el documento. Configure la fecha de vencimiento, si la tiene.",
       "documentType": "Tipo de documento",
       "expirationDate": "Fecha de vencimiento",
       "file": "Archivo",
@@ -189,14 +189,14 @@
       "error": "No se pudo cargar el documento"
     },
     "delete": {
-      "title":"Eliminar documento",
-      "description":"Esta acción no se puede deshacer",
+      "title": "Eliminar documento",
+      "description": "Esta acción no se puede deshacer",
       "success": "Documento eliminado",
       "errorInUse": "Este documento está en uso",
       "error": "No se pudo eliminar"
     },
     "table": {
-      "noResults":"No se encontraron documentos.",
+      "noResults": "No se encontraron documentos.",
       "headers": [
         "Tipo de documento",
         "Archivo",
@@ -207,33 +207,37 @@
       ]
     }
   },
-  "companyDocuments-remove": {
-    "title": "Documentos de Empresa",
-    "subtitle": "Novaluxe Dynamics",
-    "uploadDocument": "Subir documento",
-    "selectType": "Seleccionar tipo de documento",
-    "noTypesAvailable": "Todos los tipos de documentos ya tienen un archivo asignado",
-    "expirationDate": "Fecha de vencimiento",
-    "uploadDate": "Fecha de subida",
-    "status": "Estado",
-    "valid": "Válido",
-    "expired": "Vencido",
-    "noExpiration": "Sin vencimiento",
-    "documentType": "Tipo de documento",
-    "fileName": "Archivo",
-    "deleteConfirmTitle": "Eliminar documento",
-    "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar este documento? Esta acción no se puede deshacer.",
-    "uploadSuccess": "Documento subido correctamente",
-    "deleteSuccess": "Documento eliminado correctamente",
-    "noDocuments": "No hay documentos subidos",
-    "viewNotSupported": "Solo se pueden visualizar archivos PDF e imágenes"
-  },
   "workers": {
     "title": "Trabajadores",
-    "addNew": "Añadir trabajador",
-    "fullName": "Nombre completo",
-    "namePlaceholder": "Nombre completo del trabajador",
-    "photo": "Foto",
+    "create": {
+      "openDialogLabel": "Añadir",
+      "title": "Añadir trabajador",
+      "description": "Ingrese los detalles del trabajador para crear un nuevo trabajador",
+      "cancel": "Cancelar",
+      "submit": "Crear",
+      "success": "Trabajador añadido correctamente",
+      "error": "El trabajador no pudo ser creado",
+      "fullName": "Nombre completo",
+      "photo": "Foto"
+    },
+    "actions": {
+      "update": {
+        "success": "Estado del trabajador actualizado",
+        "error": "No se pudo actualizar el estado del trabajador"
+      },
+      "delete": {
+        "success": "Trabajador eliminado correctamente",
+        "error": "No se pudo eliminar el trabajador"
+      }
+    },
+    "delete": {
+      "title": "Eliminar trabajador",
+      "description": "¿Estás seguro de que deseas eliminar este trabajador? También se eliminarán todos sus documentos asociados.",
+      "success": "Trabajador eliminado correctamente",
+      "error": "No se pudo eliminar el trabajador"
+    },
+    "counter": "{count, plural, =0 {no documentos} =1 {# documento} other {# documentos}}",
+    "placeholder": "Nombre completo del trabajador",
     "status": "Estado",
     "active": "Activo",
     "laidOff": "Despedido",
@@ -241,15 +245,10 @@
     "laidOffWorkers": "Trabajadores Despedidos",
     "noActiveWorkers": "No hay trabajadores activos",
     "noLaidOffWorkers": "No hay trabajadores despedidos",
-    "documentsCount": "documentos",
     "statusChangeConfirmTitle": "Cambiar estado del trabajador",
     "markAsLaidOffConfirm": "¿Estás seguro de que deseas marcar a este trabajador como despedido?",
     "markAsActiveConfirm": "¿Estás seguro de que deseas marcar a este trabajador como activo?",
-    "statusChangeSuccess": "Estado del trabajador actualizado",
-    "deleteConfirmTitle": "Eliminar trabajador",
-    "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar este trabajador? También se eliminarán todos sus documentos asociados.",
-    "createSuccess": "Trabajador añadido correctamente",
-    "deleteSuccess": "Trabajador eliminado correctamente"
+    "statusChangeSuccess": "Estado del trabajador actualizado"
   },
   "workerDetail": {
     "documents": "Documentos",

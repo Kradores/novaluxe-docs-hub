@@ -50,13 +50,13 @@ export const getDocRoutes = async (): Promise<NavigationItemProps[]> => {
       icon: Building2,
     },
     {
-      label: t("workers"),
-      href: allRoutes.workers,
+      label: t("worker"),
+      href: allRoutes.worker,
       icon: IdCard,
     },
     {
-      label: t("constructionSites"),
-      href: allRoutes.constructionSites,
+      label: t("constructionSite"),
+      href: allRoutes.constructionSite,
       icon: Pickaxe,
     },
   ];

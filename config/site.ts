@@ -7,8 +7,8 @@ export const allRoutes = {
   companyDocumentTypes: "/company-document-types",
   workerDocumentTypes: "/worker-document-types",
   companyDocuments: "/company-documents",
-  workers: "/workers",
-  constructionSites: "/construction-sites",
+  worker: "/worker",
+  constructionSite: "/construction-site",
   users: "/users",
 };
 
