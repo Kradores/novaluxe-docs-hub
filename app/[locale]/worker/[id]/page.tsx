@@ -2,29 +2,28 @@ import { getTranslations } from "next-intl/server";
 
 import PageHeader from "@/components/page-header";
 import { Worker } from "@/types/worker";
-import CreateWorkerDialog from "@/components/workers/create-worker-dialog";
+import { allRoutes } from "@/config/site";
+
 import { getWorkerById } from "./actions";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-  const {id} = await params;
-  const t = await getTranslations("workers");
+  const { id } = await params;
+  const t = await getTranslations("worker");
   const data: Worker = await getWorkerById(id);
-
-  console.log(data);
 
   return (
     <>
-      {/* <PageHeader action={<CreateWorkerDialog />} translationKey="workers" /> */}
-      <div>{data.full_name}</div>
-      <div>{data.status}</div>
-
-      <div className="space-y-10">
-        
-      </div>
+      <PageHeader
+        // action={<CreateWorkerDialog />}
+        backTo={allRoutes.worker}
+        subtitle={data.status}
+        title={data.full_name}
+      />
+      <div className="space-y-10" />
     </>
   );
 }

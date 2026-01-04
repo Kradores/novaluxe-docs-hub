@@ -4,6 +4,7 @@ import PageHeader from "@/components/page-header";
 import { Worker } from "@/types/worker";
 import WorkersSection from "@/components/workers/workers-section";
 import CreateWorkerDialog from "@/components/workers/create-worker-dialog";
+import { allRoutes } from "@/config/site";
 
 import { getWorkers } from "./actions";
 
@@ -22,7 +23,12 @@ export default async function Page() {
 
   return (
     <>
-      <PageHeader action={<CreateWorkerDialog />} translationKey="workers" />
+      <PageHeader
+        action={<CreateWorkerDialog />}
+        backTo={allRoutes.home}
+        subtitle={t.has("subtitle") && t("subtitle")}
+        title={t("title")}
+      />
 
       <div className="space-y-10">
         <WorkersSection

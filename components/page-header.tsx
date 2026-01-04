@@ -6,17 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/config/i18n/navigation";
 
 interface PageHeaderProps {
-  translationKey: string;
   backTo?: string;
   action?: ReactNode;
+  title: string;
+  subtitle?: string | false;
 }
 
 export default async function PageHeader({
-  translationKey,
   backTo,
   action,
+  title,
+  subtitle,
 }: PageHeaderProps) {
-  const t = await getTranslations(translationKey);
+  const t = await getTranslations("common");
 
   return (
     <div className="mb-8 animate-fade-in">
@@ -35,11 +37,11 @@ export default async function PageHeader({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="font-serif text-3xl md:text-4xl font-bold text-gradient-gold">
-            {t.has("title") && t("title")}
+            {title}
           </h1>
-          {t.has("subtitle") && (
+          {subtitle && (
             <p className="mt-2 text-muted-foreground text-start">
-              {t("subtitle")}
+              {subtitle}
             </p>
           )}
         </div>
