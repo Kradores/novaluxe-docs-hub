@@ -244,11 +244,7 @@
     "activeWorkers": "Trabajadores Activos",
     "laidOffWorkers": "Trabajadores Despedidos",
     "noActiveWorkers": "No hay trabajadores activos",
-    "noLaidOffWorkers": "No hay trabajadores despedidos",
-    "statusChangeConfirmTitle": "Cambiar estado del trabajador",
-    "markAsLaidOffConfirm": "¿Estás seguro de que deseas marcar a este trabajador como despedido?",
-    "markAsActiveConfirm": "¿Estás seguro de que deseas marcar a este trabajador como activo?",
-    "statusChangeSuccess": "Estado del trabajador actualizado"
+    "noLaidOffWorkers": "No hay trabajadores despedidos"
   },
   "workerDetail": {
     "documents": "Documentos",

@@ -1,8 +1,8 @@
 export const siteName = "Novaluxe Dynamics";
 
+export type RouteType = keyof typeof allRoutes;
 export const allRoutes = {
   login: "/login",
-  resetPassword: "/reset-password",
   home: "/",
   companyDocumentTypes: "/company-document-types",
   workerDocumentTypes: "/worker-document-types",

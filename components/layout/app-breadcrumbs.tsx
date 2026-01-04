@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useTranslations } from "next-intl";
 
 import {
   Breadcrumb,
@@ -11,28 +10,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { usePathname } from "@/config/i18n/navigation";
+import { useBreadcrumbs } from "@/hooks/use-breadcrumbs";
+import Link from "@/components/link";
 import { allRoutes, siteName } from "@/config/site";
-
-import Link from "../link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AppBreadcrumbs() {
-  const t = useTranslations("nav");
-  const breadcrumbs = usePathname()
-    .split("/")
-    .filter((bc) => bc !== "");
+  const { breadcrumbs, isLoading } = useBreadcrumbs();
 
-  const getName = (pathname: string) => {
-    const route = Object.entries(allRoutes).find(
-      ([_, value]) => value.split("/").at(-1) === pathname.split("/").at(-1),
-    );
-
-    if (route === undefined) {
-      throw new Error(`${pathname} not found!`);
-    }
-
-    return t(route[0]);
-  };
+  if (isLoading) {
+    return <Skeleton className="h-5 w-75 rounded-full" />;
+  }
 
   return (
     <Breadcrumb>
@@ -43,23 +31,19 @@ export default function AppBreadcrumbs() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         {breadcrumbs.map((bc, index) => {
-          if (breadcrumbs.length - 1 === index) {
-            return (
-              <React.Fragment key={bc}>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{getName(bc)}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </React.Fragment>
-            );
-          }
+          const isLast = index === breadcrumbs.length - 1;
+
           return (
-            <React.Fragment key={bc}>
+            <React.Fragment key={bc.href}>
               <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={bc}>{getName(bc)}</Link>
-                </BreadcrumbLink>
+              <BreadcrumbItem className="hidden md:block">
+                {isLast ? (
+                  <BreadcrumbPage>{bc.label}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link href={bc.href}>{bc.label}</Link>
+                  </BreadcrumbLink>
+                )}
               </BreadcrumbItem>
             </React.Fragment>
           );

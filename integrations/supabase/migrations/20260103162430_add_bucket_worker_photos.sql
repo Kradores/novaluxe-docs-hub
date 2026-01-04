@@ -6,6 +6,6 @@ insert into storage.buckets (
 values (
   'worker-photos',
   'worker-photos',
-  true
+  false
 )
 on conflict (id) do nothing;
