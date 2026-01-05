@@ -13,13 +13,15 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link } from "@/config/i18n/navigation";
-import { mockUser, siteName } from "@/config/site";
+import { siteName } from "@/config/site";
+import { getSidebarUserData } from "@/app/actions/auth";
 
 import { getSidebarGroupsContent } from "./app-sidebar.data";
 import AppSidebarUser from "./app-sidebar-user";
 
 export default async function AppSidebar() {
   const nav = await getSidebarGroupsContent();
+  const user = await getSidebarUserData();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="flex flex-row items-center gap-2 overflow-hidden">
@@ -52,9 +54,7 @@ export default async function AppSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
-      <SidebarFooter>
-        <AppSidebarUser user={mockUser} />
-      </SidebarFooter>
+      <SidebarFooter>{user && <AppSidebarUser user={user} />}</SidebarFooter>
     </Sidebar>
   );
 }

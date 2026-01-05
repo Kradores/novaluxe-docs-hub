@@ -24,3 +24,25 @@ export async function loginAction(formData: FormData) {
 
   redirect({ href: allRoutes.home, locale: locale });
 }
+
+export async function getSidebarUserData() {
+  const supabase = await createSupabaseServerClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+  if (!user.email) return null;
+
+  const name =
+    user.user_metadata?.full_name ?? user.user_metadata?.name ?? "User";
+
+  const avatar = user.user_metadata?.avatar_url ?? "/default-avatar.webp";
+
+  return {
+    name,
+    email: user.email,
+    avatar,
+  };
+}
