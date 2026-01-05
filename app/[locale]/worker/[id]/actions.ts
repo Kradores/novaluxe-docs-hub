@@ -36,7 +36,7 @@ export const getWorkerWithDocumentsById = async (
   return data;
 };
 
-export const getWorkerDocumentTypes = async () => {
+export const getWorkerDocumentTypes = async (workerId: string) => {
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
@@ -49,6 +49,7 @@ export const getWorkerDocumentTypes = async () => {
       `,
     )
     .is("worker_documents", null)
+    .eq("worker_documents.worker_id", workerId)
     .order("name");
 
   if (error) {

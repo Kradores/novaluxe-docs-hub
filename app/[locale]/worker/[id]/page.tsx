@@ -13,10 +13,8 @@ export default async function Page({
   const { id } = await params;
   const [worker, types] = await Promise.all([
     getWorkerWithDocumentsById(id),
-    getWorkerDocumentTypes(),
+    getWorkerDocumentTypes(id),
   ]);
-
-  console.log(worker);
 
   return (
     <div className="min-h-screen bg-gradient-bg">
