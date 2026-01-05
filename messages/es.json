@@ -291,16 +291,34 @@
     "deleteConfirmTitle": "Eliminar documento",
     "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar este documento? Esta acción no se puede deshacer."
   },
-  "constructionSites": {
+  "constructionSite": {
     "title": "Obras",
-    "addNew": "Nueva obra",
-    "namePlaceholder": "Nombre de la obra",
-    "deleteConfirmTitle": "Eliminar obra",
-    "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar esta obra? Esta acción eliminará también todas las colecciones asociadas.",
-    "createSuccess": "Obra creada correctamente",
-    "deleteSuccess": "Obra eliminada correctamente",
-    "noSites": "No hay obras creadas",
-    "viewDetails": "Ver detalles"
+    "back": "Volver",
+    "create": {
+      "openDialogLabel": "Nueva obra",
+      "title": "Añadir nueva obra",
+      "description": "Añade un nombre para crear una nueva obra",
+      "placeholder": "Nombre de la nueva obra",
+      "cancel": "Cancelar",
+      "submit": "Crear",
+      "success": "Nueva obra creada correctamente",
+      "error": "No se pudo crear una nueva obra"
+    },
+    "delete": {
+      "title": "Eliminar obra",
+      "description": "¿Estás seguro de que deseas eliminar esta obra? Esta acción eliminará también todas las colecciones asociadas.",
+      "success": "Obra eliminada correctamente",
+      "errorInUse": "Este tipo de documento está en uso",
+      "error": "No se pudo eliminar"
+    },
+    "table": {
+      "noResults": "No hay obras creadas",
+      "headers": [
+        "Nombre",
+        "Fecha de creación",
+        "Acciones"
+      ]
+    }
   },
   "siteDetail": {
     "collections": "Colecciones de documentos",
