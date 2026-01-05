@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { isValidElement, ReactNode } from "react";
 import { ArrowLeft } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -9,7 +9,7 @@ interface PageHeaderProps {
   backTo?: string;
   action?: ReactNode;
   title: string;
-  subtitle?: string | false;
+  subtitle?: ReactNode;
 }
 
 export default async function PageHeader({
@@ -39,12 +39,22 @@ export default async function PageHeader({
           <h1 className="font-serif text-3xl md:text-4xl font-bold text-gradient-gold">
             {title}
           </h1>
-          {subtitle && (
-            <p className="mt-2 text-muted-foreground text-start">{subtitle}</p>
-          )}
+          {getSubtitleNode(subtitle)}
         </div>
         {action}
       </div>
     </div>
   );
+}
+
+function getSubtitleNode(subtitle?: ReactNode) {
+  if (typeof subtitle === "string") {
+    return <p className="mt-2 text-muted-foreground text-start">{subtitle}</p>;
+  }
+
+  if (isValidElement(subtitle)) {
+    return subtitle;
+  }
+
+  return <></>;
 }

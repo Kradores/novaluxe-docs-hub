@@ -29,7 +29,8 @@
     "error": "Ha ocurrido un error",
     "expired": "Vencido",
     "active": "Activo",
-    "noExpiration": "Sin vencimiento"
+    "noExpiration": "Sin vencimiento",
+    "laidOff": "Despedido"
   },
   "nav": {
     "login": "Iniciar Sesión",

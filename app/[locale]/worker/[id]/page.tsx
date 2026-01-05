@@ -2,6 +2,7 @@ import PageHeader from "@/components/page-header";
 import { allRoutes } from "@/config/site";
 import UploadDialog from "@/components/worker-documents/upload-dialog";
 import WorkerDocumentsTable from "@/components/worker-documents/worker-documents-table";
+import WorkerStatusBadge from "@/components/worker-status-badge";
 
 import { getWorkerDocumentTypes, getWorkerWithDocumentsById } from "./actions";
 
@@ -24,7 +25,7 @@ export default async function Page({
             <UploadDialog documentTypes={types ?? []} workerId={worker.id} />
           }
           backTo={allRoutes.worker}
-          subtitle={worker.status}
+          subtitle={<WorkerStatusBadge status={worker.status} />}
           title={worker.full_name}
         />
         <WorkerDocumentsTable documents={worker.worker_documents ?? []} />

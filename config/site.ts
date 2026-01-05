@@ -11,9 +11,3 @@ export const allRoutes = {
   constructionSite: "/construction-site",
   users: "/users",
 };
-
-export const mockUser = {
-  name: "Nicolae",
-  email: "nicolae@gmail.com",
-  avatar: "/default-avatar.webp",
-};
