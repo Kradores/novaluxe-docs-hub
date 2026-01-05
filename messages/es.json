@@ -207,6 +207,40 @@
       ]
     }
   },
+  "workerDocuments": {
+    "title": "Documentos de Empresa",
+    "subtitle": "Novaluxe Dynamics",
+    "back": "Volver",
+    "upload": {
+      "openDialogLabel": "Subir",
+      "title": "Subir documento",
+      "description": "Seleccione el tipo y cargue el documento. Configure la fecha de vencimiento, si la tiene.",
+      "documentType": "Tipo de documento",
+      "expirationDate": "Fecha de vencimiento",
+      "file": "Archivo",
+      "submit": "Subir",
+      "success": "Documento cargado",
+      "error": "No se pudo cargar el documento"
+    },
+    "delete": {
+      "title": "Eliminar documento",
+      "description": "Esta acción no se puede deshacer",
+      "success": "Documento eliminado",
+      "errorInUse": "Este documento está en uso",
+      "error": "No se pudo eliminar"
+    },
+    "table": {
+      "noResults": "No se encontraron documentos.",
+      "headers": [
+        "Tipo de documento",
+        "Archivo",
+        "Fecha de subida",
+        "Fecha de vencimiento",
+        "Estado",
+        "Acciones"
+      ]
+    }
+  },
   "workers": {
     "title": "Trabajadores",
     "create": {

@@ -40,9 +40,7 @@ export default async function PageHeader({
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-2 text-muted-foreground text-start">
-              {subtitle}
-            </p>
+            <p className="mt-2 text-muted-foreground text-start">{subtitle}</p>
           )}
         </div>
         {action}

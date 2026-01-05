@@ -3,82 +3,109 @@
 import { revalidatePath } from "next/cache";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
-import { Worker, WorkerStatus } from "@/types/worker";
+import { Worker } from "@/types/worker";
 import { allRoutes } from "@/config/site";
 
-export const getWorkerById = async (id: string) => {
+export const getWorkerById = async (id: string): Promise<Worker> => {
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("workers")
-    .select("*, worker_documents(id)")
+    .select("*")
     .eq("id", id)
     .single();
 
   if (error) throw error;
 
-  return data as Worker;
+  return data;
 };
 
-export const createWorker = async (
-  fullName: string,
-  photoPath: string | null,
-) => {
+export const getWorkerWithDocumentsById = async (
+  id: string,
+): Promise<Worker> => {
   const supabase = await createSupabaseServerClient();
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("workers")
-    .insert({ full_name: fullName, photo_path: photoPath });
+    .select("*, worker_documents(*, worker_document_types(id, name))")
+    .eq("id", id)
+    .single();
 
   if (error) throw error;
 
-  revalidatePath(allRoutes.worker);
+  return data;
 };
 
-export const updateWorkerStatus = async (id: string, status: WorkerStatus) => {
+export const getWorkerDocumentTypes = async () => {
   const supabase = await createSupabaseServerClient();
 
-  const { error } = await supabase
-    .from("workers")
-    .update({ status })
-    .eq("id", id);
+  const { data, error } = await supabase
+    .from("worker_document_types")
+    .select<string, { id: string; name: string }>(
+      `
+        id, 
+        name, 
+        worker_documents!left(id)
+      `,
+    )
+    .is("worker_documents", null)
+    .order("name");
 
-  if (error) throw error;
-
-  revalidatePath(allRoutes.worker);
-};
-
-export const deleteWorker = async (id: string, photoPath: string | null) => {
-  const supabase = await createSupabaseServerClient();
-
-  if (photoPath) {
-    await supabase.storage.from("worker-photos").remove([photoPath]);
+  if (error) {
+    throw new Error(error.message);
   }
 
-  const { error } = await supabase.from("workers").delete().eq("id", id);
-
-  if (error) throw error;
-
-  revalidatePath(allRoutes.worker);
+  return data;
 };
 
-export const uploadPhoto = async (
-  photoFile: File | null,
-): Promise<string | null> => {
-  if (!photoFile) return null;
-
+export const deleteWorkerDocument = async (id: string, filePath: string) => {
   const supabase = await createSupabaseServerClient();
 
-  const extension = photoFile.name.split(".").pop();
-  const filePath = `workers/${crypto.randomUUID()}.${extension}`;
+  await supabase.storage.from("documents").remove([filePath]);
 
-  const { error } = await supabase.storage
-    .from("worker-photos")
-    .upload(filePath, photoFile, {
-      upsert: false,
-    });
+  const { error } = await supabase
+    .from("worker_documents")
+    .delete()
+    .eq("id", id);
 
-  if (error) throw error;
+  if (error) {
+    throw new Error(error.message);
+  }
 
-  return filePath;
+  revalidatePath(`${allRoutes.worker}/[id]`);
+};
+
+export const insertWorkerDocument = async (data: {
+  worker_id: string;
+  worker_document_type_id: string;
+  file_path: string;
+  file_name: string;
+  file_type: string;
+  expiration_date: string | null;
+}) => {
+  const supabase = await createSupabaseServerClient();
+
+  const { error } = await supabase.from("worker_documents").insert(data);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath(`${allRoutes.worker}/[id]`);
+};
+
+export const getSignedDocumentUrl = async (
+  filePath: string,
+): Promise<string> => {
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase.storage
+    .from("documents")
+    .createSignedUrl(filePath, 3600); // 3600 seconds
+
+  if (error || !data?.signedUrl) {
+    throw new Error("Failed to generate signed URL");
+  }
+
+  return data.signedUrl;
 };

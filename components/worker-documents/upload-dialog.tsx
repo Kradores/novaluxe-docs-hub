@@ -24,19 +24,20 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
-import { insertCompanyDocument } from "@/app/[locale]/company-documents/actions";
 import { DatePicker } from "@/components/date-picker";
+import { insertWorkerDocument } from "@/app/[locale]/worker/[id]/actions";
 
 type Props = {
+  workerId: string;
   documentTypes: { id: string; name: string }[];
 };
 
-export default function UploadDialog({ documentTypes }: Props) {
+export default function UploadDialog({ workerId, documentTypes }: Props) {
   const [open, setOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [typeId, setTypeId] = useState("");
   const [expirationDate, setExpirationDate] = useState<Date>();
-  const t = useTranslations("companyDocuments.upload");
+  const t = useTranslations("workerDocuments.upload");
 
   const handleUpload = async () => {
     const file = fileRef.current?.files?.[0];
@@ -55,8 +56,9 @@ export default function UploadDialog({ documentTypes }: Props) {
       return;
     }
 
-    await insertCompanyDocument({
-      company_document_type_id: typeId,
+    await insertWorkerDocument({
+      worker_id: workerId,
+      worker_document_type_id: typeId,
       file_path: path,
       file_name: file.name,
       file_type: file.type,

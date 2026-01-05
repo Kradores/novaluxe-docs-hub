@@ -1,10 +1,9 @@
-import { getTranslations } from "next-intl/server";
-
 import PageHeader from "@/components/page-header";
-import { Worker } from "@/types/worker";
 import { allRoutes } from "@/config/site";
+import UploadDialog from "@/components/worker-documents/upload-dialog";
+import WorkerDocumentsTable from "@/components/worker-documents/worker-documents-table";
 
-import { getWorkerById } from "./actions";
+import { getWorkerDocumentTypes, getWorkerWithDocumentsById } from "./actions";
 
 export default async function Page({
   params,
@@ -12,18 +11,26 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const t = await getTranslations("worker");
-  const data: Worker = await getWorkerById(id);
+  const [worker, types] = await Promise.all([
+    getWorkerWithDocumentsById(id),
+    getWorkerDocumentTypes(),
+  ]);
+
+  console.log(worker);
 
   return (
-    <>
-      <PageHeader
-        // action={<CreateWorkerDialog />}
-        backTo={allRoutes.worker}
-        subtitle={data.status}
-        title={data.full_name}
-      />
-      <div className="space-y-10" />
-    </>
+    <div className="min-h-screen bg-gradient-bg">
+      <div className="space-y-10">
+        <PageHeader
+          action={
+            <UploadDialog documentTypes={types ?? []} workerId={worker.id} />
+          }
+          backTo={allRoutes.worker}
+          subtitle={worker.status}
+          title={worker.full_name}
+        />
+        <WorkerDocumentsTable documents={worker.worker_documents ?? []} />
+      </div>
+    </div>
   );
 }

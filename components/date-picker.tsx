@@ -20,6 +20,7 @@ export function DatePicker({
   onValueChange,
   value,
 }: DatePickerProps) {
+  const endMonth = getEndMonth();
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -34,7 +35,9 @@ export function DatePicker({
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          captionLayout="dropdown"
           className="min-w-70"
+          endMonth={endMonth}
           mode="single"
           selected={value}
           onSelect={onValueChange}
@@ -42,4 +45,11 @@ export function DatePicker({
       </PopoverContent>
     </Popover>
   );
+}
+
+function getEndMonth() {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 100);
+
+  return date;
 }
