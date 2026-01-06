@@ -30,3 +30,14 @@ export const getInitials = (fullName: string) => {
 
   return (firstInitial + firstSurnameInitial).toUpperCase();
 };
+
+export function assertDefined<T>(
+  value: T | undefined,
+  name = "Value",
+): asserts value is T {
+  if (value === undefined) {
+    throw new Error(
+      `${name} is undefined, check the steps prior to using this variable`,
+    );
+  }
+}

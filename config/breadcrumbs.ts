@@ -1,4 +1,5 @@
 import { getWorkerById } from "@/app/[locale]/worker/[id]/actions";
+import { getConstructionSiteById } from "@/app/[locale]/construction-site/[id]/actions";
 
 import { allRoutes, RouteType } from "./site";
 
@@ -52,6 +53,14 @@ export const breadcrumbConfig: Record<RouteType, BreadcrumbResolver> = {
   constructionSite: {
     staticLabel: "constructionSite",
     href: allRoutes.constructionSite,
+    dynamic: {
+      getLabel: async (id) => {
+        const site = await getConstructionSiteById(id);
+        return site.name;
+      },
+      getHref: (id) =>
+        [allRoutes.constructionSite, id].filter(Boolean).join("/"),
+    },
   },
 
   users: {
