@@ -37,9 +37,9 @@ export function GenerateZipButton({ collectionId, zipStatus }: Props) {
   return (
     <Button
       disabled={disabled}
-      size="sm"
       title={disabled ? "Generating..." : "Generate ZIP"}
       onClick={handleGenerate}
+      className="size-9"
     >
       {disabled ? (
         <Spinner className="w-4 h-4" />

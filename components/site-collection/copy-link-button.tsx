@@ -9,9 +9,9 @@ export default function CopyLinkButton({ token }: { token: string }) {
     <CopyButton
       CustomCopyIcon={Link}
       content={`${process.env.NEXT_PUBLIC_URL}/share/${token}`}
-      size={"sm"}
       title="Copy link"
       variant={"outline"}
+      className="size-9"
     />
   );
 }

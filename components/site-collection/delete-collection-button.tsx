@@ -12,7 +12,7 @@ export default function DeleteCollectionButton({
 }) {
   return (
     <Button
-      size="sm"
+      className="size-9"
       title="Delete documents collection"
       variant="destructive"
       onClick={() => deleteCollection(collectionId)}

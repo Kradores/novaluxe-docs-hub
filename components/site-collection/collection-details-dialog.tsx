@@ -26,8 +26,7 @@ export default function CollectionDetailsDialog({
   return (
     <>
       <Button
-        className="gap-1"
-        size="sm"
+        className="gap-1 size-9"
         title="View documents"
         variant="outline"
         onClick={() => setOpen(true)}
