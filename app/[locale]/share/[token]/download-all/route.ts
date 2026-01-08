@@ -8,73 +8,51 @@ const maxSeconds = Number.parseInt(
 );
 
 export async function GET(
-  _req: Request,
+  _: Request,
   { params }: { params: { token: string } },
 ) {
   const { token } = await params;
   const supabase = await createSupabaseServerClient();
 
-  /* -------------------------------------------------------
-   * 1️⃣ Resolve collection via public token
-   * ----------------------------------------------------- */
-  const { data: collection, error } = await supabase
+  const { data, error } = await supabase
     .from("document_collections")
-    .select(
-      `
-      id,
-      name,
-      zip_status,
-      zip_path,
-      expires_at
-    `,
-    )
+    .select("id, zip_status, zip_path, expires_at")
     .eq("share_token", token)
-    .gt("expires_at", new Date().toISOString())
-    .maybeSingle();
+    .single();
 
-  if (error || !collection) {
+  // ❌ Collection not found
+  if (error || !data) {
     return NextResponse.json(
-      { error: "Collection not found or expired" },
+      { error: "Collection not found" },
       { status: 404 },
     );
   }
 
-  /* -------------------------------------------------------
-   * 2️⃣ ZIP ready → redirect to signed URL
-   * ----------------------------------------------------- */
-  if (collection.zip_status === "ready" && collection.zip_path) {
-    const { data, error: signError } = await supabase.storage
-      .from("documents")
-      .createSignedUrl(collection.zip_path, maxSeconds);
-
-    if (signError || !data?.signedUrl) {
-      return NextResponse.json(
-        { error: "Failed to create download URL" },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.redirect(data.signedUrl);
+  // ❌ ZIP not ready
+  if (data.zip_status !== "ready" || !data.zip_path) {
+    return NextResponse.json({ error: "ZIP not ready" }, { status: 409 });
   }
 
-  /* -------------------------------------------------------
-   * 3️⃣ ZIP processing → tell client to wait
-   * ----------------------------------------------------- */
-  if (collection.zip_status === "processing") {
-    return NextResponse.json({ status: "processing" }, { status: 202 });
+  // ❌ Expired
+  const now = new Date();
+  const expiresAt = new Date(data.expires_at);
+
+  if (expiresAt <= now) {
+    return NextResponse.json(
+      { error: "Link expired" },
+      { status: 410 }, // Gone
+    );
   }
 
-  /* -------------------------------------------------------
-   * 4️⃣ ZIP idle / failed → trigger background job
-   * ----------------------------------------------------- */
-  await fetch(FUNCTION_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ collectionId: collection.id }),
-  });
+  // ✅ Generate signed URL
+  const { data: signed, error: signError } = await supabase.storage
+    .from("documents")
+    .createSignedUrl(data.zip_path, maxSeconds);
 
-  return NextResponse.json({ status: "started" }, { status: 202 });
+  if (signError || !signed?.signedUrl) {
+    return NextResponse.json({ error: "Failed to sign ZIP" }, { status: 500 });
+  }
+
+  // ✅ Redirect to Supabase Storage
+  return NextResponse.redirect(signed.signedUrl, 307);
 }

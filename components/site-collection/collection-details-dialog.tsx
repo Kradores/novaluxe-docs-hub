@@ -28,11 +28,11 @@ export default function CollectionDetailsDialog({
       <Button
         className="gap-1"
         size="sm"
+        title="View documents"
         variant="outline"
         onClick={() => setOpen(true)}
       >
         <Eye className="h-4 w-4" />
-        View
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>

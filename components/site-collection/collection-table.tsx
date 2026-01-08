@@ -4,6 +4,7 @@ import CopyLinkButton from "./copy-link-button";
 import DeleteCollectionButton from "./delete-collection-button";
 import CollectionDetailsDialog from "./collection-details-dialog";
 import CollectionDetailsContent from "./collection-details-content";
+import { GenerateZipButton } from "./generate-zip-button";
 
 type Props = {
   siteId: string;
@@ -20,6 +21,7 @@ export default async function CollectionsTable({ siteId }: Props) {
       name,
       expires_at,
       share_token,
+      zip_status,
       collection_documents(count),
       collection_workers(count),
       collection_worker_document_types(count)
@@ -42,7 +44,7 @@ export default async function CollectionsTable({ siteId }: Props) {
             <th className="p-3 text-left">Name</th>
             <th className="p-3">Documents</th>
             <th className="p-3">Expires</th>
-            <th className="p-3" />
+            <th className="p-3">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -55,7 +57,7 @@ export default async function CollectionsTable({ siteId }: Props) {
               <td className="p-3">
                 {new Date(c.expires_at).toLocaleDateString()}
               </td>
-              <td className="p-3 flex gap-2 justify-end">
+              <td className="p-3 flex gap-2 justify-center">
                 <CollectionDetailsDialog
                   collectionId={c.id}
                   collectionName={c.name}
@@ -63,6 +65,10 @@ export default async function CollectionsTable({ siteId }: Props) {
                   <CollectionDetailsContent collectionId={c.id} />
                 </CollectionDetailsDialog>
                 <CopyLinkButton token={c.share_token} />
+                <GenerateZipButton
+                  collectionId={c.id}
+                  zipStatus={c.zip_status}
+                />
                 <DeleteCollectionButton collectionId={c.id} />
               </td>
             </tr>

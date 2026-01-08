@@ -1,14 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
+
+import { CopyButton } from "../ui/shadcn-io/copy-button";
 
 export default function CopyLinkButton({ token }: { token: string }) {
-  const copy = () =>
-    navigator.clipboard.writeText(`${window.location.origin}/share/${token}`);
-
   return (
-    <Button size="sm" variant="outline" onClick={copy}>
-      Copy link
-    </Button>
+    <CopyButton
+      CustomCopyIcon={Link}
+      content={`${process.env.NEXT_PUBLIC_URL}/share/${token}`}
+      size={"sm"}
+      title="Copy link"
+      variant={"outline"}
+    />
   );
 }

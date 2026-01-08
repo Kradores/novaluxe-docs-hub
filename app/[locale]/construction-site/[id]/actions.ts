@@ -92,3 +92,19 @@ export const deleteCollection = async (id: string) => {
 
   revalidatePath(`${allRoutes.constructionSite}/[id]`);
 };
+
+export async function triggerGenerateCollectionZip(collectionId: string) {
+  const supabase = await createSupabaseServerClient();
+
+  // Call Edge Function via Kong
+  const { data, error } = await supabase.functions.invoke(
+    "generate-collection-zip",
+    {
+      body: { collectionId },
+    },
+  );
+
+  if (error) throw error;
+
+  revalidatePath(`${allRoutes.constructionSite}/[id]`);
+}
