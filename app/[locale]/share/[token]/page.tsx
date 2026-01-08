@@ -2,7 +2,11 @@ import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
-import { Link } from "@/config/i18n/navigation";
+import { CheckAndDownloadButton } from "@/components/site-collection/check-collection-button";
+
+const maxSeconds = Number.parseInt(
+  process.env.MAX_SECONDS_FILE_DOWNLOAD ?? "60",
+);
 
 type Props = {
   params: { token: string };
@@ -63,7 +67,7 @@ export default async function ShareCollectionPage({ params }: Props) {
     collection.collection_documents.map(async (cd) => {
       const { data } = await supabase.storage
         .from("documents")
-        .createSignedUrl(cd.company_documents.file_path, 60 * 10); // 10 min
+        .createSignedUrl(cd.company_documents.file_path, maxSeconds);
 
       return {
         ...cd.company_documents,
@@ -144,12 +148,7 @@ export default async function ShareCollectionPage({ params }: Props) {
             </ul>
           </section>
         )}
-        <Link
-          href={`/share/${token}/download`}
-          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
-        >
-          Download all (ZIP)
-        </Link>
+        <CheckAndDownloadButton token={token} />
       </div>
     </main>
   );

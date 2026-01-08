@@ -3,6 +3,10 @@ import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { getInitials } from "@/lib/utils";
 import { Worker } from "@/types/worker";
 
+const maxSeconds = Number.parseInt(
+  process.env.MAX_SECONDS_FILE_DOWNLOAD ?? "60",
+);
+
 interface WorkerAvatarProps {
   worker: Worker;
 }
@@ -22,7 +26,7 @@ export default async function WorkerAvatar({ worker }: WorkerAvatarProps) {
 
   const { data } = await supabase.storage
     .from("worker-photos")
-    .createSignedUrl(worker.photo_path, 60);
+    .createSignedUrl(worker.photo_path, maxSeconds);
 
   return (
     <Avatar className="h-12 w-12 ring-2 ring-primary/20">

@@ -16,3 +16,20 @@ export async function getRouteName(pathname: string) {
 
   return t(route[0]);
 }
+
+export const runWithConcurrency = async <T>(
+  items: T[],
+  limit: number,
+  worker: (item: T, index: number) => Promise<void>,
+) => {
+  let index = 0;
+
+  const runners = Array.from({ length: limit }, async () => {
+    while (index < items.length) {
+      const currentIndex = index++;
+      await worker(items[currentIndex], currentIndex);
+    }
+  });
+
+  await Promise.all(runners);
+};

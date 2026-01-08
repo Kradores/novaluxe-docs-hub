@@ -5,6 +5,10 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { allRoutes } from "@/config/site";
 
+const maxSeconds = Number.parseInt(
+  process.env.MAX_SECONDS_FILE_DOWNLOAD ?? "60",
+);
+
 export const getCompanyDocuments = async () => {
   const supabase = await createSupabaseServerClient();
 
@@ -86,7 +90,7 @@ export const getSignedDocumentUrl = async (
 
   const { data, error } = await supabase.storage
     .from("documents")
-    .createSignedUrl(filePath, 3600); // 3600 seconds
+    .createSignedUrl(filePath, maxSeconds);
 
   if (error || !data?.signedUrl) {
     throw new Error("Failed to generate signed URL");

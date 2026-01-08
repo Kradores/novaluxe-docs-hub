@@ -8,3 +8,8 @@ export type CompanyDocumentModel = {
   file_type: string;
   file_path: string;
 };
+
+export type DownloadCompanyDocumentModel = {
+  file_name: string;
+  file_path: string;
+};

@@ -1,3 +1,5 @@
+import { DownloadCompanyDocumentModel } from "./company-documents";
+
 export type ConstructionSite = {
   id: string;
   name: string;
@@ -20,4 +22,11 @@ export type CollectionWorkerDocumentModel = {
   worker_documents: {
     worker_document_type_id: string;
   }[];
+};
+
+export type DownloadCollectionModel = {
+  id: string;
+  name: string;
+  expires_at: string;
+  collection_documents: { company_documents: DownloadCompanyDocumentModel }[];
 };
