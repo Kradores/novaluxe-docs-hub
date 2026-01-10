@@ -10,8 +10,8 @@ Deno.serve(async (req) => {
     }
 
     const supabase = createClient(
-      "http://kong:8000",
-      "sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz",
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
     /* ---------------------------------------------------------
@@ -72,15 +72,21 @@ Deno.serve(async (req) => {
     --------------------------------------------------------- */
     const zipPath = `collections/${collectionId}.zip`;
 
-    await supabase.storage.from("documents").upload(zipPath, zipBytes, {
-      contentType: "application/zip",
-      upsert: true,
-    });
+    const { error } = await supabase.storage
+      .from("documents")
+      .upload(zipPath, zipBytes, {
+        contentType: "application/zip",
+        upsert: true,
+      });
+
+    if (error) {
+      console.log(error);
+    }
 
     /* ---------------------------------------------------------
        6️⃣ Mark as ready
     --------------------------------------------------------- */
-    await supabase
+    const { error: docError } = await supabase
       .from("document_collections")
       .update({
         zip_status: "ready",
@@ -89,6 +95,10 @@ Deno.serve(async (req) => {
         zip_size: zipBytes.byteLength,
       })
       .eq("id", collectionId);
+
+    if (docError) {
+      console.log(docError);
+    }
 
     return new Response(JSON.stringify({ status: "ready" }), {
       headers: { "Content-Type": "application/json" },
@@ -100,8 +110,8 @@ Deno.serve(async (req) => {
     try {
       const { collectionId } = await req.json();
       await createClient(
-        "http://kong:8000",
-        "sb_secret_N7UND0UgjKTVK-Uodkm0Hg_xSvEMPvz",
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
       )
         .from("document_collections")
         .update({ zip_status: "failed" })
