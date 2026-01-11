@@ -18,7 +18,7 @@ export default async function CollectionDetailsContent({
       name,
       expires_at,
 
-      collection_documents (
+      collection_company_documents (
         company_documents (
           id,
           file_name,
@@ -51,11 +51,11 @@ export default async function CollectionDetailsContent({
       {/* Company documents */}
       <section>
         <h3 className="font-medium mb-2">Company documents</h3>
-        {collection.collection_documents.length === 0 ? (
+        {collection.collection_company_documents.length === 0 ? (
           <p className="text-sm text-muted-foreground">None</p>
         ) : (
           <ul className="space-y-1">
-            {collection.collection_documents.map((cd, i) => (
+            {collection.collection_company_documents.map((cd, i) => (
               <li key={i} className="text-sm">
                 <span className="font-medium">
                   {cd.company_documents.company_document_types.name}

@@ -52,7 +52,6 @@ export default function UploadDialog({ workerId, documentTypes }: Props) {
 
     if (error) {
       toast.error(t("error"));
-      console.error(error);
       return;
     }
 
@@ -69,8 +68,15 @@ export default function UploadDialog({ workerId, documentTypes }: Props) {
     setOpen(false);
   };
 
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open);
+    setTypeId("");
+    setExpirationDate(undefined);
+    fileRef.current = null;
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button onClick={() => setOpen(true)}>{t("openDialogLabel")}</Button>
       </DialogTrigger>

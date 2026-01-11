@@ -39,7 +39,6 @@ export default async function CreateCollectionData({
       companyDocuments={companyDocsRes.data ?? []}
       siteId={siteId}
       workerDocumentTypes={workerDocTypesRes.data ?? []}
-      workers={workersRes.data ?? []}
     />
   );
 }

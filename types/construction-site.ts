@@ -28,5 +28,7 @@ export type DownloadCollectionModel = {
   id: string;
   name: string;
   expires_at: string;
-  collection_documents: { company_documents: DownloadCompanyDocumentModel }[];
+  collection_company_documents: {
+    company_documents: DownloadCompanyDocumentModel;
+  }[];
 };

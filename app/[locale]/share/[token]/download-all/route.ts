@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
 
-const FUNCTION_URL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/generate-collection-zip`;
 const maxSeconds = Number.parseInt(
   process.env.MAX_SECONDS_FILE_DOWNLOAD ?? "60",
 );

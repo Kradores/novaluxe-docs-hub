@@ -1,0 +1,1 @@
+ALTER TABLE public.document_collections ADD COLUMN documents_count int not null

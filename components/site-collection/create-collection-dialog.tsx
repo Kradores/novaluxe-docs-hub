@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -18,8 +19,10 @@ import { createCollection } from "@/app/[locale]/construction-site/[id]/actions"
 import { Checkbox } from "@/components/ui/checkbox";
 import { DatePicker } from "@/components/date-picker";
 import { assertDefined } from "@/lib/utils";
+import { CollectionWorker } from "@/types/site-collection";
+import useFetchWorkers from "@/hooks/use-fetch-workers";
 
-type Props = {
+type CreateCollectionDialogProps = {
   siteId: string;
   companyDocuments: {
     id: string;
@@ -27,19 +30,13 @@ type Props = {
     company_document_types: { id: string; name: string };
   }[];
   workerDocumentTypes: { id: string; name: string }[];
-  workers: {
-    id: string;
-    full_name: string;
-    worker_documents: { worker_document_type_id: string }[];
-  }[];
 };
 
 export default function CreateCollectionDialog({
   siteId,
   companyDocuments,
   workerDocumentTypes,
-  workers,
-}: Props) {
+}: CreateCollectionDialogProps) {
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
 
@@ -49,11 +46,17 @@ export default function CreateCollectionDialog({
   );
   const [companyDocIds, setCompanyDocIds] = useState<string[]>([]);
   const [workerDocTypeIds, setWorkerDocTypeIds] = useState<string[]>([]);
+  const workers = useFetchWorkers(workerDocTypeIds);
   const [workerIds, setWorkerIds] = useState<string[]>([]);
+
+  const validSelectedWorkers = useMemo(() => {
+    const eligibleIds = new Set(workers.map((w) => w.id));
+    return workerIds.filter((id) => eligibleIds.has(id));
+  }, [workers, workerIds]);
 
   const hasContent =
     companyDocIds.length > 0 ||
-    (workerDocTypeIds.length > 0 && workerIds.length > 0);
+    (workerDocTypeIds.length > 0 && validSelectedWorkers.length > 0);
 
   const toggle = (arr: string[], id: string) =>
     arr.includes(id) ? arr.filter((i) => i !== id) : [...arr, id];
@@ -61,24 +64,30 @@ export default function CreateCollectionDialog({
   const handleCreate = () => {
     assertDefined(expiresAt, "expiresAt");
     startTransition(async () => {
-      await createCollection({
-        siteId,
-        name,
-        expiresAt: expiresAt,
-        companyDocumentIds: companyDocIds,
-        workerDocumentTypeIds: workerDocTypeIds,
-        workerIds,
-      });
+      try {
+        await createCollection({
+          siteId,
+          name,
+          expiresAt: expiresAt,
+          companyDocumentIds: companyDocIds,
+          workerDocumentTypeIds: workerDocTypeIds,
+          workerIds: validSelectedWorkers,
+        });
 
-      setOpen(false);
-      setName("");
-      setCompanyDocIds([]);
-      setWorkerDocTypeIds([]);
-      setWorkerIds([]);
+        setOpen(false);
+        setName("");
+        setCompanyDocIds([]);
+        setWorkerDocTypeIds([]);
+        setWorkerIds([]);
+      } catch (error) {
+        if (typeof error === "string") {
+          toast.error(error);
+        }
+      }
     });
   };
 
-  const workerMissingCount = (worker: Props["workers"][0]) => {
+  const workerMissingCount = (worker: CollectionWorker) => {
     const owned = worker.worker_documents.map((d) => d.worker_document_type_id);
     return workerDocTypeIds.filter((id) => !owned.includes(id)).length;
   };
@@ -111,8 +120,8 @@ export default function CreateCollectionDialog({
               <TabsTrigger value="types">Worker doc types</TabsTrigger>
               <TabsTrigger value="workers">
                 Workers
-                {workerIds.length > 0 && (
-                  <Badge className="ml-1">{workerIds.length}</Badge>
+                {validSelectedWorkers.length > 0 && (
+                  <Badge className="ml-1">{validSelectedWorkers.length}</Badge>
                 )}
               </TabsTrigger>
             </TabsList>
@@ -171,7 +180,7 @@ export default function CreateCollectionDialog({
                     className="flex items-center gap-3 p-2 rounded hover:bg-muted cursor-pointer"
                   >
                     <Checkbox
-                      checked={workerIds.includes(worker.id)}
+                      checked={validSelectedWorkers.includes(worker.id)}
                       onCheckedChange={() =>
                         setWorkerIds((p) => toggle(p, worker.id))
                       }

@@ -22,9 +22,7 @@ export default async function CollectionsTable({ siteId }: Props) {
       expires_at,
       share_token,
       zip_status,
-      collection_documents(count),
-      collection_workers(count),
-      collection_worker_document_types(count)
+      documents_count
     `,
     )
     .eq("construction_site_id", siteId)
@@ -51,10 +49,8 @@ export default async function CollectionsTable({ siteId }: Props) {
           {collections.map((c) => (
             <tr key={c.id} className="border-t">
               <td className="p-3 font-medium">{c.name}</td>
+              <td className="p-3 text-center">{c.documents_count}</td>
               <td className="p-3 text-center">
-                {c.collection_documents?.[0]?.count ?? 0}
-              </td>
-              <td className="p-3">
                 {new Date(c.expires_at).toLocaleDateString()}
               </td>
               <td className="p-3 flex gap-2 justify-center">
