@@ -2,16 +2,23 @@ export type CollectionZipStatus = "idle" | "processing" | "ready" | "failed";
 
 export type ShareCollectionPreview = {
   companyDocuments: {
+    id: string;
     documentType: string;
-    documents: { fileName: string }[];
+    fileName: string;
   }[];
 
   workerDocuments: {
     workerName: string;
     documents: {
+      id: string;
       documentType: string;
-      files: { fileName: string }[];
+      fileName: string;
     }[];
+  }[];
+
+  uploadedDocuments: {
+    id: string;
+    file_name: string;
   }[];
 };
 

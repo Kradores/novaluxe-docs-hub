@@ -21,7 +21,7 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       <div className="flex justify-between w-full">
         <Badge
           variant={

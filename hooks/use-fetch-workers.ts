@@ -6,11 +6,13 @@ import { CollectionWorker } from "@/types/site-collection";
 
 export default function useFetchWorkers(workerDocTypeIds: string[]) {
   const [workers, setWorkers] = useState<CollectionWorker[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     async function fetchWorkers() {
       try {
+        setIsLoading(true);
         const supabase = await createSupabaseBrowserClient();
 
         const { data, error } = await supabase
@@ -26,6 +28,7 @@ export default function useFetchWorkers(workerDocTypeIds: string[]) {
 
         if (error) throw error.message;
         setWorkers(data);
+        setIsLoading(false);
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") return;
         if (error === "string") {
@@ -39,5 +42,5 @@ export default function useFetchWorkers(workerDocTypeIds: string[]) {
     return () => controller.abort();
   }, [workerDocTypeIds]);
 
-  return workers;
+  return { workers, isLoading };
 }

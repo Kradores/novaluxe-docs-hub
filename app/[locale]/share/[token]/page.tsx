@@ -1,4 +1,7 @@
+import { FileText } from "lucide-react";
+
 import { CheckAndDownloadButton } from "@/components/site-collection/check-collection-button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { getCollectionPreview } from "./actions";
 
@@ -14,69 +17,111 @@ export default async function ShareCollectionPage({ params }: Props) {
   const { token } = await params;
   const collection = await getCollectionPreview(token);
 
-  // if (isExpired) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center">
-  //       <div className="text-center space-y-2">
-  //         <h1 className="text-xl font-semibold">Link expired</h1>
-  //         <p className="text-sm text-muted-foreground">
-  //           This document collection is no longer available.
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
   return (
     <main className="min-h-screen bg-background">
-      <div className="max-w-3xl mx-auto p-6 space-y-10">
-        {/* Company Documents */}
-        <section>
-          <h2 className="text-xl font-semibold">Company documents</h2>
-
-          <div className="space-y-4">
-            {collection.companyDocuments.map((group) => (
-              <div key={group.documentType}>
-                <h3 className="font-medium">{group.documentType}</h3>
-
-                <ul className="ml-4 list-disc text-sm text-muted-foreground">
-                  {group.documents.map((doc) => (
-                    <li key={doc.fileName}>{doc.fileName}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Worker Documents */}
-        <section>
-          <h2 className="text-xl font-semibold">Worker documents</h2>
-
-          <div className="space-y-6">
-            {collection.workerDocuments.map((worker) => (
-              <div key={worker.workerName}>
-                <h3 className="font-medium">{worker.workerName}</h3>
-
-                <div className="ml-4 space-y-3">
-                  {worker.documents.map((docType) => (
-                    <div key={docType.documentType}>
-                      <p className="text-sm font-medium">
-                        {docType.documentType}
-                      </p>
-
-                      <ul className="ml-4 list-disc text-sm text-muted-foreground">
-                        {docType.files.map((file) => (
-                          <li key={file.fileName}>{file.fileName}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+      <div className="max-w-4xl mx-auto p-10 space-y-10">
+        {/* Documents List */}
         <CheckAndDownloadButton token={token} />
+        {!!collection.companyDocuments.length && (
+          <Card className="bg-card border-border mb-6">
+            <CardHeader>
+              <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                {"Company Documents"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {collection.companyDocuments.map((doc) => (
+                  <li
+                    key={doc.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30"
+                  >
+                    <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm truncate text-foreground">
+                        {doc.documentType}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {doc.fileName}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+        {!!collection.workerDocuments.length && (
+          <Card className="bg-card border-border mb-6">
+            <CardHeader>
+              <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                {"Workers Documents"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-10">
+              {collection.workerDocuments.map((worker, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col gap-3 p-3 rounded-lg border border-secondary"
+                >
+                  <p className="font-serif text-foreground flex items-center gap-2">
+                    {worker.workerName}
+                  </p>
+                  <ul className="space-y-2">
+                    {worker.documents.map((doc) => (
+                      <li
+                        key={doc.id}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30"
+                      >
+                        <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm truncate text-foreground">
+                            {doc.documentType}
+                          </p>
+                          <p className="text-xs text-muted-foreground truncate">
+                            {doc.fileName}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+        {!!collection.uploadedDocuments.length && (
+          <Card className="bg-card border-border mb-6">
+            <CardHeader>
+              <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                {"Uploaded Documents"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {collection.uploadedDocuments.map((doc) => (
+                  <li
+                    key={doc.id}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-secondary/30"
+                  >
+                    <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm truncate text-foreground">
+                        {"-"}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {doc.file_name}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </main>
   );

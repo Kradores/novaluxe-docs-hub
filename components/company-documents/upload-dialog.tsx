@@ -112,7 +112,7 @@ export default function UploadDialog({ documentTypes }: Props) {
         </div>
 
         <div className="space-y-2">
-          <Label>{t("expirationDate")}</Label>
+          <Label>{t("file")}</Label>
           <Input ref={fileRef} type="file" />
         </div>
 

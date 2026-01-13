@@ -45,6 +45,7 @@ type CreateCollectionInput = {
   companyDocumentIds: string[];
   workerDocumentTypeIds: string[];
   workerIds: string[];
+  files: File[];
 };
 
 export const createCollection = async (input: CreateCollectionInput) => {
@@ -71,10 +72,11 @@ export const createCollection = async (input: CreateCollectionInput) => {
 
   if (cError) throw cError.message;
 
-  const totalCount = wdCount.reduce(
-    (sum, wdc) => (sum += wdc.worker_documents?.[0].count),
-    input.companyDocumentIds.length,
-  );
+  const totalCount =
+    wdCount.reduce(
+      (sum, wdc) => (sum += wdc.worker_documents?.[0].count),
+      input.companyDocumentIds.length,
+    ) + input.files.length;
 
   const { data: collection, error } = await supabase
     .from("document_collections")
@@ -109,6 +111,13 @@ export const createCollection = async (input: CreateCollectionInput) => {
         worker_id: id,
       })),
     ),
+    supabase.from("collection_uploaded_documents").insert(
+      input.workerIds.map((id) => ({
+        collection_id: collection.id,
+        worker_id: id,
+      })),
+    ),
+    ...input.files.map((file) => uploadCollectionFile(collection.id, file)),
   ]);
 
   revalidatePath(`${allRoutes.constructionSite}/[id]`, "page");
@@ -124,7 +133,7 @@ export const deleteCollection = async (id: string) => {
 
   if (error) throw error;
 
-  revalidatePath(`${allRoutes.constructionSite}/[id]`);
+  revalidatePath(`${allRoutes.constructionSite}/[id]`, "page");
 };
 
 export async function triggerGenerateCollectionZip(collectionId: string) {
@@ -137,5 +146,25 @@ export async function triggerGenerateCollectionZip(collectionId: string) {
 
   if (error) throw error;
 
-  revalidatePath(`${allRoutes.constructionSite}/[id]`);
+  revalidatePath(`${allRoutes.constructionSite}/[id]`, "page");
+}
+
+async function uploadCollectionFile(collectionId: string, file: File) {
+  const supabase = await createSupabaseServerClient();
+  const filePath = `attachments/${collectionId}/${Date.now()}_${file.name}`;
+  const { error: uploadError } = await supabase.storage
+    .from("collection-uploaded-documents")
+    .upload(filePath, file);
+  if (uploadError) throw uploadError;
+
+  const { error: attachmentError } = await supabase
+    .from("collection_uploaded_documents")
+    .insert({
+      file_name: file.name,
+      file_path: filePath,
+      file_size: file.size,
+      file_type: file.type || "application/octet-stream",
+      document_collection_id: collectionId,
+    });
+  if (attachmentError) throw attachmentError;
 }

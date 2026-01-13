@@ -101,8 +101,21 @@ Deno.serve(async (req) => {
       throw workerDocsError;
     }
 
+    const { data: uploadedDocuments, error: uploadedDocsError } = await supabase
+      .from("collection_uploaded_documents")
+      .select<
+        string,
+        { id: string; file_name: string; file_path: string }
+      >("id, file_name, file_path")
+      .eq("document_collection_id", collection.id);
+
+    if (uploadedDocsError) {
+      throw uploadedDocsError;
+    }
+
     const companyDocs = companyDocuments ?? [];
     const workerDocs = workerDocuments ?? [];
+    const uploadedDocs = uploadedDocuments ?? [];
 
     /* -----------------------------
      * Preview mode (share page)
@@ -110,18 +123,13 @@ Deno.serve(async (req) => {
     if (mode === "preview") {
       const companyGrouped = Object.values(
         companyDocs.reduce<
-          Record<
-            string,
-            { documentType: string; documents: { fileName: string }[] }
-          >
+          Record<string, { id: string; documentType: string; fileName: string }>
         >((acc, doc) => {
           acc[doc.document_type_name] ??= {
+            id: doc.id,
             documentType: doc.document_type_name,
-            documents: [],
-          };
-          acc[doc.document_type_name].documents.push({
             fileName: doc.file_name,
-          });
+          };
           return acc;
         }, {}),
       );
@@ -134,7 +142,7 @@ Deno.serve(async (req) => {
               workerName: string;
               documents: Record<
                 string,
-                { documentType: string; files: { fileName: string }[] }
+                { id: string; documentType: string; fileName: string }
               >;
             }
           >
@@ -145,13 +153,10 @@ Deno.serve(async (req) => {
           };
 
           acc[doc.worker_name].documents[doc.document_type_name] ??= {
+            id: doc.id,
             documentType: doc.document_type_name,
-            files: [],
-          };
-
-          acc[doc.worker_name].documents[doc.document_type_name].files.push({
             fileName: doc.file_name,
-          });
+          };
 
           return acc;
         }, {}),
@@ -160,16 +165,23 @@ Deno.serve(async (req) => {
         documents: Object.values(w.documents),
       }));
 
+      const uploadedGrouped = uploadedDocs;
+
       return Response.json({
         companyDocuments: companyGrouped,
         workerDocuments: workerGrouped,
+        uploadedDocuments: uploadedGrouped,
       });
     }
 
     /* -----------------------------
      * ZIP generation
      * ----------------------------- */
-    if (companyDocs.length === 0 && workerDocs.length === 0) {
+    if (
+      companyDocs.length === 0 &&
+      workerDocs.length === 0 &&
+      uploadedDocs.length === 0
+    ) {
       return new Response("No valid documents to generate ZIP", {
         status: 400,
       });
@@ -177,6 +189,7 @@ Deno.serve(async (req) => {
 
     const zip = new JSZip();
     const bucket = supabase.storage.from("documents");
+    const upBucket = supabase.storage.from("collection-uploaded-documents");
 
     for (const doc of companyDocs) {
       const { data } = await bucket.download(doc.file_path);
@@ -194,6 +207,16 @@ Deno.serve(async (req) => {
 
       const buffer = new Uint8Array(await data.arrayBuffer());
       const path = `workers/${sanitize(doc.worker_name)}/${sanitize(doc.document_type_name)}/${doc.file_name}`;
+
+      zip.file(path, buffer);
+    }
+
+    for (const doc of uploadedDocs) {
+      const { data } = await upBucket.download(doc.file_path);
+      if (!data) continue;
+
+      const buffer = new Uint8Array(await data.arrayBuffer());
+      const path = `uploaded-documents/${doc.file_name}`;
 
       zip.file(path, buffer);
     }
@@ -228,17 +251,6 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ status: "ready" }), {
       headers: { "Content-Type": "application/json" },
     });
-
-    // const { data: signedUrlData } = await bucket.createSignedUrl(
-    //   zipPath,
-    //   60 * 60,
-    // );
-
-    // return Response.json({
-    //   success: true,
-    //   path: zipPath,
-    //   signedUrl: signedUrlData?.signedUrl ?? null,
-    // });
   } catch (error) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });

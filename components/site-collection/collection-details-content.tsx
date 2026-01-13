@@ -32,6 +32,11 @@ export default async function CollectionDetailsContent({
 
       collection_workers (
         workers ( full_name )
+      ),
+
+      collection_uploaded_documents (
+        id,
+        file_name
       )
     `,
     )
@@ -54,13 +59,10 @@ export default async function CollectionDetailsContent({
         {collection.collection_company_documents.length === 0 ? (
           <p className="text-sm text-muted-foreground">None</p>
         ) : (
-          <ul className="space-y-1">
+          <ul className="list-disc pl-4 text-sm">
             {collection.collection_company_documents.map((cd, i) => (
-              <li key={i} className="text-sm">
-                <span className="font-medium">
-                  {cd.company_documents.company_document_types.name}
-                </span>{" "}
-                — {cd.company_documents.file_name}
+              <li key={i}>
+                {cd.company_documents.company_document_types.name}
               </li>
             ))}
           </ul>
@@ -90,6 +92,20 @@ export default async function CollectionDetailsContent({
           <ul className="list-disc pl-4 text-sm">
             {collection.collection_workers.map((w, i) => (
               <li key={i}>{w.workers.full_name}</li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* Uploaded */}
+      <section>
+        <h3 className="font-medium mb-2">Uploaded Documents</h3>
+        {collection.collection_uploaded_documents.length === 0 ? (
+          <p className="text-sm text-muted-foreground">None</p>
+        ) : (
+          <ul className="list-disc pl-4 text-sm">
+            {collection.collection_uploaded_documents.map((t, i) => (
+              <li key={t.id}>{t.file_name}</li>
             ))}
           </ul>
         )}
