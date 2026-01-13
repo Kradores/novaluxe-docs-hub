@@ -13,7 +13,7 @@ export default async function CreateCollectionData({
 }) {
   const supabase = await createSupabaseServerClient();
 
-  const [companyDocsRes, workerDocTypesRes, workersRes] = await Promise.all([
+  const [companyDocsRes, workerDocTypesRes] = await Promise.all([
     supabase
       .from("company_documents")
       .select<

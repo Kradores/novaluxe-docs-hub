@@ -2,6 +2,7 @@
 
 import { ReactNode, useState } from "react";
 import { Eye } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Dialog,
@@ -21,13 +22,14 @@ export default function CollectionDetailsDialog({
   collectionName,
   children,
 }: Props) {
+  const t = useTranslations("constructionSiteDetail.view");
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <Button
         className="gap-1 size-9"
-        title="View documents"
+        title={t("buttonTitle")}
         variant="outline"
         onClick={() => setOpen(true)}
       >

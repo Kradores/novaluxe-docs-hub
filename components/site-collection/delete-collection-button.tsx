@@ -1,6 +1,7 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { deleteCollection } from "@/app/[locale]/construction-site/[id]/actions";
 import { Button } from "@/components/ui/button";
@@ -10,10 +11,11 @@ export default function DeleteCollectionButton({
 }: {
   collectionId: string;
 }) {
+  const t = useTranslations("constructionSiteDetail");
   return (
     <Button
       className="size-9"
-      title="Delete documents collection"
+      title={t("delete")}
       variant="destructive"
       onClick={() => deleteCollection(collectionId)}
     >

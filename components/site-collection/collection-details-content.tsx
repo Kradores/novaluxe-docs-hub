@@ -1,6 +1,7 @@
-// app/construction-site/[id]/components/collection-details-content.tsx
+import { getTranslations } from "next-intl/server";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { CollectionDetails } from "@/types/site-collection";
 
 type Props = {
   collectionId: string;
@@ -9,11 +10,12 @@ type Props = {
 export default async function CollectionDetailsContent({
   collectionId,
 }: Props) {
+  const t = await getTranslations("constructionSiteDetail.view");
   const supabase = await createSupabaseServerClient();
 
   const { data: collection, error } = await supabase
     .from("document_collections")
-    .select(
+    .select<string, CollectionDetails>(
       `
       name,
       expires_at,
@@ -45,19 +47,16 @@ export default async function CollectionDetailsContent({
 
   if (error || !collection) {
     return (
-      <div className="text-sm text-muted-foreground">
-        Failed to load collection details
-      </div>
+      <div className="text-sm text-muted-foreground">{t("noCollection")}</div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Company documents */}
       <section>
-        <h3 className="font-medium mb-2">Company documents</h3>
+        <h3 className="font-medium mb-2">{t("companyDocuments")}</h3>
         {collection.collection_company_documents.length === 0 ? (
-          <p className="text-sm text-muted-foreground">None</p>
+          <p className="text-sm text-muted-foreground">{t("none")}</p>
         ) : (
           <ul className="list-disc pl-4 text-sm">
             {collection.collection_company_documents.map((cd, i) => (
@@ -69,11 +68,10 @@ export default async function CollectionDetailsContent({
         )}
       </section>
 
-      {/* Worker document types */}
       <section>
-        <h3 className="font-medium mb-2">Worker document types</h3>
+        <h3 className="font-medium mb-2">{t("workerDocumentTypes")}</h3>
         {collection.collection_worker_document_types.length === 0 ? (
-          <p className="text-sm text-muted-foreground">None</p>
+          <p className="text-sm text-muted-foreground">{t("none")}</p>
         ) : (
           <ul className="list-disc pl-4 text-sm">
             {collection.collection_worker_document_types.map((t, i) => (
@@ -83,11 +81,10 @@ export default async function CollectionDetailsContent({
         )}
       </section>
 
-      {/* Workers */}
       <section>
-        <h3 className="font-medium mb-2">Workers</h3>
+        <h3 className="font-medium mb-2">{t("workers")}</h3>
         {collection.collection_workers.length === 0 ? (
-          <p className="text-sm text-muted-foreground">None</p>
+          <p className="text-sm text-muted-foreground">{t("none")}</p>
         ) : (
           <ul className="list-disc pl-4 text-sm">
             {collection.collection_workers.map((w, i) => (
@@ -97,14 +94,13 @@ export default async function CollectionDetailsContent({
         )}
       </section>
 
-      {/* Uploaded */}
       <section>
-        <h3 className="font-medium mb-2">Uploaded Documents</h3>
+        <h3 className="font-medium mb-2">{t("attachments")}</h3>
         {collection.collection_uploaded_documents.length === 0 ? (
-          <p className="text-sm text-muted-foreground">None</p>
+          <p className="text-sm text-muted-foreground">{t("none")}</p>
         ) : (
           <ul className="list-disc pl-4 text-sm">
-            {collection.collection_uploaded_documents.map((t, i) => (
+            {collection.collection_uploaded_documents.map((t) => (
               <li key={t.id}>{t.file_name}</li>
             ))}
           </ul>

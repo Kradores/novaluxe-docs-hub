@@ -1,15 +1,16 @@
 "use client";
 
 import { useTransition, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { CollectionZipStatus } from "@/types/site-collection";
 import { getZipStatus } from "@/app/[locale]/share/[token]/actions";
-
-import { Badge } from "../ui/badge";
-import { Spinner } from "../ui/spinner";
+import { Badge } from "@/components/ui/badge";
+import { Spinner } from "@/components/ui/spinner";
 
 export function CheckAndDownloadButton({ token }: { token: string }) {
+  const t = useTranslations("constructionSiteDetail");
   const [status, setStatus] = useState<CollectionZipStatus>("idle");
   const [isPending, startTransition] = useTransition();
 
@@ -32,7 +33,7 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
                 : "secondary"
           }
         >
-          Status: {status}
+          {t("status", { status })}
         </Badge>
         <Button
           className="w-37"
@@ -40,7 +41,7 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
           variant="secondary"
           onClick={handleCheck}
         >
-          {isPending ? <Spinner className="w-4 h-4" /> : "Check ZIP status"}
+          {isPending ? <Spinner className="w-4 h-4" /> : t("checkZip")}
         </Button>
       </div>
       {status === "ready" && (
@@ -49,7 +50,7 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
             (window.location.href = `/share/${token}/download-all`)
           }
         >
-          Download ZIP
+          {t("downloadZip")}
         </Button>
       )}
     </div>

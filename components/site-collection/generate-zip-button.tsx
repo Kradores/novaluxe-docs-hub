@@ -3,11 +3,11 @@
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Archive } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { triggerGenerateCollectionZip } from "@/app/[locale]/construction-site/[id]/actions";
-
-import { Spinner } from "../ui/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 type Props = {
   collectionId: string;
@@ -15,6 +15,7 @@ type Props = {
 };
 
 export function GenerateZipButton({ collectionId, zipStatus }: Props) {
+  const t = useTranslations("constructionSiteDetail.generate");
   const [isPending, startTransition] = useTransition();
 
   const disabled = zipStatus === "processing" || isPending;
@@ -23,9 +24,9 @@ export function GenerateZipButton({ collectionId, zipStatus }: Props) {
     startTransition(async () => {
       try {
         await triggerGenerateCollectionZip(collectionId);
-        toast.success("ZIP generation started");
+        toast.success(t("success"));
       } catch {
-        toast.error("Failed to start ZIP generation");
+        toast.error(t("error"));
       }
     });
   };
@@ -36,10 +37,10 @@ export function GenerateZipButton({ collectionId, zipStatus }: Props) {
 
   return (
     <Button
-      disabled={disabled}
-      title={disabled ? "Generating..." : "Generate ZIP"}
-      onClick={handleGenerate}
       className="size-9"
+      disabled={disabled}
+      title={disabled ? t("buttonTitleInProgress") : t("buttonTitle")}
+      onClick={handleGenerate}
     >
       {disabled ? (
         <Spinner className="w-4 h-4" />

@@ -1,19 +1,17 @@
 import { FileText } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { CheckAndDownloadButton } from "@/components/site-collection/check-collection-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { getCollectionPreview } from "./actions";
 
-const maxSeconds = Number.parseInt(
-  process.env.MAX_SECONDS_FILE_DOWNLOAD ?? "60",
-);
-
 type Props = {
   params: { token: string };
 };
 
 export default async function ShareCollectionPage({ params }: Props) {
+  const t = await getTranslations("share");
   const { token } = await params;
   const collection = await getCollectionPreview(token);
 
@@ -27,7 +25,7 @@ export default async function ShareCollectionPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary" />
-                {"Company Documents"}
+                {t("company.title")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -57,7 +55,7 @@ export default async function ShareCollectionPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary" />
-                {"Workers Documents"}
+                {t("workers.title")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-10">
@@ -97,7 +95,7 @@ export default async function ShareCollectionPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary" />
-                {"Uploaded Documents"}
+                {t("attachments.title")}
               </CardTitle>
             </CardHeader>
             <CardContent>

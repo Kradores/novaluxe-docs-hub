@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
 
 import CopyLinkButton from "./copy-link-button";
@@ -11,6 +13,7 @@ type Props = {
 };
 
 export default async function CollectionsTable({ siteId }: Props) {
+  const t = await getTranslations("constructionSiteDetail.table");
   const supabase = await createSupabaseServerClient();
 
   const { data: collections } = await supabase
@@ -30,7 +33,7 @@ export default async function CollectionsTable({ siteId }: Props) {
 
   if (!collections?.length) {
     return (
-      <div className="text-sm text-muted-foreground">No collections yet</div>
+      <div className="text-sm text-muted-foreground">{t("noCollections")}</div>
     );
   }
 
@@ -39,10 +42,10 @@ export default async function CollectionsTable({ siteId }: Props) {
       <table className="w-full text-sm">
         <thead className="bg-muted">
           <tr>
-            <th className="p-3 text-left">Name</th>
-            <th className="p-3">Documents</th>
-            <th className="p-3">Expires</th>
-            <th className="p-3">Actions</th>
+            <th className="p-3 text-left">{t("headers.0")}</th>
+            <th className="p-3">{t("headers.1")}</th>
+            <th className="p-3">{t("headers.2")}</th>
+            <th className="p-3">{t("headers.3")}</th>
           </tr>
         </thead>
         <tbody>

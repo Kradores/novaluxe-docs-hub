@@ -320,37 +320,62 @@
       ]
     }
   },
-  "siteDetail": {
-    "collections": "Colecciones de documentos",
-    "addCollection": "Nueva colección",
-    "collectionName": "Nombre de la colección",
-    "selectDocuments": "Seleccionar documentos de empresa",
-    "selectWorkerDocTypes": "Seleccionar tipos de documentos de trabajador",
-    "selectWorkers": "Seleccionar trabajadores",
-    "documentsCount": "documentos",
-    "workerDocTypesCount": "tipos de doc. trabajador",
-    "workersCount": "trabajadores",
-    "attachmentsCount": "adjuntos",
-    "shareLink": "Enlace compartido",
-    "deleteConfirmTitle": "Eliminar colección",
-    "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar esta colección? El enlace compartido dejará de funcionar.",
-    "createSuccess": "Colección creada correctamente",
-    "deleteSuccess": "Colección eliminada correctamente",
-    "noCollections": "No hay colecciones creadas",
-    "noDocumentsSelected": "Selecciona al menos un documento",
-    "noDocumentsAvailable": "No hay documentos de empresa disponibles",
-    "onlyActiveWorkers": "Solo se pueden seleccionar trabajadores activos",
-    "workerMissingDocs": "Faltan algunos documentos",
-    "stepCompanyDocs": "Docs Empresa",
-    "stepWorkerDocTypes": "Tipos Trabaj.",
-    "stepWorkers": "Trabajadores",
-    "stepAttachments": "Adicionales",
-    "addAttachments": "Agregar documentos",
-    "noAttachments": "Sin documentos adicionales",
-    "expirationDate": "Fecha de Expiración",
-    "selectExpirationDate": "Seleccionar fecha",
-    "expiresOn": "Expira",
-    "expiringSoon": "Por expirar"
+  "constructionSiteDetail": {
+    "create": {
+      "openDialogLabel": "Nueva colección",
+      "title": "Nueva colección",
+      "description": "Reúne todos los documentos para los cuales deseas crear un enlace",
+      "placeholder": "Nombre de la colección",
+      "submit": "Crear",
+      "success": "Nueva obra creada correctamente",
+      "error": "No se pudo crear una nueva colección",
+      "tabs": {
+        "company": {
+          "trigger": "Docs Empresa"
+        },
+        "types": {
+          "trigger":"Tipos Trabaj."
+        },
+        "workers": {
+          "trigger": "Trabajadores",
+          "missing": "{count} Faltan algunos documentos"
+        },
+        "attachments": {
+          "trigger": "Adicionales",
+          "addAttachments": "Agregar documentos",
+          "noAttachments": "Sin documentos adicionales"
+        }
+      }
+    },
+    "view": {
+      "buttonTitle": "Ver documentos",
+      "noCollection": "No se pudieron cargar los detalles de la colección",
+      "companyDocuments":"Documentos de Empresa",
+      "none": "Ninguno",
+      "workerDocumentTypes":"Tipos Doc. Trabajador",
+      "workers": "Trabajadores",
+      "attachments": "Documentos adicionales"
+    },
+    "delete": "Eliminar colección",
+    "table": {
+      "noCollections": "No hay colecciones creadas",
+      "headers":[
+        "Nombre",
+        "Documentos",
+        "Expira",
+        "Acciones"
+      ]
+    },
+    "generate": {
+      "buttonTitle": "Generar archivo",
+      "buttonTitleInProgress": "Generando...",
+      "success": "Se inició la generación del archivo",
+      "error": "No se pudo iniciar la generación del archivo"
+    },
+    "copyLink": "Copiar enlace",
+    "status": "Estado {status}",
+    "checkZip": "Comprobar el estado del archivo",
+    "downloadZip": "Descargar archivo"
   },
   "share": {
     "title": "Documentos Compartidos",
@@ -359,6 +384,15 @@
     "collectionExpiredDescription": "El enlace compartido ya no es válido. Por favor contacte al remitente para un nuevo enlace.",
     "downloading": "Preparando archivo...",
     "downloadAll": "Descargar como ZIP",
-    "downloadError": "Error al descargar los documentos"
+    "downloadError": "Error al descargar los documentos",
+    "company": {
+      "title": "Documentos de Empresa"
+    },
+    "workers": {
+      "title": "Documentos de Trabajadores"
+    },
+    "attachments": {
+      "title": "Documentos Adicionales"
+    }
   }
 }
