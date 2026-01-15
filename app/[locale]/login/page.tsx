@@ -19,8 +19,11 @@ import { useToggleState } from "@/hooks/use-toggle-state";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import GoogleOneTap from "@/components/google-one-tap";
 
 import logo from "../../favicon.png";
+
+import { signInWithEmail } from "./actions";
 
 export default function Page() {
   const t = useTranslations("auth");
@@ -37,6 +40,10 @@ export default function Page() {
     }
   };
 
+  const handleMagicLogin = async () => {
+    await signInWithEmail();
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <Card className="w-md max-w-full">
@@ -47,7 +54,7 @@ export default function Page() {
           <CardTitle className="text-2xl">{t("login")}</CardTitle>
           <CardDescription>{t("loginDescription")}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
           <form action={handleSubmit} className="space-y-4">
             {error && (
               <Alert variant="destructive">
@@ -89,6 +96,8 @@ export default function Page() {
               {t("loginButton")}
             </Button>
           </form>
+          {/* <GoogleOneTap />
+          <Button className="w-full" onClick={handleMagicLogin}>Magic Link Login</Button> */}
         </CardContent>
       </Card>
     </div>

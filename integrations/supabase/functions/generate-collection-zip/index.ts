@@ -251,6 +251,17 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ status: "ready" }), {
       headers: { "Content-Type": "application/json" },
     });
+
+    // const { data: signedUrlData } = await bucket.createSignedUrl(
+    //   zipPath,
+    //   60 * 60,
+    // );
+
+    // return Response.json({
+    //   success: true,
+    //   path: zipPath,
+    //   signedUrl: signedUrlData?.signedUrl ?? null,
+    // });
   } catch (error) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });

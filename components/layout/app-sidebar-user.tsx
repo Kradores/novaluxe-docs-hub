@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronsUpDown, LogOut } from "lucide-react";
+import { useLocale } from "next-intl";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -17,6 +18,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
+import { redirect } from "@/config/i18n/navigation";
+import { allRoutes } from "@/config/site";
 
 export default function AppSidebarUser({
   user,
@@ -27,7 +31,14 @@ export default function AppSidebarUser({
     avatar: string;
   };
 }) {
+  const locale = useLocale();
   const { isMobile } = useSidebar();
+  const supabase = createSupabaseBrowserClient();
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    redirect({ href: allRoutes.login, locale });
+  };
 
   return (
     <SidebarMenu>
@@ -68,7 +79,7 @@ export default function AppSidebarUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

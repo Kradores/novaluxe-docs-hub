@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SECRET_KEY!;
+const supabaseKey = process.env.SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function setVaultSecret(name: string, value: string) {
@@ -15,7 +15,7 @@ async function setVaultSecret(name: string, value: string) {
   return `Secret ${name}: ${data}`;
 }
 
-setVaultSecret("kong_url", process.env.NEXT_PUBLIC_KONG_URL!)
+setVaultSecret("kong_url", process.env.NEXT_PUBLIC_SUPABASE_URL!)
   .then((response) => console.log(response))
   .catch((err) => console.error("❌ Error updating Vault:", err));
 

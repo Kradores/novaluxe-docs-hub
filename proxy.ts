@@ -14,10 +14,6 @@ export default async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const role = user?.app_metadata?.role;
-
-  console.log(role);
-
   const guardResponse = authGuard({ request, user });
   if (guardResponse) return guardResponse;
 

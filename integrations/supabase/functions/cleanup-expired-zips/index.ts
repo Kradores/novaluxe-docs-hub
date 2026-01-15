@@ -16,6 +16,7 @@ Deno.serve(async () => {
     .lt("expires_at", new Date().toISOString());
 
   if (error) {
+    console.error("Failed to fetch expired ZIPs", error);
     return new Response("DB error", { status: 500 });
   }
 
@@ -34,6 +35,7 @@ Deno.serve(async () => {
       .remove([row.zip_path]);
 
     if (storageError) {
+      console.error("Failed to delete ZIP", row.zip_path, storageError);
       continue; // best-effort cleanup
     }
 

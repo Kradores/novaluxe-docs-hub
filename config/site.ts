@@ -10,4 +10,6 @@ export const allRoutes = {
   worker: "/worker",
   constructionSite: "/construction-site",
   users: "/users",
+  invite: "/invite",
+  inviteInvalid: "/invite-invalid",
 };
