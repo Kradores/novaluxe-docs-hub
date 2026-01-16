@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import GoogleOneTap from "@/components/google-one-tap";
 
-import logo from "../../favicon.png";
+import logo from "../../../favicon.png";
 
 import { signInWithEmail } from "./actions";
 

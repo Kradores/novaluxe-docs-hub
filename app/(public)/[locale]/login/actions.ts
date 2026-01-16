@@ -13,8 +13,6 @@ export async function signInWithEmail() {
     },
   });
 
-  console.log(error)
-
   if (error) throw error.message;
 
   return data;

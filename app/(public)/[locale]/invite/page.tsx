@@ -9,7 +9,7 @@ type Props = {
 
 export default async function InvitePage({ searchParams, params }: Props) {
   const { locale } = await params;
-  const token = searchParams.token;
+  const { token } = await searchParams;
   if (!token) redirect({ href: allRoutes.home, locale });
 
   const supabase = await createSupabaseServerClient();
@@ -29,7 +29,7 @@ export default async function InvitePage({ searchParams, params }: Props) {
   await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?token=${token}`,
+      redirectTo: `${process.env.NEXT_PUBLIC_URL}/${locale}/auth/callback?token=${token}`,
     },
   });
 

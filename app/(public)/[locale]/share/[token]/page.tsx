@@ -16,7 +16,7 @@ export default async function ShareCollectionPage({ params }: Props) {
   const collection = await getCollectionPreview(token);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background min-w-[50%]">
       <div className="max-w-4xl mx-auto p-10 space-y-10">
         {/* Documents List */}
         <CheckAndDownloadButton token={token} />

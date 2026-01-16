@@ -34,7 +34,7 @@ export default function RootLayout({ children, params }: LayoutProps) {
         className={`${playfairDisplay.variable} ${inter.variable} antialiased`}
       >
         <NextIntlClientProvider>
-          <main>{children}</main>
+          <main className="flex justify-center">{children}</main>
           <Toaster richColors />
         </NextIntlClientProvider>
       </body>
