@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SERVICE_ROLE_KEY!;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const { data, error: roleError } = await supabase
@@ -20,10 +20,14 @@ const {
   email: process.env.AUTH_LOGIN!,
   password: process.env.AUTH_PASSWORD!,
   email_confirm: true,
-  user_metadata: { name: "Nicolae" },
+  user_metadata: { name: "Nicolai" },
   app_metadata: { role: "super_admin" },
   role: "authenticated",
 });
+
+if (error) {
+  console.error(error);
+}
 
 if (!user) {
   throw new Error("couldn't fetch user");

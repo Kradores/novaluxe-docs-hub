@@ -1,14 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SERVICE_ROLE_KEY!;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function setVaultSecret(name: string, value: string) {
   const { data, error } = await supabase.rpc("manage_vault_secret", {
     secret_name: name,
     secret_value: value,
-    secret_description: "Automated via deploy script",
+    secret_description: `Key ${name} added via deploy script`,
   });
 
   if (error) throw error;
