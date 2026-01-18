@@ -1,6 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { cache } from "react";
 
 import { allRoutes } from "@/config/site";
 
@@ -41,12 +39,3 @@ export const isBootstrapSuperAdmin = (email?: string | null) => {
   const list = process.env.SUPER_ADMIN_EMAILS?.split(",") ?? [];
   return list.includes(email);
 };
-
-export const getUserRoleNames = cache(
-  async (supabase: SupabaseClient): Promise<string[]> => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    return user?.app_metadata?.role;
-  },
-);

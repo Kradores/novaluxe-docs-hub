@@ -25,11 +25,11 @@ export function authGuard({ request, user }: GuardParams) {
   }
 
   // Authenticated redirect to app
-  if (user && isAuthRoute) {
-    const appUrl = request.nextUrl.clone();
-    appUrl.pathname = allRoutes.home;
-    return NextResponse.redirect(appUrl);
-  }
+  // if (user && isAuthRoute) {
+  //   const appUrl = request.nextUrl.clone();
+  //   appUrl.pathname = allRoutes.home;
+  //   return NextResponse.redirect(appUrl);
+  // }
 
   return null;
 }

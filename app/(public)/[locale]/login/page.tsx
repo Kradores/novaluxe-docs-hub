@@ -23,8 +23,6 @@ import GoogleOneTap from "@/components/google-one-tap";
 
 import logo from "../../../favicon.png";
 
-import { signInWithEmail } from "./actions";
-
 export default function Page() {
   const t = useTranslations("auth");
   const [error, setError] = useState<string | undefined>(undefined);
@@ -38,10 +36,6 @@ export default function Page() {
       toast.error(res.error, { position: "top-right" });
       setError(res.error);
     }
-  };
-
-  const handleMagicLogin = async () => {
-    await signInWithEmail();
   };
 
   return (
@@ -96,8 +90,7 @@ export default function Page() {
               {t("loginButton")}
             </Button>
           </form>
-          {/* <GoogleOneTap />
-          <Button className="w-full" onClick={handleMagicLogin}>Magic Link Login</Button> */}
+          <GoogleOneTap />
         </CardContent>
       </Card>
     </div>

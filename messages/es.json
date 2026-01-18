@@ -374,7 +374,7 @@
     },
     "copyLink": "Copiar enlace",
     "status": "Estado {status}",
-    "checkZip": "Comprobar el estado del archivo",
+    "checkZip": "¿Esta listo?",
     "downloadZip": "Descargar archivo"
   },
   "share": {

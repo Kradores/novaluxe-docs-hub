@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,12 +32,13 @@ import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import {
   ActiveUser,
   Invitation,
+  RoleModel,
   RoleName,
   UserInvitationData,
 } from "@/types/user";
-import { getSessionToken, getUserRoleName } from "@/lib/server/user";
+import { getUserRoleName } from "@/lib/server/user";
 
-import { getActiveUsers } from "./actions";
+import { createUserInvitation, getActiveUsers, getRoles } from "./actions";
 
 const ROLE_ORDER: Record<RoleName, number> = {
   super_admin: 3,
@@ -54,41 +56,40 @@ const canRemoveRole = (actor: RoleName, target: RoleName) => {
   return ROLE_ORDER[actor] > ROLE_ORDER[target];
 };
 
-// --------------------
-// Page
-// --------------------
-
 export default function UsersPage() {
   const supabase = createSupabaseBrowserClient();
 
+  const [roles, setRoles] = useState<RoleModel[]>([]);
   const [currentRole, setCurrentRole] = useState<RoleName | null>(null);
   const [users, setUsers] = useState<ActiveUser[]>([]);
   const [invites, setInvites] = useState<Invitation[]>([]);
 
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState<RoleName>("user");
+  const [inviteRoleId, setInviteRoleId] = useState<string>();
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState<string>("");
 
   useEffect(() => {
     const load = async () => {
-      const role = await getUserRoleName();
+      const [role, usersData, { data: invitesData }, roles] = await Promise.all(
+        [
+          getUserRoleName(),
+          getActiveUsers(),
+          supabase
+            .from("user_invitations")
+            .select<
+              string,
+              UserInvitationData
+            >("id, email, expires_at, roles(name)")
+            .is("accepted_at", null)
+            .gt("expires_at", new Date().toISOString()),
+          getRoles(),
+        ],
+      );
+
       if (!role || role === "user") return;
 
       setCurrentRole(role);
-
-      // load active users
-      const usersData = await getActiveUsers();
       setUsers(usersData ?? []);
-
-      const { data: invitesData } = await supabase
-        .from("user_invitations")
-        .select<
-          string,
-          UserInvitationData
-        >("id, email, expires_at, roles(name)")
-        .is("accepted_at", null)
-        .gt("expires_at", new Date().toISOString());
-
       setInvites(
         (invitesData ?? []).map((i) => ({
           id: i.id,
@@ -97,32 +98,30 @@ export default function UsersPage() {
           expires_at: i.expires_at,
         })),
       );
+      setRoles(roles);
     };
 
     load();
   }, [supabase]);
 
   if (!currentRole) {
-    return null;
+    return <></>;
   }
 
   const handleInvite = async () => {
-    const sessionToken = await getSessionToken();
-    await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/invite-user`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: inviteEmail, role: inviteRole }),
-      },
-    );
-
-    setInviteEmail("");
-    setInviteRole("user");
-    setInviteOpen(false);
+    try {
+      await createUserInvitation(
+        inviteEmail,
+        roles.find((role) => role.id === inviteRoleId),
+      );
+      setInviteEmail("");
+      setInviteRoleId(roles.find((role) => role.name === "user")?.id);
+      setInviteOpen(false);
+    } catch (error) {
+      if (typeof error === "string") return toast.error(error);
+      if (error instanceof Error) return toast.error(error.message);
+      console.error(error);
+    }
   };
 
   const handleRoleChange = async (userId: string, role: RoleName) => {
@@ -173,19 +172,16 @@ export default function UsersPage() {
                   onChange={(e) => setInviteEmail(e.target.value)}
                 />
 
-                <Select
-                  value={inviteRole}
-                  onValueChange={(v) => setInviteRole(v as RoleName)}
-                >
+                <Select value={inviteRoleId} onValueChange={setInviteRoleId}>
                   <SelectTrigger>
                     <SelectValue placeholder="Role" />
                   </SelectTrigger>
                   <SelectContent>
-                    {(["super_admin", "admin", "user"] as RoleName[])
-                      .filter((r) => canAssignRole(currentRole, r))
+                    {roles
+                      .filter((r) => canAssignRole(currentRole, r.name))
                       .map((r) => (
-                        <SelectItem key={r} value={r}>
-                          {r}
+                        <SelectItem key={r.id} value={r.id}>
+                          {r.name}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -225,11 +221,11 @@ export default function UsersPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {(["super_admin", "admin", "user"] as RoleName[])
-                          .filter((r) => canAssignRole(currentRole, r))
+                        {roles
+                          .filter((r) => canAssignRole(currentRole, r.name))
                           .map((r) => (
-                            <SelectItem key={r} value={r}>
-                              {r}
+                            <SelectItem key={r.id} value={r.id}>
+                              {r.name}
                             </SelectItem>
                           ))}
                       </SelectContent>

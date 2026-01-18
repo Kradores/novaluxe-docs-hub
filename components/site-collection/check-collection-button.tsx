@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { CollectionZipStatus } from "@/types/site-collection";
-import { getZipStatus } from "@/app/[locale]/share/[token]/actions";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
+import { getZipStatus } from "@/app/(public)/[locale]/share/[token]/actions";
 
 export function CheckAndDownloadButton({ token }: { token: string }) {
   const t = useTranslations("constructionSiteDetail");
@@ -23,7 +23,7 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
 
   return (
     <div className="flex gap-4">
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between w-full gap-4">
         <Badge
           variant={
             status === "failed"
