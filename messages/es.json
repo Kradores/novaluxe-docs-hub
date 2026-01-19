@@ -91,7 +91,41 @@
     "cannotDeleteLastSuperAdmin": "No se puede eliminar al último Super Admin",
     "cannotManageHigherRole": "No puedes gestionar usuarios con rol igual o superior",
     "noUsers": "No se encontraron usuarios",
-    "you": "Tú"
+    "you": "Tú",
+    "table": {
+      "active": {
+        "title": "Usuarios activos",
+        "headers": [
+          "Correo electrónico",
+          "Rol",
+          "Acciones"
+        ]
+      },
+      "invitations": {
+        "title": "Invitaciones pendientes",
+        "headers": [
+          "Correo electrónico",
+          "Rol",
+          "Caduca"
+        ]
+      }
+    },
+    "delete": {
+      "success": "Usuario eliminado exitosamente",
+      "error": "Usario",
+      "description": "¿Estás seguro de que deseas eliminar al usuario {username}? Esta acción no se puede deshacer.",
+      "title": "Eliminar Usuario"
+    },
+    "invite": {
+      "warning": "Se requiere rol",
+      "success": "Invitación enviada",
+      "error": "No se pudo invitar",
+      "trigger": "Invitar usuario",
+      "title": "Invitar usuario",
+      "description": "Invitar a un nuevo usuario",
+      "submit": "Enviar invitación",
+      "placeholder": "Rol"
+    }
   },
   "accessDenied": {
     "title": "Acceso Denegado",
