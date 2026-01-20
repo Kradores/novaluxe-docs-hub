@@ -1,9 +1,11 @@
+import { allRoutes } from "../site";
+
 export const PUBLIC_ROUTES = [
-  "/login",
-  "/register", // if added later
-  "/reset-password",
+  allRoutes.login,
+  allRoutes.share,
+  allRoutes.assignRole,
 ];
 
-export const AUTH_ROUTES = ["/login"];
+export const AUTH_ROUTES = [allRoutes.login];
 
 export const PROTECTED_ROUTE_PREFIXES = [];

@@ -13,12 +13,9 @@ export function authGuard({ request, user }: GuardParams) {
   const pathname = stripLocale(request.nextUrl.pathname);
 
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
-  const isProtected = PROTECTED_ROUTE_PREFIXES.some((prefix) =>
-    pathname.startsWith(prefix),
-  );
 
   // Unauthenticated redirect to login
-  if (!user && isProtected) {
+  if (!user && !isAuthRoute) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = allRoutes.login;
     return NextResponse.redirect(loginUrl);

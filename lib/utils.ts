@@ -2,14 +2,27 @@ import { clsx, type ClassValue } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
+import { Locale, locales } from "@/config/locales";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function stripLocale(pathname: string) {
   const segments = pathname.split("/");
-  return segments.length > 2 ? `/${segments.slice(2).join("/")}` : "/";
+  if (segments.length > 1) {
+    return segments
+      .filter((segment) => !locales.includes(segment as Locale))
+      .join("/");
+  }
+
+  return "/";
 }
+
+// export function stripLocale(pathname: string) {
+//   const segments = pathname.split("/");
+//   return segments.length > 2 ? `/${segments.slice(2).join("/")}` : "/";
+// }
 
 export const getInitials = (fullName: string) => {
   // Remove common lower-case particles like "de", "del", "y"
@@ -42,7 +55,8 @@ export function assertDefined<T>(
 export function formatFileSize(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes < 1024 * 1024 * 1024)
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} GB`;
 }
 
@@ -64,4 +78,40 @@ export function handleErrorToast(error: unknown): void {
   toast.error(message);
 
   console.error("[Error Handler]:", error);
+}
+
+/**
+ * Replaces dynamic path segments (e.g., [token]) with values from an arguments object.
+ * Throws an error if any segments remain unreplaced.
+ */
+export function interpolateRoute(
+  route: string,
+  args?: Record<string, string>,
+): string {
+  let result = route;
+
+  if (args) {
+    Object.entries(args).forEach(([key, value]) => {
+      const placeholder = `[${key}]`;
+      result = result.split(placeholder).join(value);
+    });
+  }
+
+  if (/\[.*?\]/.test(result)) {
+    const missingKeys = result.match(/\[.*?\]/g);
+    throw new Error(
+      `Missing values for route segments: ${missingKeys?.join(", ")}`,
+    );
+  }
+
+  return result;
+}
+
+export function validateRote(route: string) {
+  if (/\[.*?\]/.test(route)) {
+    const missingKeys = route.match(/\[.*?\]/g);
+    throw new Error(
+      `Missing values for route segments: ${missingKeys?.join(", ")}`,
+    );
+  }
 }

@@ -4,14 +4,17 @@ import type { accounts, CredentialResponse } from "google-one-tap";
 
 import Script from "next/script";
 import { jwtDecode } from "jwt-decode";
-import { toast } from "sonner";
+import { useState } from "react";
 
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { useRouter } from "@/config/i18n/navigation";
 import { allRoutes } from "@/config/site";
-import { assignRole, isUserInvitedByEmail } from "@/app/(public)/[locale]/login/actions";
+import {
+  isUserInvitedByEmail,
+} from "@/app/(public)/[locale]/login/actions";
 
 import { Button } from "./ui/button";
+import { Spinner } from "./ui/spinner";
 
 declare const google: { accounts: accounts };
 
@@ -33,8 +36,10 @@ const generateNonce = async (): Promise<string[]> => {
 export default function GoogleOneTap() {
   const router = useRouter();
   const supabase = createSupabaseBrowserClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const initializeGoogleOneTap = async () => {
+    setIsLoading(true);
     const [nonce, hashedNonce] = await generateNonce();
 
     const { data, error } = await supabase.auth.getSession();
@@ -57,7 +62,7 @@ export default function GoogleOneTap() {
             return;
           }
 
-          const { data, error } = await supabase.auth.signInWithIdToken({
+          const { error } = await supabase.auth.signInWithIdToken({
             provider: "google",
             token: response.credential,
             nonce,
@@ -65,25 +70,28 @@ export default function GoogleOneTap() {
 
           if (error) throw error;
 
-          await assignRole(data.user);
-
-          router.push(allRoutes.home);
+          router.push(allRoutes.assignRole);
         } catch (error) {
           console.error("Error logging in with Google One Tap", error);
+        } finally {
+          setIsLoading(false);
         }
       },
       nonce: hashedNonce,
       // with chrome's removal of third-party cookies, we need to use FedCM instead (https://developers.google.com/identity/gsi/web/guides/fedcm-migration)
       use_fedcm_for_prompt: false,
-      log_level: "debug",
     });
     google.accounts.id.prompt(); // Display the One Tap UI
   };
 
   return (
     <>
-      <Button className="w-full" onClick={initializeGoogleOneTap}>
-        Login with Google
+      <Button
+        className="w-full"
+        disabled={isLoading}
+        onClick={initializeGoogleOneTap}
+      >
+        {isLoading ? <Spinner /> : "Login with Google"}
       </Button>
       <Script async src="https://accounts.google.com/gsi/client" />
     </>

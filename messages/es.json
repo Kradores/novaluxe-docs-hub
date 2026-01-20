@@ -30,7 +30,9 @@
     "expired": "Vencido",
     "active": "Activo",
     "noExpiration": "Sin vencimiento",
-    "laidOff": "Despedido"
+    "laidOff": "Despedido",
+    "assignRole": "Por favor espere mientras asignamos su rol . . .",
+    "roleAssignError": "Error de asignación de roles. Contacte con la administración."
   },
   "nav": {
     "login": "Iniciar Sesión",

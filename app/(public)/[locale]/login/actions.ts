@@ -18,11 +18,14 @@ export async function assignRole(user?: User | null) {
     .select("*, roles(name)")
     .eq("email", user.email)
     .is("accepted_at", null)
-    .single();
+    .maybeSingle();
 
   if (inviteError) throw inviteError;
 
-  const { error: userRolesError } = await supabase.from("user_roles").insert({
+  // user already accepted and role assigned
+  if (!invite) return;
+
+  const { error: userRolesError } = await supabase.from("user_roles").upsert({
     user_id: user.id,
     role_id: invite.role_id,
   });

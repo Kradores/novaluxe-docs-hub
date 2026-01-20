@@ -8,6 +8,9 @@ import { CollectionZipStatus } from "@/types/site-collection";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { getZipStatus } from "@/app/(public)/[locale]/share/[token]/actions";
+import { allRoutes } from "@/config/site";
+import Link from "@/components/link";
+import { interpolateRoute } from "@/lib/utils";
 
 export function CheckAndDownloadButton({ token }: { token: string }) {
   const t = useTranslations("constructionSiteDetail");
@@ -45,12 +48,10 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
         </Button>
       </div>
       {status === "ready" && (
-        <Button
-          onClick={() =>
-            (window.location.href = `/share/${token}/download-all`)
-          }
-        >
-          {t("downloadZip")}
+        <Button asChild>
+          <Link href={interpolateRoute(allRoutes.downloadAll, { token })}>
+            {t("downloadZip")}
+          </Link>
         </Button>
       )}
     </div>
