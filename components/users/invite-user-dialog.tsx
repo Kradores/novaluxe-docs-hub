@@ -35,6 +35,7 @@ export default function InviteUserDialog({ currentRole, roles }: Props) {
   const [email, setEmail] = useState("");
   const [roleId, setRoleId] = useState<string>("");
   const t = useTranslations("users.invite");
+  const rolesT = useTranslations("users.roles");
 
   const handleInvite = async () => {
     const role = roles.find((r) => r.id === roleId);
@@ -84,7 +85,7 @@ export default function InviteUserDialog({ currentRole, roles }: Props) {
                 .filter((r) => canAssignRole(currentRole, r.name))
                 .map((r) => (
                   <SelectItem key={r.id} value={r.id}>
-                    {r.name}
+                    {rolesT(r.name)}
                   </SelectItem>
                 ))}
             </SelectContent>

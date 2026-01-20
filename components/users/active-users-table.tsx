@@ -20,6 +20,7 @@ type Props = {
 
 export default async function ActiveUsersTable({ currentRole, users }: Props) {
   const t = await getTranslations("users.table.active");
+  const rolesT = await getTranslations("users.roles");
   return (
     <div>
       <h2 className="mb-2 text-lg font-medium">{t("title")}</h2>
@@ -37,7 +38,7 @@ export default async function ActiveUsersTable({ currentRole, users }: Props) {
           {users.map((u) => (
             <TableRow key={u.user_id}>
               <TableCell>{u.email}</TableCell>
-              <TableCell>{u.role}</TableCell>
+              <TableCell>{rolesT(u.role)}</TableCell>
               <TableCell className="text-center">
                 {canRemoveUser(currentRole, u.role) && (
                   <ConfirmRemoveDialog user={u} />

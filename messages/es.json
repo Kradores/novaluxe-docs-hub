@@ -60,38 +60,11 @@
   },
   "users": {
     "title": "Gestión de Usuarios",
-    "addUser": "Añadir Usuario",
-    "addUserDescription": "Crear una nueva cuenta de usuario",
-    "username": "Usuario",
-    "usernamePlaceholder": "Ingresa el usuario",
-    "role": "Rol",
-    "superAdmin": "Super Admin",
-    "admin": "Admin",
-    "viewer": "Visor",
-    "changePassword": "Cambiar Contraseña",
-    "changePasswordDescription": "Ingresa tu contraseña actual y una nueva contraseña",
-    "resetPassword": "Restablecer Contraseña",
-    "deleteUser": "Eliminar Usuario",
-    "currentPassword": "Contraseña Actual",
-    "newPassword": "Nueva Contraseña",
-    "confirmPassword": "Confirmar Contraseña",
-    "newRole": "Nuevo Rol",
-    "passwordChanged": "Contraseña cambiada exitosamente",
-    "passwordReset": "Contraseña restablecida al valor predeterminado",
-    "passwordMismatch": "Las contraseñas no coinciden",
-    "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
-    "userCreated": "Usuario creado exitosamente",
-    "userDeleted": "Usuario eliminado exitosamente",
-    "roleChanged": "Rol cambiado exitosamente",
-    "changeRole": "Cambiar Rol",
-    "changeRoleDescription": "Cambiar rol para {{username}}",
-    "deleteUserConfirm": "¿Estás seguro de que deseas eliminar al usuario {{username}}? Esta acción no se puede deshacer.",
-    "resetPasswordConfirm": "¿Estás seguro de que deseas restablecer la contraseña de {{username}}? La contraseña se restablecerá a su valor predeterminado.",
-    "cannotDeleteSelf": "No puedes eliminar tu propia cuenta",
-    "cannotDeleteLastSuperAdmin": "No se puede eliminar al último Super Admin",
-    "cannotManageHigherRole": "No puedes gestionar usuarios con rol igual o superior",
-    "noUsers": "No se encontraron usuarios",
-    "you": "Tú",
+    "roles": {
+      "super_admin": "Super Admin",
+      "admin": "Admin",
+      "user": "Visor"
+    },
     "table": {
       "active": {
         "title": "Usuarios activos",
@@ -368,7 +341,7 @@
           "trigger": "Docs Empresa"
         },
         "types": {
-          "trigger":"Tipos Trabaj."
+          "trigger": "Tipos Trabaj."
         },
         "workers": {
           "trigger": "Trabajadores",
@@ -384,16 +357,16 @@
     "view": {
       "buttonTitle": "Ver documentos",
       "noCollection": "No se pudieron cargar los detalles de la colección",
-      "companyDocuments":"Documentos de Empresa",
+      "companyDocuments": "Documentos de Empresa",
       "none": "Ninguno",
-      "workerDocumentTypes":"Tipos Doc. Trabajador",
+      "workerDocumentTypes": "Tipos Doc. Trabajador",
       "workers": "Trabajadores",
       "attachments": "Documentos adicionales"
     },
     "delete": "Eliminar colección",
     "table": {
       "noCollections": "No hay colecciones creadas",
-      "headers":[
+      "headers": [
         "Nombre",
         "Documentos",
         "Expira",

@@ -33,10 +33,10 @@ async function getAccessToken(): Promise<string> {
 const base64UrlEncode = (str: string) =>
   btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
-export async function sendInviteEmail(to: string, token: string) {
+export async function sendInviteEmail(to: string) {
   const accessToken = await getAccessToken();
   const sender = Deno.env.get("GMAIL_SENDER")!;
-  const inviteUrl = `${Deno.env.get("SITE_URL")}/invite?token=${token}`;
+  const inviteUrl = `${Deno.env.get("SITE_URL")}/login`;
 
   const rawMessage = [
     `From: ${sender}`,

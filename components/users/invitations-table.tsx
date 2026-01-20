@@ -16,6 +16,7 @@ export default async function InvitationsTable({
   invites: UserInvitationData[];
 }) {
   const t = await getTranslations("users.table.invitations");
+  const rolesT = await getTranslations("users.roles");
   return (
     <div>
       <h2 className="mb-2 text-lg font-medium">{t("title")}</h2>
@@ -33,7 +34,7 @@ export default async function InvitationsTable({
           {invites.map((i) => (
             <TableRow key={i.id}>
               <TableCell>{i.email}</TableCell>
-              <TableCell>{i.roles.name}</TableCell>
+              <TableCell>{rolesT(i.roles.name)}</TableCell>
               <TableCell>{new Date(i.expires_at).toLocaleString()}</TableCell>
             </TableRow>
           ))}
