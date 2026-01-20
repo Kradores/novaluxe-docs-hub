@@ -15,7 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { loginAction } from "@/app/actions/auth";
-import { useToggleState } from "@/hooks/use-toggle-state";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -26,12 +25,12 @@ import logo from "../../../favicon.png";
 export default function Page() {
   const t = useTranslations("auth");
   const [error, setError] = useState<string | undefined>(undefined);
-  const [isLoading, toggleIsLoading] = useToggleState(false, true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
-    toggleIsLoading();
+    setIsLoading(true);
     const res = await loginAction(formData);
-    toggleIsLoading();
+    setIsLoading(false);
     if (res?.error) {
       toast.error(res.error, { position: "top-right" });
       setError(res.error);

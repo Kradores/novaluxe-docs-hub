@@ -9,9 +9,7 @@ import { useState } from "react";
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { useRouter } from "@/config/i18n/navigation";
 import { allRoutes } from "@/config/site";
-import {
-  isUserInvitedByEmail,
-} from "@/app/(public)/[locale]/login/actions";
+import { isUserInvitedByEmail } from "@/app/(public)/[locale]/login/actions";
 
 import { Button } from "./ui/button";
 import { Spinner } from "./ui/spinner";

@@ -12,14 +12,14 @@ import {
 } from "@/types/user";
 import { allRoutes } from "@/config/site";
 import { canInviteUser, canRemoveUser } from "@/lib/auth/users";
+import { createSupabaseAdminClient } from "@/integrations/supabase/admin";
 
 export const removeUser = async (targetUserId: string) => {
-  const supabase = await createSupabaseServerClient();
-
+  const sb = await createSupabaseServerClient();
   const {
     data: { user },
     error: authError,
-  } = await supabase.auth.getUser();
+  } = await sb.auth.getUser();
 
   if (authError || !user) {
     throw new Error("Unauthorized");
@@ -28,6 +28,8 @@ export const removeUser = async (targetUserId: string) => {
   if (user.id === targetUserId) {
     throw new Error("You cannot remove yourself");
   }
+
+  const supabase = await createSupabaseAdminClient();
 
   const actorRole = user?.app_metadata?.role as RoleName | undefined;
 
@@ -93,6 +95,8 @@ export async function createUserInvitation(
   if (!canInviteUser(inviterRoleName, requestedRole.name)) {
     throw new Error("Forbidden");
   }
+
+  await supabase.from("user_invitations").delete().eq("email", email);
 
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 

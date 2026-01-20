@@ -32,6 +32,9 @@ export async function assignRole() {
 
   if (inviteError) throw inviteError;
 
+  // user already accepted invitation
+  if (!invite) return;
+
   const { error: userRolesError } = await supabase.from("user_roles").upsert({
     user_id: user.id,
     role_id: invite.role_id,

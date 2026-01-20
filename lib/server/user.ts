@@ -19,3 +19,17 @@ export async function getUserRoleName(): Promise<RoleName | undefined> {
   } = await supabase.auth.getUser();
   return user?.app_metadata?.role;
 }
+
+export async function userHasRole(): Promise<boolean> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return !!user?.app_metadata?.role;
+}
+
+export async function forceSignOut() {
+  const supabase = await createSupabaseServerClient();
+  await supabase.auth.signOut();
+}

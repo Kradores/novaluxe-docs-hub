@@ -4,6 +4,7 @@ export const PUBLIC_ROUTES = [
   allRoutes.login,
   allRoutes.share,
   allRoutes.assignRole,
+  allRoutes.bye,
 ];
 
 export const AUTH_ROUTES = [allRoutes.login];

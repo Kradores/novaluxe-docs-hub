@@ -52,14 +52,14 @@ export async function isUserInvitedByEmail(email?: string) {
     return true;
   }
 
-  const { data, error } = await supabase
+  const { count, error } = await supabase
     .from("user_invitations")
-    .select<string, { email: string }>("email")
+    .select("*", { count: "exact", head: true })
     .eq("email", email);
 
   if (error) throw new Error(error.message);
 
-  if (!data || !data.find((row) => row.email === email)) {
+  if (!count) {
     return false;
   }
 

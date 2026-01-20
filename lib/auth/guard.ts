@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { AUTH_ROUTES, PROTECTED_ROUTE_PREFIXES } from "@/config/auth/routes";
+import { AUTH_ROUTES, PUBLIC_ROUTES } from "@/config/auth/routes";
 import { allRoutes } from "@/config/site";
 import { stripLocale } from "@/lib/utils";
 
@@ -13,6 +13,9 @@ export function authGuard({ request, user }: GuardParams) {
   const pathname = stripLocale(request.nextUrl.pathname);
 
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
+  const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
+
+  if (isPublicRoute) return null;
 
   // Unauthenticated redirect to login
   if (!user && !isAuthRoute) {

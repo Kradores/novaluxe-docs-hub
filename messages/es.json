@@ -87,7 +87,7 @@
     },
     "delete": {
       "success": "Usuario eliminado exitosamente",
-      "error": "Usario",
+      "error": "No se pudo eliminar el usuario",
       "description": "¿Estás seguro de que deseas eliminar al usuario {username}? Esta acción no se puede deshacer.",
       "title": "Eliminar Usuario"
     },

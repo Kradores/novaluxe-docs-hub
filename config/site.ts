@@ -12,5 +12,6 @@ export const allRoutes = {
   users: "/users",
   share: "/share",
   downloadAll: `/share/[token]/download-all`,
-  assignRole: "assign-role",
+  assignRole: "/assign-role",
+  bye: "/bye",
 };

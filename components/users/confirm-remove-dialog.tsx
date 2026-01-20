@@ -8,8 +8,8 @@ import { Trash2 } from "lucide-react";
 import { ActiveUser } from "@/types/user";
 import { Button } from "@/components/ui/button";
 import { removeUser } from "@/app/[locale]/users/actions";
-
-import ConfirmDialog from "../confirm-dialog";
+import { handleErrorToast } from "@/lib/utils";
+import ConfirmDialog from "@/components/confirm-dialog";
 
 type Props = {
   user: ActiveUser;
@@ -24,8 +24,8 @@ export const ConfirmRemoveDialog = ({ user }: Props) => {
       try {
         await removeUser(user.user_id);
         toast.success(t("success"));
-      } catch {
-        toast.error(t("error"));
+      } catch (error) {
+        handleErrorToast(error);
       }
     });
   };
