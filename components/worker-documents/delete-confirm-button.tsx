@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import ConfirmDialog from "@/components/confirm-dialog";
 import { deleteWorkerDocument } from "@/app/[locale]/worker/[id]/actions";
 
+import { useRole } from "../role-provider";
+
 type Props = {
   id: string;
   filePath: string;
@@ -17,6 +19,7 @@ type Props = {
 export default function DeleteConfirmButton({ id, filePath }: Props) {
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("workerDocuments.delete");
+  const { isUser } = useRole();
 
   const handleDelete = () => {
     startTransition(async () => {
@@ -35,14 +38,16 @@ export default function DeleteConfirmButton({ id, filePath }: Props) {
       title={t("title")}
       onConfirm={handleDelete}
     >
-      <Button
-        className="text-destructive hover:bg-destructive/20"
-        disabled={isPending}
-        size="sm"
-        variant="ghost"
-      >
-        <Trash2 className="h-4 w-4 text-destructive" />
-      </Button>
+      {!isUser && (
+        <Button
+          className="text-destructive hover:bg-destructive/20"
+          disabled={isPending}
+          size="sm"
+          variant="ghost"
+        >
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
+      )}
     </ConfirmDialog>
   );
 }

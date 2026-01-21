@@ -11,6 +11,7 @@ import { getTranslations } from "next-intl/server";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 import { allRoutes } from "@/config/site";
+import { isRoleUser } from "@/lib/server/user";
 
 export type NavigationItemProps = {
   label: string;
@@ -64,6 +65,7 @@ export const getDocRoutes = async (): Promise<NavigationItemProps[]> => {
 
 export const getSettingsRoutes = async (): Promise<NavigationItemProps[]> => {
   const t = await getTranslations("nav");
+
   return [
     {
       label: t("users"),
@@ -76,14 +78,15 @@ export const getSettingsRoutes = async (): Promise<NavigationItemProps[]> => {
 export const getSidebarGroupsContent = async (): Promise<
   NavigationGrouoProps[]
 > => {
-  const [t, docTypes, docs, settings] = await Promise.all([
+  const [t, docTypes, docs, settings, isUser] = await Promise.all([
     getTranslations("nav"),
     getDocTypeRoutes(),
     getDocRoutes(),
     getSettingsRoutes(),
+    isRoleUser(),
   ]);
 
-  return [
+  const result = [
     {
       label: t("documentTypes"),
       items: docTypes,
@@ -92,9 +95,14 @@ export const getSidebarGroupsContent = async (): Promise<
       label: t("documents"),
       items: docs,
     },
-    {
+  ];
+
+  if (!isUser) {
+    result.push({
       label: t("settings"),
       items: settings,
-    },
-  ];
+    });
+  }
+
+  return result;
 };

@@ -39,7 +39,9 @@ export default function WorkerDocumentsTable({
               <td className="px-4 py-2 font-medium">
                 {item.worker_document_types.name}
               </td>
-              <td className="px-4 py-2 font-medium">{item.file_name}</td>
+              <td className="px-4 py-2 font-medium overflow-hidden text-ellipsis text-nowrap max-w-0 w-full">
+                {item.file_name}
+              </td>
               <td className="px-4 py-2 text-muted-foreground">
                 {new Date(item.created_at).toLocaleDateString()}
               </td>
@@ -48,10 +50,10 @@ export default function WorkerDocumentsTable({
                   ? new Date(item.expiration_date).toLocaleDateString()
                   : "-"}
               </td>
-              <td className="px-4 py-2 text-muted-foreground">
+              <td className="px-4 py-2 text-muted-foreground text-nowrap">
                 <DocumentStatusBadge expirationDate={item.expiration_date} />
               </td>
-              <td className="px-4 py-2 text-center">
+              <td className="px-4 py-2 text-center text-nowrap">
                 <DownloadButton filePath={item.file_path} />
                 <DeleteConfirmButton filePath={item.file_path} id={item.id} />
               </td>

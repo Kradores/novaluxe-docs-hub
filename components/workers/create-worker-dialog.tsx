@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 import {
   Dialog,
@@ -19,6 +20,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createWorker, uploadPhoto } from "@/app/[locale]/worker/actions";
 import { getInitials } from "@/lib/utils";
 
+import { useRole } from "../role-provider";
+
 export default function CreateWorkerDialog() {
   const t = useTranslations("workers.create");
   const [open, setOpen] = useState(false);
@@ -27,6 +30,7 @@ export default function CreateWorkerDialog() {
   const [photoPreview, setPhotoPreview] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const initials = getInitials(fullName);
+  const { isUser } = useRole();
 
   const resetForm = () => {
     setFullName("");
@@ -60,71 +64,72 @@ export default function CreateWorkerDialog() {
   };
 
   return (
-    <>
-      <Button className="gap-2" onClick={() => setOpen(true)}>
-        <Plus className="h-4 w-4" />
-        {t("openDialogLabel")}
-      </Button>
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        if (!value) resetForm();
+        setOpen(value);
+      }}
+    >
+      <DialogTrigger asChild>
+        {!isUser && (
+          <Button className="gap-2" onClick={() => setOpen(true)}>
+            <Plus className="h-4 w-4" />
+            {t("openDialogLabel")}
+          </Button>
+        )}
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("title")}</DialogTitle>
+        </DialogHeader>
+        <DialogDescription className="sr-only">
+          {t("description")}
+        </DialogDescription>
 
-      <Dialog
-        open={open}
-        onOpenChange={(value) => {
-          if (!value) resetForm();
-          setOpen(value);
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("title")}</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className="sr-only">
-            {t("description")}
-          </DialogDescription>
+        <div className="space-y-4">
+          {/* Full name */}
+          <div className="space-y-2">
+            <Label>{t("fullName")}</Label>
+            <Input
+              placeholder="Juan Pérez"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+          </div>
 
-          <div className="space-y-4">
-            {/* Full name */}
-            <div className="space-y-2">
-              <Label>{t("fullName")}</Label>
+          {/* Photo upload */}
+          <div className="space-y-2">
+            <Label>{t("photo")}</Label>
+            <div className="flex items-center gap-4">
+              <Avatar className="h-16 w-16">
+                <AvatarImage src={photoPreview} />
+                <AvatarFallback className="bg-secondary">
+                  {initials ? initials : <Upload className="h-4 w-4" />}
+                </AvatarFallback>
+              </Avatar>
+
               <Input
-                placeholder="Juan Pérez"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                accept="image/*"
+                type="file"
+                onChange={handlePhotoChange}
               />
             </div>
-
-            {/* Photo upload */}
-            <div className="space-y-2">
-              <Label>{t("photo")}</Label>
-              <div className="flex items-center gap-4">
-                <Avatar className="h-16 w-16">
-                  <AvatarImage src={photoPreview} />
-                  <AvatarFallback className="bg-secondary">
-                    {initials ? initials : <Upload className="h-4 w-4" />}
-                  </AvatarFallback>
-                </Avatar>
-
-                <Input
-                  accept="image/*"
-                  type="file"
-                  onChange={handlePhotoChange}
-                />
-              </div>
-            </div>
           </div>
+        </div>
 
-          <div className="flex justify-end gap-2 pt-4">
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              {t("cancel")}
-            </Button>
-            <Button
-              disabled={!fullName.trim() || isPending}
-              onClick={handleCreate}
-            >
-              {t("submit")}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+        <div className="flex justify-end gap-2 pt-4">
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            {t("cancel")}
+          </Button>
+          <Button
+            disabled={!fullName.trim() || isPending}
+            onClick={handleCreate}
+          >
+            {t("submit")}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

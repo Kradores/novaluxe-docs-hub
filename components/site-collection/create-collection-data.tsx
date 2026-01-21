@@ -3,6 +3,7 @@ import {
   CollectionCompanyDocumentModel,
   CollectionWorkerDocumentModel,
 } from "@/types/construction-site";
+import { isRoleUser } from "@/lib/server/user";
 
 import CreateCollectionDialog from "./create-collection-dialog";
 
@@ -13,7 +14,8 @@ export default async function CreateCollectionData({
 }) {
   const supabase = await createSupabaseServerClient();
 
-  const [companyDocsRes, workerDocTypesRes] = await Promise.all([
+  const [isUser, companyDocsRes, workerDocTypesRes] = await Promise.all([
+    isRoleUser(),
     supabase
       .from("company_documents")
       .select<
@@ -33,6 +35,8 @@ export default async function CreateCollectionData({
       .eq("status", "active")
       .order("full_name"),
   ]);
+
+  if (isUser) return <></>;
 
   return (
     <CreateCollectionDialog

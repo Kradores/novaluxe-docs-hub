@@ -1,5 +1,5 @@
-import { useTranslations } from "next-intl";
 import { Eye } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { allRoutes } from "@/config/site";
 import { Link } from "@/config/i18n/navigation";
@@ -13,10 +13,10 @@ type ConstructionSiteTableProps = {
   items: ConstructionSite[];
 };
 
-export default function ConstructionSitesTable({
+export default async function ConstructionSitesTable({
   items,
 }: ConstructionSiteTableProps) {
-  const t = useTranslations("constructionSite.table");
+  const t = await getTranslations("constructionSite.table");
 
   if (!items.length) {
     return <p className="text-sm text-muted-foreground">{t("noResults")}</p>;

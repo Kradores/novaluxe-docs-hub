@@ -1,7 +1,8 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 import DocumentStatusBadge from "@/components/document-status-badge";
 import { CompanyDocumentModel } from "@/types/company-documents";
+import { isRoleUser } from "@/lib/server/user";
 
 import DeleteConfirmButton from "./delete-confirm-button";
 import DownloadButton from "./download-button";
@@ -10,10 +11,11 @@ type CompanyDocumentsTableProps = {
   documents: CompanyDocumentModel[];
 };
 
-export default function CompanyDocumentsTable({
+export default async function CompanyDocumentsTable({
   documents,
 }: CompanyDocumentsTableProps) {
-  const t = useTranslations("companyDocuments.table");
+  const t = await getTranslations("companyDocuments.table");
+  const isUser = await isRoleUser();
 
   if (!documents.length) {
     return <p className="text-sm text-muted-foreground">{t("noResults")}</p>;
@@ -39,7 +41,9 @@ export default function CompanyDocumentsTable({
               <td className="px-4 py-2 font-medium">
                 {item.company_document_types.name}
               </td>
-              <td className="px-4 py-2 font-medium">{item.file_name}</td>
+              <td className="px-4 py-2 font-medium overflow-hidden text-ellipsis text-nowrap max-w-0 w-full">
+                {item.file_name}
+              </td>
               <td className="px-4 py-2 text-muted-foreground">
                 {new Date(item.created_at).toLocaleDateString()}
               </td>
@@ -48,12 +52,14 @@ export default function CompanyDocumentsTable({
                   ? new Date(item.expiration_date).toLocaleDateString()
                   : "-"}
               </td>
-              <td className="px-4 py-2 text-muted-foreground">
+              <td className="px-4 py-2 text-muted-foreground text-nowrap">
                 <DocumentStatusBadge expirationDate={item.expiration_date} />
               </td>
-              <td className="px-4 py-2 text-center">
+              <td className="px-4 py-2 text-center text-nowrap">
                 <DownloadButton filePath={item.file_path} />
+                {!isUser && (
                 <DeleteConfirmButton filePath={item.file_path} id={item.id} />
+                )}
               </td>
             </tr>
           ))}

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,11 +18,14 @@ import {
 } from "@/components/ui/dialog";
 import { createConstructionSite } from "@/app/[locale]/construction-site/actions";
 
+import { useRole } from "../role-provider";
+
 export default function CreateDialog() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [isPending, startTransition] = useTransition();
   const t = useTranslations("constructionSite.create");
+  const { isUser } = useRole();
 
   const handleCreate = () => {
     startTransition(async () => {
@@ -37,38 +41,39 @@ export default function CreateDialog() {
   };
 
   return (
-    <>
-      <Button className="gap-2" onClick={() => setOpen(true)}>
-        <Plus className="h-4 w-4" />
-        {t("openDialogLabel")}
-      </Button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {!isUser && (
+          <Button className="gap-2" onClick={() => setOpen(true)}>
+            <Plus className="h-4 w-4" />
+            {t("openDialogLabel")}
+          </Button>
+        )}
+      </DialogTrigger>
+      <DialogContent aria-describedby="">
+        <DialogHeader>
+          <DialogTitle>{t("title")}</DialogTitle>
+        </DialogHeader>
+        <DialogDescription className="sr-only">
+          {t("description")}
+        </DialogDescription>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent aria-describedby="">
-          <DialogHeader>
-            <DialogTitle>{t("title")}</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className="sr-only">
-            {t("description")}
-          </DialogDescription>
+        <Input
+          placeholder={t("placeholder")}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleCreate()}
+        />
 
-          <Input
-            placeholder={t("placeholder")}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleCreate()}
-          />
-
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              {t("cancel")}
-            </Button>
-            <Button disabled={!name.trim() || isPending} onClick={handleCreate}>
-              {t("submit")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            {t("cancel")}
+          </Button>
+          <Button disabled={!name.trim() || isPending} onClick={handleCreate}>
+            {t("submit")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -97,12 +97,7 @@ export function interpolateRoute(
     });
   }
 
-  if (/\[.*?\]/.test(result)) {
-    const missingKeys = result.match(/\[.*?\]/g);
-    throw new Error(
-      `Missing values for route segments: ${missingKeys?.join(", ")}`,
-    );
-  }
+  validateRote(result);
 
   return result;
 }

@@ -20,6 +20,11 @@ export async function getUserRoleName(): Promise<RoleName | undefined> {
   return user?.app_metadata?.role;
 }
 
+export async function isRoleUser() {
+  const role = await getUserRoleName();
+  return role === "user";
+}
+
 export async function userHasRole(): Promise<boolean> {
   const supabase = await createSupabaseServerClient();
   const {

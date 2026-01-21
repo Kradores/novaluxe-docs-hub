@@ -1,5 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
+import { isRoleUser } from "@/lib/server/user";
+
 import DeleteTypeButton from "./delete-type-button";
 
 export type DocumentType = {
@@ -14,6 +16,7 @@ type Props = {
 
 export default async function DocumentTypesTable({ data }: Props) {
   const t = await getTranslations("companyDocumentTypes.table");
+  const isUser = await isRoleUser();
   if (!data.length) {
     return <p className="text-sm text-muted-foreground">{t("noResults")}</p>;
   }
@@ -25,7 +28,7 @@ export default async function DocumentTypesTable({ data }: Props) {
           <tr>
             <th className="px-4 py-2 text-left">{t("headers.0")}</th>
             <th className="px-4 py-2 text-left">{t("headers.1")}</th>
-            <th className="px-4 py-2">{t("headers.2")}</th>
+            {!isUser && <th className="px-4 py-2">{t("headers.2")}</th>}
           </tr>
         </thead>
 
@@ -36,9 +39,11 @@ export default async function DocumentTypesTable({ data }: Props) {
               <td className="px-4 py-2 text-muted-foreground">
                 {new Date(item.created_at).toLocaleDateString()}
               </td>
-              <td className="px-4 py-2 text-center">
-                <DeleteTypeButton id={item.id} />
-              </td>
+              {!isUser && (
+                <td className="px-4 py-2 text-center">
+                  <DeleteTypeButton id={item.id} />
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

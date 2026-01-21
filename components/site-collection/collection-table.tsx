@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { isRoleUser } from "@/lib/server/user";
 
 import CopyLinkButton from "./copy-link-button";
 import DeleteCollectionButton from "./delete-collection-button";
@@ -15,6 +16,7 @@ type Props = {
 export default async function CollectionsTable({ siteId }: Props) {
   const t = await getTranslations("constructionSiteDetail.table");
   const supabase = await createSupabaseServerClient();
+  const isUser = await isRoleUser();
 
   const { data: collections } = await supabase
     .from("document_collections")
@@ -64,11 +66,15 @@ export default async function CollectionsTable({ siteId }: Props) {
                   <CollectionDetailsContent collectionId={c.id} />
                 </CollectionDetailsDialog>
                 <CopyLinkButton token={c.share_token} />
-                <GenerateZipButton
-                  collectionId={c.id}
-                  zipStatus={c.zip_status}
-                />
-                <DeleteCollectionButton collectionId={c.id} />
+                {!isUser && (
+                  <>
+                    <GenerateZipButton
+                      collectionId={c.id}
+                      zipStatus={c.zip_status}
+                    />
+                    <DeleteCollectionButton collectionId={c.id} />
+                  </>
+                )}
               </td>
             </tr>
           ))}

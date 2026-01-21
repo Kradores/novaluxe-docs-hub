@@ -16,6 +16,8 @@ import {
 import AppSidebar from "@/components/layout/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import AppBreadcrumbs from "@/components/layout/app-breadcrumbs";
+import { RoleProvider } from "@/components/role-provider";
+import { getUserRoleName } from "@/lib/server/user";
 
 export const metadata: Metadata = {
   title: "Novaluxe Docs Hub",
@@ -30,8 +32,9 @@ type LayoutProps = {
   params: Promise<{ locale: string }>;
 };
 
-export default function RootLayout({ children, params }: LayoutProps) {
-  const { locale } = use(params);
+export default async function RootLayout({ children, params }: LayoutProps) {
+  const { locale } = await params;
+  const role = await getUserRoleName();
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -42,20 +45,22 @@ export default function RootLayout({ children, params }: LayoutProps) {
         className={`${playfairDisplay.variable} ${inter.variable} antialiased`}
       >
         <NextIntlClientProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-              <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                <SidebarTrigger className="-ml-1" />
-                <Separator
-                  className="mr-2 data-[orientation=vertical]:h-4"
-                  orientation="vertical"
-                />
-                <AppBreadcrumbs />
-              </header>
-              <main>{children}</main>
-            </SidebarInset>
-          </SidebarProvider>
+          <RoleProvider role={role}>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                  <SidebarTrigger className="-ml-1" />
+                  <Separator
+                    className="mr-2 data-[orientation=vertical]:h-4"
+                    orientation="vertical"
+                  />
+                  <AppBreadcrumbs />
+                </header>
+                <main>{children}</main>
+              </SidebarInset>
+            </SidebarProvider>
+          </RoleProvider>
           <Toaster richColors />
         </NextIntlClientProvider>
       </body>

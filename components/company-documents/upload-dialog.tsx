@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { insertCompanyDocument } from "@/app/[locale]/company-documents/actions";
 import { DatePicker } from "@/components/date-picker";
+import { useRole } from "@/components/role-provider";
 
 type Props = {
   documentTypes: { id: string; name: string }[];
@@ -37,6 +38,7 @@ export default function UploadDialog({ documentTypes }: Props) {
   const [typeId, setTypeId] = useState("");
   const [expirationDate, setExpirationDate] = useState<Date>();
   const t = useTranslations("companyDocuments.upload");
+  const { isUser } = useRole();
 
   const handleUpload = async () => {
     const file = fileRef.current?.files?.[0];
@@ -77,7 +79,9 @@ export default function UploadDialog({ documentTypes }: Props) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>{t("openDialogLabel")}</Button>
+        {!isUser && (
+          <Button onClick={() => setOpen(true)}>{t("openDialogLabel")}</Button>
+        )}
       </DialogTrigger>
 
       <DialogContent className="space-y-4">
