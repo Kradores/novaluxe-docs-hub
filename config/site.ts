@@ -1,6 +1,10 @@
 export const siteName = "Novaluxe Dynamics";
 
 export type RouteType = keyof typeof allRoutes;
+export type BreadcrumbRouteType = Exclude<
+  RouteType,
+  "share" | "downloadAll" | "assignRole" | "bye"
+>;
 export const allRoutes = {
   login: "/login",
   home: "/",

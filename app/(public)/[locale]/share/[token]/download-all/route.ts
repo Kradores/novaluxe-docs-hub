@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
 
@@ -7,8 +7,8 @@ const maxSeconds = Number.parseInt(
 );
 
 export async function GET(
-  _: Request,
-  { params }: { params: { token: string } },
+  _: NextRequest,
+  { params }: { params: Promise<{ locale: string; token: string }> },
 ) {
   const { token } = await params;
   const supabase = await createSupabaseServerClient();
@@ -19,7 +19,6 @@ export async function GET(
     .eq("share_token", token)
     .single();
 
-  // ❌ Collection not found
   if (error || !data) {
     return NextResponse.json(
       { error: "Collection not found" },
@@ -27,23 +26,17 @@ export async function GET(
     );
   }
 
-  // ❌ ZIP not ready
   if (data.zip_status !== "ready" || !data.zip_path) {
     return NextResponse.json({ error: "ZIP not ready" }, { status: 409 });
   }
 
-  // ❌ Expired
   const now = new Date();
   const expiresAt = new Date(data.expires_at);
 
   if (expiresAt <= now) {
-    return NextResponse.json(
-      { error: "Link expired" },
-      { status: 410 }, // Gone
-    );
+    return NextResponse.json({ error: "Link expired" }, { status: 410 });
   }
 
-  // ✅ Generate signed URL
   const { data: signed, error: signError } = await supabase.storage
     .from("documents")
     .createSignedUrl(data.zip_path, maxSeconds);
@@ -52,6 +45,5 @@ export async function GET(
     return NextResponse.json({ error: "Failed to sign ZIP" }, { status: 500 });
   }
 
-  // ✅ Redirect to Supabase Storage
   return NextResponse.redirect(signed.signedUrl, 307);
 }

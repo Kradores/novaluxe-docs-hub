@@ -110,3 +110,14 @@ export function validateRote(route: string) {
     );
   }
 }
+
+export function sanitize(value: string) {
+  return value
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9._-]/g, "")
+    .replace(/-+/g, "-")
+    .toLowerCase();
+}
+
+export const toggle = (arr: string[], id: string) =>
+  arr.includes(id) ? arr.filter((i) => i !== id) : [...arr, id];

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { usePathname } from "@/config/i18n/navigation";
-import { allRoutes, RouteType } from "@/config/site";
+import { allRoutes, BreadcrumbRouteType } from "@/config/site";
 import { breadcrumbConfig } from "@/config/breadcrumbs";
 
 export function useBreadcrumbs() {
@@ -45,7 +45,7 @@ export function useBreadcrumbs() {
 
             if (!routeEntry) return null;
 
-            const routeKey = routeEntry[0] as RouteType;
+            const routeKey = routeEntry[0] as BreadcrumbRouteType;
             const config = breadcrumbConfig[routeKey];
 
             if (isDynamic && config.dynamic) {
