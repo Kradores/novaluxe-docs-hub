@@ -1,13 +1,9 @@
 import { getTranslations } from "next-intl/server";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
-import { isRoleUser } from "@/lib/server/user";
 
-import CopyLinkButton from "./copy-link-button";
-import DeleteCollectionButton from "./delete-collection-button";
-import CollectionDetailsDialog from "./collection-details-dialog";
+import CollectionTableRow from "./collection-row";
 import CollectionDetailsContent from "./collection-details-content";
-import { GenerateZipButton } from "./generate-zip-button";
 
 type Props = {
   siteId: string;
@@ -16,7 +12,6 @@ type Props = {
 export default async function CollectionsTable({ siteId }: Props) {
   const t = await getTranslations("constructionSiteDetail.table");
   const supabase = await createSupabaseServerClient();
-  const isUser = await isRoleUser();
 
   const { data: collections } = await supabase
     .from("document_collections")
@@ -48,35 +43,14 @@ export default async function CollectionsTable({ siteId }: Props) {
             <th className="p-3">{t("headers.1")}</th>
             <th className="p-3">{t("headers.2")}</th>
             <th className="p-3">{t("headers.3")}</th>
+            <th className="p-3">{t("headers.3")}</th>
           </tr>
         </thead>
         <tbody>
           {collections.map((c) => (
-            <tr key={c.id} className="border-t">
-              <td className="p-3 font-medium">{c.name}</td>
-              <td className="p-3 text-center">{c.documents_count}</td>
-              <td className="p-3 text-center">
-                {new Date(c.expires_at).toLocaleDateString()}
-              </td>
-              <td className="p-3 flex gap-2 justify-center">
-                <CollectionDetailsDialog
-                  collectionId={c.id}
-                  collectionName={c.name}
-                >
-                  <CollectionDetailsContent collectionId={c.id} />
-                </CollectionDetailsDialog>
-                <CopyLinkButton token={c.share_token} />
-                {!isUser && (
-                  <>
-                    <GenerateZipButton
-                      collectionId={c.id}
-                      zipStatus={c.zip_status}
-                    />
-                    <DeleteCollectionButton collectionId={c.id} />
-                  </>
-                )}
-              </td>
-            </tr>
+            <CollectionTableRow key={c.id} collection={c}>
+              <CollectionDetailsContent collectionId={c.id} />
+            </CollectionTableRow>
           ))}
         </tbody>
       </table>

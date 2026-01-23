@@ -3,7 +3,7 @@ export const siteName = "Novaluxe Dynamics";
 export type RouteType = keyof typeof allRoutes;
 export type BreadcrumbRouteType = Exclude<
   RouteType,
-  "share" | "downloadAll" | "assignRole" | "bye"
+  "share" | "assignRole" | "bye"
 >;
 export const allRoutes = {
   login: "/login",
@@ -15,7 +15,6 @@ export const allRoutes = {
   constructionSite: "/construction-site",
   users: "/users",
   share: "/share",
-  downloadAll: `/share/[token]/download-all`,
   assignRole: "/assign-role",
   bye: "/bye",
 };

@@ -38,7 +38,7 @@ export default async function ConstructionSitesTable({
             <tr key={item.id} className="border-t">
               <td className="px-4 py-2 font-medium">{item.name}</td>
               <td className="px-4 py-2 text-muted-foreground">
-                {new Date(item.created_at).toLocaleDateString()}
+                {new Date(item.created_at).toDateString()}
               </td>
               <td className="px-4 py-2 text-center">
                 <Link href={`${allRoutes.constructionSite}/${item.id}`}>

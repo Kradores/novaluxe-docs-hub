@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { CollectionZipStatus } from "@/types/site-collection";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
-import { getZipStatus } from "@/app/(public)/[locale]/share/[token]/actions";
-import { allRoutes } from "@/config/site";
-import Link from "@/components/link";
-import { interpolateRoute } from "@/lib/utils";
+import {
+  getZipDownloadUrl,
+  getZipStatus,
+} from "@/app/(public)/[locale]/share/[token]/actions";
 
 export function CheckAndDownloadButton({ token }: { token: string }) {
   const t = useTranslations("constructionSiteDetail");
@@ -22,6 +22,18 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
       const result = await getZipStatus(token);
       setStatus(result);
     });
+  };
+
+  const handleDownloadZip = async () => {
+    const url = await getZipDownloadUrl(token);
+
+    // Force browser download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 
   return (
@@ -48,11 +60,7 @@ export function CheckAndDownloadButton({ token }: { token: string }) {
         </Button>
       </div>
       {status === "ready" && (
-        <Button asChild>
-          <Link href={interpolateRoute(allRoutes.downloadAll, { token })}>
-            {t("downloadZip")}
-          </Link>
-        </Button>
+        <Button onClick={handleDownloadZip}>{t("downloadZip")}</Button>
       )}
     </div>
   );

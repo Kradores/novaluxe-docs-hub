@@ -120,10 +120,17 @@ export async function createCollection(input: CreateCollectionInput) {
   ]);
 
   return collection.id;
-};
+}
 
 export const deleteCollection = async (id: string) => {
   const supabase = await createSupabaseServerClient();
+
+  const { error: zipError } = await supabase
+    .from("zip_jobs")
+    .delete()
+    .eq("collection_id", id);
+
+  if (zipError) throw zipError;
 
   const { error } = await supabase
     .from("document_collections")
@@ -138,9 +145,10 @@ export const deleteCollection = async (id: string) => {
 export async function triggerGenerateCollectionZip(collectionId: string) {
   const supabase = await createSupabaseServerClient();
 
-  // Call Edge Function via Kong
-  const { error } = await supabase.functions.invoke("generate-collection-zip", {
-    body: { collectionId },
+  const { error } = await supabase.from("zip_jobs").insert({
+    collection_id: collectionId,
+    status: "pending",
+    progress: 0,
   });
 
   if (error) throw error;

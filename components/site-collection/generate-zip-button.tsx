@@ -18,7 +18,7 @@ export function GenerateZipButton({ collectionId, zipStatus }: Props) {
   const t = useTranslations("constructionSiteDetail.generate");
   const [isPending, startTransition] = useTransition();
 
-  const disabled = zipStatus === "processing" || isPending;
+  const disabled = isPending;
 
   const handleGenerate = () => {
     startTransition(async () => {

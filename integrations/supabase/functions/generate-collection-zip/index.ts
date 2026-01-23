@@ -10,6 +10,7 @@ type CompanyDocumentRow = {
   id: string;
   file_name: string;
   file_path: string;
+  file_size: number; // some precision will be lost for huge files, that's acceptable
   document_type_name: string;
 };
 
@@ -17,6 +18,7 @@ type WorkerDocumentRow = {
   id: string;
   file_name: string;
   file_path: string;
+  file_size: number; // some precision will be lost for huge files, that's acceptable
   worker_name: string;
   document_type_name: string;
 };

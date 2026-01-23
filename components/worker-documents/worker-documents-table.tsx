@@ -43,11 +43,11 @@ export default function WorkerDocumentsTable({
                 {item.file_name}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
-                {new Date(item.created_at).toLocaleDateString()}
+                {new Date(item.created_at).toDateString()}
               </td>
               <td className="px-4 py-2 text-muted-foreground">
                 {item.expiration_date
-                  ? new Date(item.expiration_date).toLocaleDateString()
+                  ? new Date(item.expiration_date).toDateString()
                   : "-"}
               </td>
               <td className="px-4 py-2 text-muted-foreground text-nowrap">

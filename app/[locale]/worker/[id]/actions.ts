@@ -86,6 +86,7 @@ export const insertWorkerDocument = async (data: {
   file_path: string;
   file_name: string;
   file_type: string;
+  file_size: number;
   expiration_date: string | null;
 }) => {
   const supabase = await createSupabaseServerClient();

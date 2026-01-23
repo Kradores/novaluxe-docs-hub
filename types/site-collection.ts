@@ -55,3 +55,34 @@ export type CollectionDetails = {
     file_name: string;
   }[];
 };
+
+export type CollectionRow = {
+  id: string;
+  name: string;
+  expires_at: string;
+  share_token: string;
+  zip_status: CollectionZipStatus;
+  documents_count: string;
+};
+
+export type GenerateCollectionZipRequest = {
+  collectionId: string;
+  mode?: "zip" | "preview";
+};
+
+export type CompanyDocumentRow = {
+  id: string;
+  file_name: string;
+  file_path: string;
+  file_size: number;
+  document_type_name: string;
+};
+
+export type WorkerDocumentRow = {
+  id: string;
+  file_name: string;
+  file_path: string;
+  file_size: number;
+  worker_name: string;
+  document_type_name: string;
+};

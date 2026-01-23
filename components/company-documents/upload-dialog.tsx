@@ -64,6 +64,7 @@ export default function UploadDialog({ documentTypes }: Props) {
       file_path: objectPath,
       file_name: file.name,
       file_type: file.type,
+      file_size: file.size,
       expiration_date: expirationDate?.toISOString().substring(0, 10) || null,
     });
 
