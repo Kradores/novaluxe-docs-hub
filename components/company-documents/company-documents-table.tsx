@@ -58,7 +58,7 @@ export default async function CompanyDocumentsTable({
               <td className="px-4 py-2 text-center text-nowrap">
                 <DownloadButton filePath={item.file_path} />
                 {!isUser && (
-                <DeleteConfirmButton filePath={item.file_path} id={item.id} />
+                  <DeleteConfirmButton filePath={item.file_path} id={item.id} />
                 )}
               </td>
             </tr>

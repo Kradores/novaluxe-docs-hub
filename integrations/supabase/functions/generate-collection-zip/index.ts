@@ -236,7 +236,7 @@ Deno.serve(async (req) => {
       throw uploadError;
     }
 
-    const { error: docError } = await supabase
+    await supabase
       .from("document_collections")
       .update({
         zip_status: "ready",
@@ -246,26 +246,10 @@ Deno.serve(async (req) => {
       })
       .eq("id", collection.id);
 
-    if (docError) {
-      console.log(docError);
-    }
-
     return new Response(JSON.stringify({ status: "ready" }), {
       headers: { "Content-Type": "application/json" },
     });
-
-    // const { data: signedUrlData } = await bucket.createSignedUrl(
-    //   zipPath,
-    //   60 * 60,
-    // );
-
-    // return Response.json({
-    //   success: true,
-    //   path: zipPath,
-    //   signedUrl: signedUrlData?.signedUrl ?? null,
-    // });
   } catch (error) {
-    console.error(error);
     return new Response("Internal Server Error", { status: 500 });
   }
 });

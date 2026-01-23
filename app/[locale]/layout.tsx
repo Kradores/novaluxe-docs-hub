@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import "../globals.css";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { ReactNode, use } from "react";
+import { ReactNode } from "react";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/config/i18n/routing";

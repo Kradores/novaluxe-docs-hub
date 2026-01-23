@@ -5,12 +5,11 @@ import { redirect } from "@/config/i18n/navigation";
 import { allRoutes } from "@/config/site";
 import { assertDefined } from "@/lib/utils";
 import PageHeader from "@/components/page-header";
-
-import { getActiveUsers, getRoles, getPendingInvites } from "./actions";
-
 import ActiveUsersTable from "@/components/users/active-users-table";
 import InvitationsTable from "@/components/users/invitations-table";
 import InviteUserDialog from "@/components/users/invite-user-dialog";
+
+import { getActiveUsers, getRoles, getPendingInvites } from "./actions";
 
 export default async function UsersPage({
   params,

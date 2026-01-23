@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 import { Spinner } from "@/components/ui/spinner";
 import { redirect } from "@/config/i18n/navigation";
 import { allRoutes } from "@/config/site";
-import { handleErrorToast } from "@/lib/utils";
 
 import { assignRole } from "./actions";
 

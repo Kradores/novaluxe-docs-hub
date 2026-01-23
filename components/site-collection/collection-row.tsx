@@ -58,31 +58,3 @@ export default function CollectionTableRow({
     </tr>
   );
 }
-
-function ZipJobProgress({ job }: { job: ZipJob }) {
-  return (
-    <div className="flex flex-row gap-4 items-center justify-center">
-      {job.status === "running" && (
-        <span className="text-muted-foreground">{`${job.progress}%`}</span>
-      )}
-      <Badge
-        title={`${job.last_error}`}
-        variant={
-          job.status === "failed"
-            ? "destructive"
-            : job.status === "ready"
-              ? "success"
-              : job.status === "pending"
-                ? "secondary"
-                : "warning"
-        }
-      >
-        {job.status !== "failed" ? (
-          job.status
-        ) : (
-          <FileWarning className="text-destructive-foreground m-0.75" />
-        )}
-      </Badge>
-    </div>
-  );
-}

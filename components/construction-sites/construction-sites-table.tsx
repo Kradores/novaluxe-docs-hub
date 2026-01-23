@@ -4,7 +4,6 @@ import { getTranslations } from "next-intl/server";
 import { allRoutes } from "@/config/site";
 import { Link } from "@/config/i18n/navigation";
 import { ConstructionSite } from "@/types/construction-site";
-
 import { Button } from "@/components/ui/button";
 
 import DeleteConfirmButton from "./delete-confirm-button";
