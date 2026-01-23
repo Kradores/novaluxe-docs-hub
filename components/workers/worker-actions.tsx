@@ -10,8 +10,7 @@ import { Worker } from "@/types/worker";
 import { updateWorkerStatus } from "@/app/[locale]/worker/actions";
 import Link from "@/components/link";
 import { allRoutes } from "@/config/site";
-
-import { useRole } from "../role-provider";
+import { useRole } from "@/components/role-provider";
 
 import DeleteConfirmButton from "./delete-confirm-button";
 

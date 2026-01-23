@@ -8,8 +8,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import ConfirmDialog from "@/components/confirm-dialog";
 import { deleteWorkerDocument } from "@/app/[locale]/worker/[id]/actions";
-
-import { useRole } from "../role-provider";
+import { useRole } from "@/components/role-provider";
 
 type Props = {
   id: string;

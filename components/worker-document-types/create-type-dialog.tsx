@@ -16,8 +16,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { createDocumentType } from "@/app/[locale]/worker-document-types/actions";
-
-import { useRole } from "../role-provider";
+import { useRole } from "@/components/role-provider";
 
 export default function CreateTypeDialog() {
   const [open, setOpen] = useState(false);

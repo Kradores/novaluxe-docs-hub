@@ -27,10 +27,9 @@ import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { DatePicker } from "@/components/date-picker";
 import { insertWorkerDocument } from "@/app/[locale]/worker/[id]/actions";
 import { uploadFileTus } from "@/lib/upload-tus";
-
-import { useRole } from "../role-provider";
-import { Progress } from "../ui/progress";
-import { Spinner } from "../ui/spinner";
+import { useRole } from "@/components/role-provider";
+import { Progress } from "@/components/ui/progress";
+import { Spinner } from "@/components/ui/spinner";
 
 type Props = {
   workerId: string;

@@ -5,7 +5,7 @@ import { allRoutes } from "@/config/site";
 import { Link } from "@/config/i18n/navigation";
 import { ConstructionSite } from "@/types/construction-site";
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 import DeleteConfirmButton from "./delete-confirm-button";
 

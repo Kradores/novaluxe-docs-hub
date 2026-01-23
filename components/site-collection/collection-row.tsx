@@ -6,8 +6,7 @@ import { FileWarning } from "lucide-react";
 import { useRole } from "@/components/role-provider";
 import { CollectionRow } from "@/types/site-collection";
 import { useZipJobProgress, ZipJob } from "@/hooks/use-zip-job-progress";
-
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 import CollectionDetailsDialog from "./collection-details-dialog";
 import CopyLinkButton from "./copy-link-button";

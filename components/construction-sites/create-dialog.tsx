@@ -17,8 +17,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { createConstructionSite } from "@/app/[locale]/construction-site/actions";
-
-import { useRole } from "../role-provider";
+import { useRole } from "@/components/role-provider";
 
 export default function CreateDialog() {
   const [open, setOpen] = useState(false);

@@ -3,8 +3,7 @@
 import { Download } from "lucide-react";
 
 import { getSignedDocumentUrl } from "@/app/[locale]/company-documents/actions";
-
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 type DownloadButtonProps = {
   filePath: string;

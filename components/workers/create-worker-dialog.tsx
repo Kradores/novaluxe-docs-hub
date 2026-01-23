@@ -19,8 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { createWorker, uploadPhoto } from "@/app/[locale]/worker/actions";
 import { getInitials } from "@/lib/utils";
-
-import { useRole } from "../role-provider";
+import { useRole } from "@/components/role-provider";
 
 export default function CreateWorkerDialog() {
   const t = useTranslations("workers.create");
