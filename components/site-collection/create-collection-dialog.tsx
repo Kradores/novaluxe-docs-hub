@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DatePicker } from "@/components/date-picker";
-import { assertDefined, toggle } from "@/lib/utils";
+import { assertDefined, handleErrorToast, toggle } from "@/lib/utils";
 import { CollectionWorker } from "@/types/site-collection";
 import useFetchWorkers from "@/hooks/use-fetch-workers";
 import { Spinner } from "@/components/ui/spinner";
@@ -115,7 +115,7 @@ const CreateCollectionDialog = memo(
           dispatch({ type: "RESET" });
           router.refresh();
         } catch (error) {
-          console.error(error);
+          handleErrorToast(error);
         }
       });
     };

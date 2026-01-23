@@ -5,6 +5,7 @@ import type { accounts, CredentialResponse } from "google-one-tap";
 import Script from "next/script";
 import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { useRouter } from "@/config/i18n/navigation";
@@ -42,7 +43,7 @@ export default function GoogleOneTap() {
 
     const { data, error } = await supabase.auth.getSession();
     if (error) {
-      console.error("Error getting session", error);
+      toast.error("Error getting session");
     }
     if (data.session) {
       router.push(allRoutes.home);
@@ -69,8 +70,8 @@ export default function GoogleOneTap() {
           if (error) throw error;
 
           router.push(allRoutes.assignRole);
-        } catch (error) {
-          console.error("Error logging in with Google One Tap", error);
+        } catch {
+          toast.error("Error logging in with Google One Tap");
         } finally {
           setIsLoading(false);
         }

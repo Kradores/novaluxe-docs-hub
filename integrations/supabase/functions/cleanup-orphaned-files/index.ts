@@ -48,7 +48,6 @@ Deno.serve(async () => {
         .not(column, "is", null);
 
       if (error) {
-        console.error(`DB error ${table}.${column}`, error);
         continue;
       }
 
@@ -122,7 +121,6 @@ const listAllFiles = async (
     .list(prefix, { limit: 1000 });
 
   if (error || !data) {
-    console.error(`Storage list failed: ${bucket}/${prefix}`, error);
     return [];
   }
 

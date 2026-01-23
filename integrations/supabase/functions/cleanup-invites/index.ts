@@ -15,7 +15,6 @@ Deno.serve(async () => {
       .select("id");
 
     if (error) {
-      console.error("Invite cleanup error:", error);
       return new Response("Cleanup failed", { status: 500 });
     }
 
@@ -23,8 +22,7 @@ Deno.serve(async () => {
       success: true,
       deleted: data?.length ?? 0,
     });
-  } catch (err) {
-    console.error("Cleanup exception:", err);
+  } catch {
     return new Response("Cleanup failed", { status: 500 });
   }
 });

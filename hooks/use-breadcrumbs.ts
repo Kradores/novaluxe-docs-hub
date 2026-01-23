@@ -69,8 +69,7 @@ export function useBreadcrumbs() {
             (b): b is { label: string; href: string } => b !== null,
           ),
         );
-      } catch (error) {
-        console.error("Breadcrumb resolution failed", error);
+      } catch {
       } finally {
         setIsLoading(false);
       }

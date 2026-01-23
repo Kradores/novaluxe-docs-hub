@@ -77,6 +77,7 @@ export function handleErrorToast(error: unknown): void {
 
   toast.error(message);
 
+  // eslint-disable-next-line no-console
   console.error("[Error Handler]:", error);
 }
 

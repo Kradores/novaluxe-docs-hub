@@ -16,14 +16,12 @@ async function getAccessToken(): Promise<string> {
   const text = await res.text();
 
   if (!res.ok) {
-    console.error("OAuth token error:", text);
     throw new Error("Failed to refresh Gmail token");
   }
 
   const data = JSON.parse(text);
 
   if (!data.access_token) {
-    console.error("OAuth token response missing access_token:", data);
     throw new Error("No access token returned");
   }
 
@@ -59,7 +57,6 @@ export async function sendInviteEmail(to: string) {
   });
 
   if (!res.ok) {
-    console.log(res);
     throw new Error("Gmail send failed");
   }
 }

@@ -25,10 +25,6 @@ const {
   role: "authenticated",
 });
 
-if (error) {
-  console.error(error);
-}
-
 if (!user) {
   throw new Error("couldn't fetch user");
 }

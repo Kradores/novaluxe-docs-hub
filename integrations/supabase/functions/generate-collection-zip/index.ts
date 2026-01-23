@@ -249,7 +249,7 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ status: "ready" }), {
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
+  } catch {
     return new Response("Internal Server Error", { status: 500 });
   }
 });
