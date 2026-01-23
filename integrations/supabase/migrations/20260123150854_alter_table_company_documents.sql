@@ -1,0 +1,1 @@
+ALTER TABLE public.company_documents ADD COLUMN file_size bigint not null default 0;

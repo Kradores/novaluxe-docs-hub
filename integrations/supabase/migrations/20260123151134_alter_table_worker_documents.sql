@@ -1,0 +1,1 @@
+ALTER TABLE public.worker_documents ADD COLUMN file_size bigint not null default 0;

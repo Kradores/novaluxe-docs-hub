@@ -3,6 +3,7 @@ RETURNS TABLE (
   id uuid,
   file_name text,
   file_path text,
+  file_size bigint,
   document_type_name text
 ) 
 LANGUAGE plpgsql
@@ -14,6 +15,7 @@ BEGIN
     cd.id,
     cd.file_name,
     cd.file_path,
+    cd.file_size,
     cdt.name as document_type_name
   FROM company_documents cd
   JOIN company_document_types cdt

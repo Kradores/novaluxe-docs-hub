@@ -1,6 +1,6 @@
 SELECT cron.schedule(
   'cleanup-invites',
-  '0 * * * *',
+  '0 4 * * *',
   $$
   DO $do$
   DECLARE

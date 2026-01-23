@@ -1,6 +1,6 @@
 SELECT cron.schedule(
   'cleanup-orphaned-files',
-  '0 * * * *',
+  '0 1 * * *',
   $$
   DO $do$
   DECLARE

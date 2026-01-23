@@ -1,6 +1,6 @@
 SELECT cron.schedule(
   'cleanup-expired-zips',
-  '0 * * * *',
+  '0 2 * * *',
   $$
   DO $do$
   DECLARE

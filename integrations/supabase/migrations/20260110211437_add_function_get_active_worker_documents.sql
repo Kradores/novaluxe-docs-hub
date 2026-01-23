@@ -6,6 +6,7 @@ RETURNS TABLE (
   id uuid,
   file_name text,
   file_path text,
+  file_size bigint,
   worker_name text,
   document_type_name text
 ) 
@@ -18,6 +19,7 @@ BEGIN
     wd.id,
     wd.file_name,
     wd.file_path,
+    wd.file_size,
     w.full_name as worker_name,
     wdt.name as document_type_name
   FROM worker_documents wd
