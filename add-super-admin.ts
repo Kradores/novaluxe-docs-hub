@@ -25,8 +25,9 @@ const {
   role: "authenticated",
 });
 
-if (!user) {
-  throw new Error("couldn't fetch user");
+if (error || !user) {
+  console.error("Supabase Auth Error Details:", error);
+  throw new Error(`couldn't fetch user: ${error?.message || 'Unknown error'}`);
 }
 
 const { error: userRoleError } = await supabase.from("user_roles").insert({
