@@ -36,12 +36,14 @@ import { useConcurrentCollectionUpload } from "@/hooks/use-concurrent-collection
 import { createCollection } from "@/app/[locale]/construction-site/[id]/actions";
 
 import { CollectionUpload } from "./collection-upload";
+import { ExpiredDocumentStatusBadge } from "../document-status-badge";
 
 type CreateCollectionDialogProps = {
   siteId: string;
   companyDocuments: {
     id: string;
     file_name: string;
+    expiration_date: string | null;
     company_document_types: { id: string; name: string };
   }[];
   workerDocumentTypes: { id: string; name: string }[];
@@ -185,6 +187,9 @@ const CreateCollectionDialog = memo(
                     <p className="text-xs text-muted-foreground">
                       {doc.file_name}
                     </p>
+                  </div>
+                  <div className="ml-auto">
+                    <ExpiredDocumentStatusBadge expirationDate={doc.expiration_date} />
                   </div>
                 </label>
               ))}

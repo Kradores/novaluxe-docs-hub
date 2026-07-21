@@ -26,3 +26,21 @@ export default function DocumentStatusBadge({
     </Badge>
   );
 }
+
+export function ExpiredDocumentStatusBadge({
+  expirationDate,
+}: {
+  expirationDate: string | null;
+}) {
+  const status = getDocumentStatus(expirationDate);
+  const t = useTranslations("common");
+  if (status !== "expired") return <></>;
+
+  return (
+    <Badge
+      variant={"destructive"}
+    >
+      {t(status)}
+    </Badge>
+  );
+}

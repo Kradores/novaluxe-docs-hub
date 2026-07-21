@@ -21,7 +21,7 @@ export default async function CreateCollectionData({
       .select<
         string,
         CollectionCompanyDocumentModel
-      >("id, file_name, company_document_types(id, name)")
+      >("id, file_name, expiration_date, company_document_types(id, name)")
       .order("created_at", { ascending: false }),
 
     supabase.from("worker_document_types").select("id, name").order("name"),

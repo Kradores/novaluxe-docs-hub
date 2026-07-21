@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createBrowserSignedUrl } from "@/integrations/supabase/client-signed-url";
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { getInitials } from "@/lib/utils";
 import { Worker } from "@/types/worker";
@@ -22,15 +23,11 @@ export default async function WorkerAvatar({ worker }: WorkerAvatarProps) {
     );
   }
 
-  const supabase = await createSupabaseServerClient();
-
-  const { data } = await supabase.storage
-    .from("worker-photos")
-    .createSignedUrl(worker.photo_path, maxSeconds);
+  const signedUrl = await createBrowserSignedUrl("worker-photos", worker.photo_path, maxSeconds);
 
   return (
     <Avatar className="h-12 w-12 ring-2 ring-primary/20">
-      <AvatarImage alt={worker.full_name} src={data?.signedUrl} />
+      <AvatarImage alt={worker.full_name} src={signedUrl} />
       <AvatarFallback className="bg-secondary text-sm font-medium">
         {getInitials(worker.full_name)}
       </AvatarFallback>

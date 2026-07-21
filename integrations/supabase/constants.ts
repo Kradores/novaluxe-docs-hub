@@ -1,0 +1,1 @@
+export const SUPABASE_STORAGE_KEY = "sb-novaluxe-auth-token";

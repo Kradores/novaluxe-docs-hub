@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { SUPABASE_STORAGE_KEY } from "./constants";
 
 /**
  * Service-role Supabase client
@@ -8,11 +9,11 @@ import { createClient } from "@supabase/supabase-js";
  * - Never import into client code
  */
 export function createSupabaseAdminClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL");
+    throw new Error("Missing SUPABASE_URL");
   }
 
   if (!serviceRoleKey) {
@@ -23,6 +24,7 @@ export function createSupabaseAdminClient() {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
+      storageKey: SUPABASE_STORAGE_KEY,
     },
   });
 }
