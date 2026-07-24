@@ -1,9 +1,10 @@
 import { createBrowserClient } from "@supabase/ssr";
 import { SUPABASE_STORAGE_KEY } from "./constants";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-let client: ReturnType<typeof createBrowserClient> | null = null;
+let client: SupabaseClient | null = null;
 
-export function createSupabaseBrowserClient() {
+export function createSupabaseBrowserClient(): SupabaseClient {
   if (client) {
     return client;
   }

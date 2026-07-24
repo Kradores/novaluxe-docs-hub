@@ -14,7 +14,7 @@ FROM node:26-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public

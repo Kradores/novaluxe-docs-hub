@@ -1,21 +1,34 @@
-import { getTranslations } from "next-intl/server";
+"use client";
 
-import { Spinner } from "@/components/ui/spinner";
-import { redirect } from "@/config/i18n/navigation";
-import { allRoutes } from "@/config/site";
-
+import { useEffect } from "react";
+import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { assignRole } from "./actions";
+import { allRoutes } from "@/config/site";
+import { redirect } from "@/config/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { Spinner } from "@/components/ui/spinner";
 
-type Props = {
-  params: { locale: string };
-};
+export default function Page() {
+  const locale = useLocale();
+  const t = useTranslations("common");
+  useEffect(() => {
+    const run = async () => {
+      const supabase = createSupabaseBrowserClient();
 
-export default async function Page({ params }: Props) {
-  const { locale } = await params;
-  const t = await getTranslations("common");
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-  await assignRole();
-  redirect({ href: allRoutes.home, locale });
+      if (!user?.email) {
+        return;
+      }
+
+      await assignRole(user.id, user.email);
+      redirect({ href: allRoutes.home, locale });
+    };
+
+    run();
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center h-dvh gap-4">
