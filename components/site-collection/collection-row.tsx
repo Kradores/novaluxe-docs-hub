@@ -40,7 +40,7 @@ export default function CollectionTableRow({
           </div>
         )}
         <div className="m-auto w-fit">
-          <ZipProgress collectionId={collection.id} />
+          <ZipProgress job={job} />
         </div>
       </td>
       <td className="p-3 flex gap-2 justify-center">

@@ -1,6 +1,7 @@
 "use server";
 
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { createBrowserSignedUrl } from "@/integrations/supabase/client-signed-url";
+import { SupabaseServerClient } from "@/integrations/supabase/server";
 import {
   CollectionZipStatus,
   CompanyDocumentRow,
@@ -11,7 +12,7 @@ import {
 export async function getZipStatus(
   token: string,
 ): Promise<CollectionZipStatus> {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { data, error } = await supabase
     .from("document_collections")
@@ -29,7 +30,7 @@ export async function getZipStatus(
 export const getCollectionPreview = async (
   token: string,
 ): Promise<ShareCollectionPreview> => {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { data: collection, error: collectionError } = await supabase
     .from("document_collections")
@@ -145,7 +146,7 @@ export const getCollectionPreview = async (
 };
 
 export async function getZipDownloadUrl(token: string) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { data: colData, error: colError } = await supabase
     .from("document_collections")
@@ -161,13 +162,9 @@ export async function getZipDownloadUrl(token: string) {
     throw new Error("ZIP not ready");
   }
 
-  const { data, error: signError } = await supabase.storage
-    .from("documents")
-    .createSignedUrl(colData.zip_path, 60 * 10);
-
-  if (signError || !data?.signedUrl) {
-    throw new Error("Failed to create signed URL");
-  }
-
-  return data.signedUrl;
+  return await createBrowserSignedUrl(
+    "documents",
+    colData.zip_path,
+    60 * 10,
+  );
 }

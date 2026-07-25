@@ -1,6 +1,8 @@
+"use server";
 import { getTranslations } from "next-intl/server";
 
 import { allRoutes } from "@/config/site";
+import { SupabaseServerClient } from "@/integrations/supabase/server";
 
 export async function getRouteName(pathname: string) {
   const t = await getTranslations("nav");
@@ -17,25 +19,30 @@ export async function getRouteName(pathname: string) {
   return t(route[0]);
 }
 
-export const runWithConcurrency = async <T>(
-  items: T[],
-  limit: number,
-  worker: (item: T, index: number) => Promise<void>,
+export const deleteFolder = async (
+  bucket: string,
+  folder: string,
 ) => {
-  let index = 0;
+  const supabase = await SupabaseServerClient.getInstance();
+  const storage = supabase.storage.from(bucket);
 
-  const runners = Array.from({ length: limit }, async () => {
-    while (index < items.length) {
-      const currentIndex = index++;
-      await worker(items[currentIndex], currentIndex);
-    }
-  });
+  let offset = 0;
 
-  await Promise.all(runners);
-};
+  while (true) {
+    const { data, error } = await storage.list(folder, {
+      limit: 100,
+      offset,
+    });
 
-export const isBootstrapSuperAdmin = (email?: string | null) => {
-  if (!email) return false;
-  const list = process.env.SUPER_ADMIN_EMAILS?.split(",") ?? [];
-  return list.includes(email);
+    if (error) throw error;
+    if (data.length === 0) break;
+
+    const { error: removeError } = await storage.remove(
+      data.map((file) => `${folder}/${file.name}`),
+    );
+
+    if (removeError) throw removeError;
+
+    offset += data.length;
+  }
 };

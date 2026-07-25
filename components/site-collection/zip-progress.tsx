@@ -1,10 +1,8 @@
 "use client";
 
-import { useZipJobProgress } from "@/hooks/use-zip-job-progress";
+import { ZipJob } from "@/hooks/use-zip-job-progress";
 
-export function ZipProgress({ collectionId }: { collectionId: string }) {
-  const job = useZipJobProgress(collectionId);
-
+export function ZipProgress({ job }: { job: ZipJob | null }) {
   if (!job) return null;
 
   if (job.status === "failed") {

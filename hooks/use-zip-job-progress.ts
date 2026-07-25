@@ -36,13 +36,23 @@ export function useZipJobProgress(collectionId: string) {
           filter: `collection_id=eq.${collectionId}`,
         },
         (payload) => {
-          setJob(payload.new as ZipJob);
-          if (status.current === "ready" || status.current === "failed") {
+          const nextJob = payload.new as ZipJob;
+
+          status.current = nextJob.status;
+          setJob(nextJob);
+
+          if (
+            nextJob.status === "ready" ||
+            nextJob.status === "failed"
+          ) {
             supabase.removeChannel(channel);
           }
         },
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        console.log("Realtime status:", status);
+        console.log("Realtime error:", err);
+      });
 
     return () => {
       supabase.removeChannel(channel);

@@ -4,7 +4,7 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 BEGIN
-  IF NEW.email = 'nicolai@novaluxedynamics.com' THEN
+  IF NEW.email = 'super.admin@novaluxedynamics.com' THEN
     RETURN NEW;
 
   ELSIF EXISTS (

@@ -3,8 +3,8 @@
 import { User } from "@supabase/supabase-js";
 
 import { createSupabaseServerClient } from "@/integrations/supabase/server";
-import { isBootstrapSuperAdmin } from "@/lib/server/utils";
 import { createSupabaseAdminClient } from "@/integrations/supabase/admin";
+import { isBootstrapSuperAdmin } from "@/lib/utils";
 
 export async function assignRole(user?: User | null) {
   const supabase = await createSupabaseAdminClient();

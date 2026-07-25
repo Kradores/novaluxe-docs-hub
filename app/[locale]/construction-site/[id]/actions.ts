@@ -4,12 +4,13 @@ import { randomUUID } from "crypto";
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { SupabaseServerClient } from "@/integrations/supabase/server";
 import { allRoutes } from "@/config/site";
 import { validateCollection } from "@/lib/validate-collection";
+import { deleteFolder } from "@/lib/server/utils";
 
 export const getConstructionSiteById = async (id: string) => {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { data: site, error } = await supabase
     .from("construction_sites")
@@ -23,7 +24,7 @@ export const getConstructionSiteById = async (id: string) => {
 };
 
 export const getValidWorkers = async (workerDocumentTypeIds: string[]) => {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { data, error } = await supabase
     .from("workers")
@@ -49,7 +50,7 @@ type CreateCollectionInput = {
 };
 
 export async function createCollection(input: CreateCollectionInput) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const validation = await validateCollection(supabase, {
     companyDocumentIds: input.companyDocumentIds,
@@ -123,7 +124,14 @@ export async function createCollection(input: CreateCollectionInput) {
 }
 
 export const deleteCollection = async (id: string) => {
-  const supabase = await createSupabaseServerClient();
+  deleteCollectionRecord(id);
+  deleteCollectionStorage(id);
+
+  revalidatePath(`${allRoutes.constructionSite}/[id]`, "page");
+};
+
+export const deleteCollectionRecord = async (id: string) => {
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { error: zipError } = await supabase
     .from("zip_jobs")
@@ -142,8 +150,23 @@ export const deleteCollection = async (id: string) => {
   revalidatePath(`${allRoutes.constructionSite}/[id]`, "page");
 };
 
+export const deleteCollectionStorage = async (id: string) => {
+  const supabase = await SupabaseServerClient.getInstance();
+
+  await deleteFolder(
+    "collection-uploaded-documents",
+    `attachments/${id}`,
+  );
+
+  const { error: removeError } = await supabase.storage
+    .from("documents")
+    .remove([`collections/${id}.zip`]);
+
+  if (removeError) throw removeError;
+};
+
 export async function triggerGenerateCollectionZip(collectionId: string) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await SupabaseServerClient.getInstance();
 
   const { error } = await supabase.from("zip_jobs").insert({
     collection_id: collectionId,

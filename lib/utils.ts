@@ -19,10 +19,11 @@ export function stripLocale(pathname: string) {
   return "/";
 }
 
-// export function stripLocale(pathname: string) {
-//   const segments = pathname.split("/");
-//   return segments.length > 2 ? `/${segments.slice(2).join("/")}` : "/";
-// }
+export const isBootstrapSuperAdmin = (email?: string | null) => {
+  if (!email) return false;
+  const list = process.env.SUPER_ADMIN_EMAILS?.split(",") ?? [];
+  return list.includes(email);
+};
 
 export const getInitials = (fullName: string) => {
   // Remove common lower-case particles like "de", "del", "y"
@@ -122,3 +123,20 @@ export function sanitize(value: string) {
 
 export const toggle = (arr: string[], id: string) =>
   arr.includes(id) ? arr.filter((i) => i !== id) : [...arr, id];
+
+export const runWithConcurrency = async <T>(
+  items: T[],
+  limit: number,
+  worker: (item: T, index: number) => Promise<void>,
+) => {
+  let index = 0;
+
+  const runners = Array.from({ length: limit }, async () => {
+    while (index < items.length) {
+      const currentIndex = index++;
+      await worker(items[currentIndex], currentIndex);
+    }
+  });
+
+  await Promise.all(runners);
+};

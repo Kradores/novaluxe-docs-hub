@@ -4,8 +4,7 @@ import { useCallback, useRef } from "react";
 
 import { createSupabaseBrowserClient } from "@/integrations/supabase/client";
 import { uploadFileTus } from "@/lib/upload-tus";
-import { sanitize } from "@/lib/utils";
-import { runWithConcurrency } from "@/lib/server/utils";
+import { runWithConcurrency, sanitize } from "@/lib/utils";
 import {
   AttachmentsAction,
   FileWithProgress,
