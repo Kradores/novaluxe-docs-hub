@@ -347,7 +347,8 @@
         },
         "workers": {
           "trigger": "Trabajadores",
-          "missing": "{count} Faltan algunos documentos"
+          "missing": "Faltan ({count})",
+          "expired": "Expirados ({count})"
         },
         "attachments": {
           "trigger": "Adicionales",

@@ -207,6 +207,7 @@
     "noDocumentsAvailable": "No company documents available",
     "onlyActiveWorkers": "Only active workers can be selected",
     "workerMissingDocs": "Missing some documents",
+    "workerExpiredDocs": "Expired documents",
     "stepCompanyDocs": "Company Docs",
     "stepWorkerDocTypes": "Worker Types",
     "stepWorkers": "Workers",

@@ -18,12 +18,10 @@ export default function useFetchWorkers(workerDocTypeIds: string[]) {
         const { data, error } = await supabase
           .from("workers")
           .select(
-            "id, full_name, worker_documents!inner(worker_document_type_id)",
+            "id, full_name, worker_documents!inner(worker_document_type_id, expiration_date)",
           )
           .in("worker_documents.worker_document_type_id", workerDocTypeIds)
-          .or("expiration_date.is.null,expiration_date.gte.now()", {
-            referencedTable: "worker_documents",
-          })
+          .eq("status", "active")
           .abortSignal(controller.signal);
 
         if (error) throw error.message;

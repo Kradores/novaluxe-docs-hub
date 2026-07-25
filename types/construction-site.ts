@@ -9,6 +9,7 @@ export type ConstructionSite = {
 export type CollectionCompanyDocumentModel = {
   id: string;
   file_name: string;
+  expiration_date: string | null;
   company_document_types: {
     id: string;
     name: string;

@@ -10,7 +10,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, AlertTriangle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 
@@ -281,10 +281,22 @@ const WorkersTabContent = memo(
       [workerDocTypeIds],
     );
 
+    const workerDocumentsExpiredCount = useCallback(
+      (worker: CollectionWorker) => {
+        const expired = worker.worker_documents
+          .filter((d) => d.expiration_date !== null)
+          .filter((d) => new Date(d.expiration_date!) < new Date())
+          .length;
+        return expired;
+      },
+      []
+    );
+
     return (
       <>
         {workers.map((worker) => {
           const missing = workerMissingCount(worker);
+          const expired = workerDocumentsExpiredCount(worker);
 
           return (
             <label
@@ -301,8 +313,14 @@ const WorkersTabContent = memo(
 
               {workerDocTypeIds.length > 0 && missing > 0 && (
                 <span className="text-xs text-amber-500 flex items-center gap-1">
-                  <AlertCircle className="h-3 w-3" />
+                  <AlertCircle className="h-4 w-4" />
                   {t("tabs.workers.missing", { count: missing })}
+                </span>
+              )}
+              {expired > 0 && (
+                <span className="text-xs text-destructive flex items-center gap-1">
+                  <AlertTriangle className="h-4 w-4" />
+                  {t("tabs.workers.expired", { count: expired })}
                 </span>
               )}
             </label>

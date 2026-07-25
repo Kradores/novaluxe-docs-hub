@@ -25,7 +25,7 @@ export type ShareCollectionPreview = {
 export type CollectionWorker = {
   id: string;
   full_name: string;
-  worker_documents: { worker_document_type_id: string }[];
+  worker_documents: { worker_document_type_id: string; expiration_date: string | null }[];
 };
 
 export type CollectionDetails = {
