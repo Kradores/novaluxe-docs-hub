@@ -4,7 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  allowedDevOrigins: ["127.0.0.1", "localhost"],
+  allowedDevOrigins: ["127.0.0.1", "localhost", "app.novaluxedynamics.com"],
   experimental: {
     serverActions: {
       bodySizeLimit: "100mb",
