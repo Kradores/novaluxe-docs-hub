@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "100mb",
     },
   },
+  images: {
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+  },
   async headers() {
     return [
       {
