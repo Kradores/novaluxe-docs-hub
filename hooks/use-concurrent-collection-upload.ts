@@ -32,9 +32,8 @@ export const useConcurrentCollectionUpload = () => {
       const entries = Array.from(attachments.entries());
 
       await runWithConcurrency(entries, concurrency, async ([key, atc]) => {
-        const filePath = `attachments/${collectionId}/${Date.now()}_${sanitize(
-          atc.file.name,
-        )}`;
+        const fileName = sanitize(atc.file.name);
+        const filePath = `attachments/${collectionId}/${Date.now()}_${fileName}`;
 
         await uploadFileTus({
           supabase: supabaseRef.current,
@@ -52,7 +51,7 @@ export const useConcurrentCollectionUpload = () => {
         const { error } = await supabaseRef.current
           .from("collection_uploaded_documents")
           .insert({
-            file_name: atc.file.name,
+            file_name: fileName,
             file_path: filePath,
             file_size: atc.file.size,
             file_type: atc.file.type || "application/octet-stream",

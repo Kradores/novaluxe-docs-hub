@@ -30,6 +30,7 @@ import { useRole } from "@/components/role-provider";
 import { uploadFileTus } from "@/lib/upload-tus";
 import { Progress } from "@/components/ui/progress";
 import { Spinner } from "@/components/ui/spinner";
+import { sanitize } from "@/lib/utils";
 
 type Props = {
   documentTypes: { id: string; name: string }[];
@@ -48,7 +49,9 @@ export default function UploadDialog({ documentTypes }: Props) {
     const file = fileRef.current?.files?.[0];
     if (!file || !typeId) return;
 
-    const objectPath = `${typeId}/${Date.now()}-${file.name}`;
+    const fileName = sanitize(file.name);
+
+    const objectPath = `${typeId}/${Date.now()}-${fileName}`;
     const supabase = createSupabaseBrowserClient();
 
     await uploadFileTus({
@@ -62,7 +65,7 @@ export default function UploadDialog({ documentTypes }: Props) {
     await insertCompanyDocument({
       company_document_type_id: typeId,
       file_path: objectPath,
-      file_name: file.name,
+      file_name: fileName,
       file_type: file.type,
       file_size: file.size,
       expiration_date: expirationDate?.toISOString().substring(0, 10) || null,
