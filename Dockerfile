@@ -19,6 +19,10 @@ COPY . .
 
 RUN npm run build
 
+RUN npx tsc -p tsconfig.scripts.json
+
+COPY --from=builder /app/dist-scripts ./deployment
+
 FROM node:26-alpine
 
 WORKDIR /app
@@ -31,8 +35,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/next.config.* ./
 COPY --from=builder /app/integrations/supabase/migrations ./supabase/migrations
-COPY --from=builder /app/add-supabase-db-vault.ts ./add-supabase-db-vault.ts
-COPY --from=builder /app/add-super-admin.ts ./add-super-admin.ts
 
 EXPOSE 3000
 
