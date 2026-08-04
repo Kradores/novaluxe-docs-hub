@@ -1,39 +1,47 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const main = async () => {
+  const supabaseUrl = process.env.SUPABASE_URL!;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
-const { data, error: roleError } = await supabase
-  .from("roles")
-  .select("id")
-  .eq("name", "super_admin");
+  const { data, error: roleError } = await supabase
+    .from("roles")
+    .select("id")
+    .eq("name", "super_admin");
 
-if (!data) {
-  throw new Error("role super_admin is missing");
-}
+  if (!data) {
+    throw new Error("role super_admin is missing");
+  }
 
-const {
-  data: { user },
-  error,
-} = await supabase.auth.admin.createUser({
-  email: process.env.AUTH_LOGIN!,
-  password: process.env.AUTH_PASSWORD!,
-  email_confirm: true,
-  user_metadata: { name: "Nicolai" },
-  app_metadata: { role: "super_admin" },
-  role: "authenticated",
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.admin.createUser({
+    email: process.env.AUTH_LOGIN!,
+    password: process.env.AUTH_PASSWORD!,
+    email_confirm: true,
+    user_metadata: { name: "Nicolai" },
+    app_metadata: { role: "super_admin" },
+    role: "authenticated",
+  });
+
+  if (error || !user) {
+    console.error("Supabase Auth Error Details:", error);
+    throw new Error(`couldn't fetch user: ${error?.message || 'Unknown error'}`);
+  }
+
+  const { error: userRoleError } = await supabase.from("user_roles").insert({
+    user_id: user.id,
+    role_id: data[0].id,
+  });
+
+  // eslint-disable-next-line no-console
+  console.log(user, data, error, roleError, userRoleError);
+};
+
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
 });
-
-if (error || !user) {
-  console.error("Supabase Auth Error Details:", error);
-  throw new Error(`couldn't fetch user: ${error?.message || 'Unknown error'}`);
-}
-
-const { error: userRoleError } = await supabase.from("user_roles").insert({
-  user_id: user.id,
-  role_id: data[0].id,
-});
-
-// eslint-disable-next-line no-console
-console.log(user, data, error, roleError, userRoleError);
