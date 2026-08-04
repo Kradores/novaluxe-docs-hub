@@ -34,6 +34,7 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/next.config.* ./
 COPY --from=builder /app/integrations/supabase/migrations ./supabase/migrations
 COPY --from=builder /app/dist-scripts ./deployment
+COPY --from=builder /app/.env ./.env
 
 EXPOSE 3000
 
